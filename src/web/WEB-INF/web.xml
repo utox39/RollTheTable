@@ -6,12 +6,12 @@
          version="4.0">
 
     <servlet>
-        <servlet-name>RollTheTable</servlet-name>
+        <servlet-name>RollTheTableIndex</servlet-name>
         <servlet-class>IndexController</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>RollTheTable</servlet-name>
+        <servlet-name>RollTheTableIndex</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
