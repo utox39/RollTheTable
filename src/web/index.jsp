@@ -4,6 +4,6 @@
     <title>RollTheTable</title>
   </head>
   <body>
-    <h1>Hello from RollTheTable</h1>
+    <h1>RollTheTable - Home</h1>
   </body>
 </html>
