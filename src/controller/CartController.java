@@ -13,4 +13,3 @@ public class CartController extends HttpServlet {
         request.getRequestDispatcher("/views/cart.jsp").forward(request, response);
     }
 }
-
