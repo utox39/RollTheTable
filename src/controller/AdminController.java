@@ -7,7 +7,6 @@ import java.io.IOException;
 
 @WebServlet("/admin")
 public class AdminController extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
