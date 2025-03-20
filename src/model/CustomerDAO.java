@@ -1,9 +1,6 @@
-package dao;
+package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +9,7 @@ public class CustomerDAO {
     private CustomerDAO() {
     }
 
-    public static List<String> test() {
+    public static List<String> getAllCustomers() {
         List<String> users = null;
 
         try {
@@ -25,12 +22,27 @@ public class CustomerDAO {
 
             users = new ArrayList<>();
 
+            // Sample query to be replaced with
             PreparedStatement preparedStatement = connection.prepareStatement("select * from customer;");
             ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSetMetaData metaData = resultSet.getMetaData();
+
+
+            // NOTE:
+            // future optimization to be done is to replace the inner
+            // for loop with the specific column names of the table
+            // might introduce spaghetti code but the performance will be better
+
+            // O(n + m)
+            // n = number of records; m number of columns
 
             while (resultSet.next()) {
-                users.add(resultSet.getString("name"));
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    users.add(resultSet.getString(metaData.getColumnLabel(i)));
+                }
+                users.add("\n");
             }
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
