@@ -1,8 +1,6 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.xdevapi.JsonArray;
-import com.mysql.cj.xdevapi.JsonParser;
-import dao.CustomerDAO;
+import model.CustomerDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +16,7 @@ public class TestController extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // only for testing, to be replaced with actual code
-        var res = CustomerDAO.test();
+        var res = CustomerDAO.getAllCustomers();
 
         if (res == null) {
             System.err.println("Ops");
