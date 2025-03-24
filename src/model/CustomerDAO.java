@@ -15,7 +15,7 @@ public class CustomerDAO {
         con = ConnectionUtil.connect();
 
         if (con == null) {
-            throw new RuntimeException("Error occured while connecting to the database");
+            throw new RuntimeException("Error occurred while connecting to the database");
         }
 
     }
