@@ -24,15 +24,12 @@ public class CustomerDAO {
         List<String> users = null;
 
         try {
-
-
             users = new ArrayList<>();
 
             // Sample query to be replaced with
             PreparedStatement preparedStatement = con.prepareStatement("select * from customer;");
             ResultSet resultSet = preparedStatement.executeQuery();
             ResultSetMetaData metaData = resultSet.getMetaData();
-
 
             // NOTE:
             // future optimization to be done is to replace the inner
@@ -54,5 +51,4 @@ public class CustomerDAO {
     }
 
     // actions to be done on the customer table will go here
-
 }
