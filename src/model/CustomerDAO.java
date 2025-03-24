@@ -8,17 +8,17 @@ import java.util.List;
 
 public class CustomerDAO {
 
-    private static Connection con;
+    private static Connection con = ConnectionUtil.connect();
 
+    private CustomerDAO(){}
 
-    private CustomerDAO() {
-        con = ConnectionUtil.connect();
-
-        if (con == null) {
-            throw new RuntimeException("Error occurred while connecting to the database");
-        }
-
-    }
+//    private CustomerDAO() {
+//        con = ConnectionUtil.connect();
+//
+//        if (con == null) {
+//            throw new RuntimeException("Error occurred while connecting to the database");
+//        }
+//    }
 
     public static List<String> getAllCustomers() {
         List<String> users = null;
