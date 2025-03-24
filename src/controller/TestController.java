@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet("/test_db")
+@WebServlet("/test")
 public class TestController extends HttpServlet {
 
     @Override
