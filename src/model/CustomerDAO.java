@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CustomerDAO {
 
-    private static Connection con = ConnectionUtil.connect();
+    private static final Connection con = ConnectionUtil.connect();
 
     private CustomerDAO(){}
 
