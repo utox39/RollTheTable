@@ -4,7 +4,7 @@ import util.ConnectionUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import util.ServerLogger;
 
 public class CustomerDAO {
 
@@ -44,7 +44,7 @@ public class CustomerDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            ServerLogger.severe(CustomerDAO.class.getName(), "getAllCustomers SQLException: " + e.getMessage());
         }
 
         return users;
