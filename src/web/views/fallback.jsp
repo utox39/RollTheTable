@@ -1,17 +1,16 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vic_lan
-  Date: 29/03/25
-  Time: 19:20
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>404</title>
+    <title>Pagina non trovata</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        h1 { color: red; }
+    </style>
 </head>
 <body>
-    <h1>Oops!</h1>
-    <h2>We could not find the page you requested</h2>
+<h1>Errore 404</h1>
+<p>La pagina che stai cercando non esiste.</p>
+<a href="/index.jsp">Torna alla Home</a>
 </body>
 </html>
