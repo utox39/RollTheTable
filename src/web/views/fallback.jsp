@@ -1,16 +1,24 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page isErrorPage="true" %>
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Pagina non trovata</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-        h1 { color: red; }
-    </style>
-</head>
-<body>
-<h1>Errore 404</h1>
-<p>La pagina che stai cercando non esiste.</p>
-<a href="/index.jsp">Torna alla Home</a>
-</body>
+<html lang="en">
+	<head>
+		<title>Errore</title>
+	</head>
+	<body>
+		<h1>Oops! Qualcosa &egrave; andato storto.</h1>
+
+		<h2>Errore: <%= request.getAttribute("javax.servlet.error.status_code") %></h2>
+		<p>Messaggio: <%= request.getAttribute("javax.servlet.error.message") %></p>
+        <% if (request.getAttribute("javax.servlet.error.exception_type") != null) { %>
+            <p> Tipo di errore:<% request.getAttribute("javax.servlet.error.exception_type"); %> </p>
+        <% } %>
+
+		<% Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+		if (throwable != null) { %>
+		<h3>Dettagli:</h3>
+		<pre><%= throwable.getMessage() %></pre>
+		<% } %>
+
+		<p><a href="${pageContext.request.contextPath}/index.jsp">Torna alla home</a></p>
+	</body>
 </html>
