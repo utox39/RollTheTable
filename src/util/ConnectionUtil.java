@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionUtil {
-    public static Connection connect() {
+
+    private ConnectionUtil() {}
+
+    public static synchronized Connection connect() {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // must use
