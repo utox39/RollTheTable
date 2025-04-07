@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS invoice (
 
 CREATE TABLE IF NOT EXISTS product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
-    'name' VARCHAR(100) NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
     purchase_price DECIMAL(10, 2) NOT NULL,
     iva DECIMAL(5, 2) NOT NULL,
     sale_price DECIMAL(10, 2) NOT NULL,
