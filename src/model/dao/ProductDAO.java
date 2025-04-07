@@ -48,12 +48,14 @@ public class ProductDAO {
                 productBean.setProductId(rs.getString("product_id"));
                 productBean.setName(rs.getString("name"));
                 productBean.setCategory(rs.getString("category"));
-                productBean.setBarcode(rs.getString("barcode"));
                 productBean.setPurchasePrice(rs.getDouble("purchase_price"));
+                productBean.setBarcode(rs.getString("barcode"));
                 productBean.setSalePrice(rs.getDouble("sale_price"));
                 productBean.setDescription(rs.getString("description"));
                 productBean.setStockQuantity(rs.getInt("stock_quantity"));
                 productBean.setDiscount(rs.getDouble("discount"));
+                productBean.setMinimumAge(rs.getInt("minimum_age"));
+                productBean.setVendor(rs.getString("vendor"));
                 productBean.setIva(rs.getDouble("iva"));
                 productBean.setImagesPath(rs.getString("images_path"));
                 productBean.setSalesStatus(rs.getObject("sale_status", ProductBean.SalesStatus.class));
