@@ -1,33 +1,28 @@
 package model.dao;
 
-import util.ConnectionUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import util.ServerLogger;
+import db.DatabaseConnectionPool;
 
 public class CustomerDAO {
-
-    private static final Connection con = ConnectionUtil.connect();
-
     private CustomerDAO(){}
 
-//    private CustomerDAO() {
-//        con = ConnectionUtil.connect();
-//
-//        if (con == null) {
-//            throw new RuntimeException("Error occurred while connecting to the database");
-//        }
-//    }
-
     public static List<String> getAllCustomers() {
+        Connection connection = null;
+
         List<String> users = null;
 
+        PreparedStatement preparedStatement = null;
+        String query = "select * from customer";
+
         try {
+            connection = DatabaseConnectionPool.getConnection();
             users = new ArrayList<>();
 
             // Sample query to be replaced with
-            PreparedStatement preparedStatement = con.prepareStatement("select * from customer;");
+            preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             ResultSetMetaData metaData = resultSet.getMetaData();
 
@@ -43,8 +38,11 @@ public class CustomerDAO {
                 users.add("\n");
             }
 
+            preparedStatement.close();
         } catch (SQLException e) {
             ServerLogger.severe(CustomerDAO.class.getName(), "getAllCustomers SQLException: " + e.getMessage());
+        } finally {
+            DatabaseConnectionPool.releaseConnection(connection);
         }
 
         return users;

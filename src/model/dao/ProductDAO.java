@@ -1,57 +1,67 @@
 package model.dao;
 
+import db.DatabaseConnectionPool;
 import model.bean.ProductBean;
-import util.ConnectionUtil;
 import util.ServerLogger;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO {
-
-    private static final Connection con = ConnectionUtil.connect();
-
     private ProductDAO() {
     }
 
     public static List<ProductBean> getAllProducts() {
+        Connection connection = null;
+
+        List <ProductBean> products = null;
+
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT product_id, name, category, purchase_price, barcode, sale_price, description, " +
+                "stock_quantity, discount, minimum_age, vendor, iva, images_path, sale_status " +
+                "FROM product";
+
         try {
-            List <ProductBean> products = new ArrayList<>();
-            String sql = "select * from product;";
+            connection = DatabaseConnectionPool.getConnection();
+            products = new ArrayList<>();
 
-            ResultSet rs = con.prepareStatement(sql).executeQuery();
+            preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
 
-            while (rs.next()) {
+            while (resultSet.next()) {
                 ProductBean productBean = new ProductBean();
-                productBean.setProductId(rs.getString("product_id"));
-                productBean.setName(rs.getString("name"));
-                productBean.setCategory(rs.getString("category"));
-                productBean.setPurchasePrice(rs.getDouble("purchase_price"));
-                productBean.setBarcode(rs.getString("barcode"));
-                productBean.setSalePrice(rs.getDouble("sale_price"));
-                productBean.setDescription(rs.getString("description"));
-                productBean.setStockQuantity(rs.getInt("stock_quantity"));
-                productBean.setDiscount(rs.getDouble("discount"));
-                productBean.setMinimumAge(rs.getInt("minimum_age"));
-                productBean.setVendor(rs.getString("vendor"));
-                productBean.setIva(rs.getDouble("iva"));
-                productBean.setImagesPath(rs.getString("images_path"));
+                productBean.setProductId(resultSet.getString("product_id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategory(resultSet.getString("category"));
+                productBean.setPurchasePrice(resultSet.getDouble("purchase_price"));
+                productBean.setBarcode(resultSet.getString("barcode"));
+                productBean.setSalePrice(resultSet.getDouble("sale_price"));
+                productBean.setDescription(resultSet.getString("description"));
+                productBean.setStockQuantity(resultSet.getInt("stock_quantity"));
+                productBean.setDiscount(resultSet.getDouble("discount"));
+                productBean.setMinimumAge(resultSet.getInt("minimum_age"));
+                productBean.setVendor(resultSet.getString("vendor"));
+                productBean.setIva(resultSet.getDouble("iva"));
+                productBean.setImagesPath(resultSet.getString("images_path"));
 
-                productBean.setSalesStatus(ProductBean.SalesStatus.valueOf(rs.getString("sale_status").toUpperCase()));
+                productBean.setSalesStatus(ProductBean.SalesStatus.valueOf(resultSet.getString("sale_status").toUpperCase()));
 
                 products.add(productBean);
             }
-            return products;
 
+            preparedStatement.close();
         } catch (SQLException e) {
             ServerLogger.severe(ProductDAO.class.getName(), "getAllProducts SQLException: " + e.getMessage());
+        } finally {
+            DatabaseConnectionPool.releaseConnection(connection);
         }
 
-        return null;
+        return products;
     }
 
 
