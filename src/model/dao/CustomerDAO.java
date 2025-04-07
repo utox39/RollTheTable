@@ -1,4 +1,4 @@
-package model;
+package model.dao;
 
 import util.ConnectionUtil;
 import java.sql.*;
