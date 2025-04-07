@@ -1,6 +1,6 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.CustomerDAO;
+import model.dao.CustomerDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
