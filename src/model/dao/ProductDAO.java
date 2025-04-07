@@ -40,7 +40,8 @@ public class ProductDAO {
                 productBean.setVendor(rs.getString("vendor"));
                 productBean.setIva(rs.getDouble("iva"));
                 productBean.setImagesPath(rs.getString("images_path"));
-                productBean.setSalesStatus(rs.getObject("sale_status", ProductBean.SalesStatus.class));
+
+                productBean.setSalesStatus(ProductBean.SalesStatus.valueOf(rs.getString("sale_status").toUpperCase()));
 
                 products.add(productBean);
             }
