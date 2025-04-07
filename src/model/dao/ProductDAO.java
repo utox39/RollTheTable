@@ -12,7 +12,6 @@ import java.util.List;
 
 public class ProductDAO {
 
-
     private static final Connection con = ConnectionUtil.connect();
 
     private ProductDAO() {}
