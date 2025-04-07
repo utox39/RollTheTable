@@ -35,12 +35,14 @@ CREATE TABLE IF NOT EXISTS purchase (
 CREATE TABLE IF NOT EXISTS invoice (
     invoice_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT DEFAULT NULL,
+    purchase_id INT DEFAULT NULL,
     iva DECIMAL(5, 2) NOT NULL,
     notes VARCHAR(120),
     taxable DECIMAL(10, 2) NOT NULL,
     tax DECIMAL(10, 2) NOT NULL,
     invoice_pdf_path VARCHAR(255) NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE SET NULL
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE SET NULL,
+    FOREIGN KEY (purchase_id) REFERENCES purchase(order_id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS product (
@@ -57,9 +59,7 @@ CREATE TABLE IF NOT EXISTS product (
     category VARCHAR(50) NOT NULL,
     minimum_age INT,
     barcode VARCHAR(50) UNIQUE NOT NULL,
-    sale_status ENUM('on_sale', 'out_of_stock', 'not_available', 'no_longer_on_sale') DEFAULT 'on_sale',
-    invoice_id INT DEFAULT NULL,
-    FOREIGN KEY (invoice_id) REFERENCES invoice(invoice_id) ON DELETE SET NULL
+    sale_status ENUM('on_sale', 'out_of_stock', 'not_available', 'no_longer_on_sale') DEFAULT 'on_sale'
 );
 
 CREATE TABLE IF NOT EXISTS purchase_items (
