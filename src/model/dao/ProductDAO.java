@@ -17,24 +17,6 @@ public class ProductDAO {
     private ProductDAO() {
     }
 
-    /**
-    private String productId;
-    private String name;
-    private double purchasePrice;
-    private double iva;
-    private double salePrice;
-    private String imagesPath;
-    private String description;
-    private String vendor;
-    private int stockQuantity;
-    private double discount;
-    private String category;
-    private int minimumAge;
-    private String barcode;
-    private SalesStatus salesStatus;
-
-    */
-
     public static List<ProductBean> getAllProducts() {
         try {
             List <ProductBean> products = new ArrayList<>();
