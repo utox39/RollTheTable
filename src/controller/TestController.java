@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.dao.CustomerDAO;
+import model.dao.ProductDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,13 +17,13 @@ public class TestController extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // only for testing, to be replaced with actual code
-        var res = CustomerDAO.getAllCustomers();
+        var res = ProductDAO.getAllProducts();
 
         if (res == null) {
             System.err.println("Ops");
+        }else {
+            res.iterator().forEachRemaining(response.getWriter()::println);
         }
-
-        res.iterator().forEachRemaining(response.getWriter()::println);
     }
 
 
