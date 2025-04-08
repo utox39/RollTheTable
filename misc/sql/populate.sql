@@ -1,3 +1,6 @@
+-- Use the schema roll_the_table
+USE roll_the_table;
+
 INSERT INTO product (
     name, purchase_price, iva, sale_price, images_path,
     description, vendor, stock_quantity, discount, category,
