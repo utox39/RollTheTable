@@ -1,9 +1,13 @@
+-- Removes the database
 DROP DATABASE IF EXISTS roll_the_table;
 
+-- Creates the schema roll_the_table
 CREATE SCHEMA roll_the_table;
 
+-- Use the schema roll_the_table
 USE roll_the_table;
 
+-- Creates the table customer
 CREATE TABLE IF NOT EXISTS customer (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL,
@@ -12,7 +16,7 @@ CREATE TABLE IF NOT EXISTS customer (
     psw_hash VARCHAR(255) NOT NULL
 );
 
-# TODO: comply with safety standards (?)
+-- Creates the table payment_method
 CREATE TABLE IF NOT EXISTS payment_method (
     payment_method_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
@@ -22,6 +26,7 @@ CREATE TABLE IF NOT EXISTS payment_method (
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 );
 
+-- Creates the table purchase
 CREATE TABLE IF NOT EXISTS purchase (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
@@ -32,6 +37,7 @@ CREATE TABLE IF NOT EXISTS purchase (
     FOREIGN KEY (payment_method_id) REFERENCES payment_method(payment_method_id) ON DELETE SET NULL
 );
 
+-- Creates the table invoice
 CREATE TABLE IF NOT EXISTS invoice (
     invoice_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT DEFAULT NULL,
@@ -45,6 +51,7 @@ CREATE TABLE IF NOT EXISTS invoice (
     FOREIGN KEY (purchase_id) REFERENCES purchase(order_id) ON DELETE SET NULL
 );
 
+-- Creates the table product
 CREATE TABLE IF NOT EXISTS product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL,
@@ -62,6 +69,7 @@ CREATE TABLE IF NOT EXISTS product (
     sale_status ENUM('on_sale', 'out_of_stock', 'not_available', 'no_longer_on_sale') DEFAULT 'on_sale'
 );
 
+-- Creates the table purchase_items
 CREATE TABLE IF NOT EXISTS purchase_items (
     order_id INT NOT NULL,
     product_id INT NOT NULL,
@@ -72,6 +80,7 @@ CREATE TABLE IF NOT EXISTS purchase_items (
     PRIMARY KEY (order_id, product_id)
 );
 
+-- Creates the table address
 CREATE TABLE IF NOT EXISTS address (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
     postcode VARCHAR(20) NOT NULL,
@@ -81,6 +90,7 @@ CREATE TABLE IF NOT EXISTS address (
     type VARCHAR(50) NOT NULL
 );
 
+-- Creates the table uses
 CREATE TABLE IF NOT EXISTS uses (
     customer INT NOT NULL,
     address INT NOT NULL,
@@ -89,12 +99,14 @@ CREATE TABLE IF NOT EXISTS uses (
     PRIMARY KEY(customer, address)
 );
 
+-- Creates the table cart
 CREATE TABLE IF NOT EXISTS cart (
     cart_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 );
 
+-- Creates the table cart_contains
 CREATE TABLE IF NOT EXISTS cart_contains (
     cart_id INT NOT NULL,
     product_id INT NOT NULL,
@@ -104,6 +116,7 @@ CREATE TABLE IF NOT EXISTS cart_contains (
     PRIMARY KEY(product_id, cart_id)
 );
 
+-- Creates the table admin
 CREATE TABLE IF NOT EXISTS `admin` (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
