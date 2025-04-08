@@ -13,45 +13,44 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/home.css">
 
 </head>
-<body class="container mt-5">
+    <body class="container mt-5">
+        <div class="main-header text-center">
+            <h1>🎲 RollTheTable - Home</h1>
+            <p class="text-secondary">This is what happens when you lose!</p>
+        </div>
 
-<div class="main-header text-center">
-    <h1>🎲 RollTheTable - Home</h1>
-    <p class="text-secondary">Benvenuto nel mondo dei giochi da tavolo!</p>
-</div>
+        <h2 class="text-white">Catalogo dei prodotti</h2>
+        <div class="row">
+            <%
+                List<ProductBean> res = ProductDAO.getAllProducts();
 
-<div class="alert alert-success text-center" role="alert">
-    Bootstrap funziona! 🎉
-</div>
-
-<div class="text-center mb-4">
-    <button class="btn btn-primary btn-lg" id="main-button">Click me!</button>
-</div>
-
-<h2 class="text-white">Lista di elementi</h2>
-<ul>
-    <%
-        List<ProductBean> res = ProductDAO.getAllProducts();
-
-        if (res == null) {
-            System.err.println("Ops");
-    %>
-    <li class="text-danger">Errore nel caricamento dei prodotti.</li>
-    <%
-    } else {
-        for (ProductBean product : res) {
-    %>
-    <li><%= product.toString() %></li>
-    <%
+                if (res == null) {
+            %>
+                    <div class="text-danger">Errore nel caricamento dei prodotti.</div>
+            <%
+            } else {
+                for (ProductBean product : res) {
+            %>
+                <div class="col-md-4 mb-4 d-flex">
+                    <div class="card w-100" style="width: 18rem;">
+                        <img src="./images/logo.JPG" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.getName() %></h5>
+                            <p class="card-text"><%= product.getSalePrice() %> &euro;</p>
+                            <a href="#" class="btn btn-primary">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            <%
+                }
             }
-        }
-    %>
-</ul>
+            %>
+        </div>
 
-<!-- Bootstrap JS -->
-<script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom JS -->
-<script src="${pageContext.request.contextPath}/js/index.js"></script>
-</body>
+        <!-- Custom JS -->
+<%--        <script src="${pageContext.request.contextPath}/js/index.js"></script>--%>
+    </body>
 </html>
