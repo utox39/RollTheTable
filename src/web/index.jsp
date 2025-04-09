@@ -34,7 +34,7 @@
             %>
                 <div class="col-md-4 mb-4 d-flex">
                     <div class="card w-100" style="width: 18rem;">
-                        <img src="./images/logo.JPG" class="card-img-top" alt="">
+                        <img src="./assets/images/logo.JPG" class="card-img-top" alt="">
                         <div class="card-body">
                             <h5 class="card-title"><%= product.getName() %></h5>
                             <p class="card-text"><%= product.getSalePrice() %> &euro;</p>
