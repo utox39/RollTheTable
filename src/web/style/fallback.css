@@ -1,0 +1,47 @@
+/* styles.css */
+
+/* Imposta il background nero e il colore del testo rosso */
+body {
+    background-color: #1c1c1e;
+    color: red;
+}
+
+/* Navbar con testo bianco */
+.navbar {
+    background-color: #333; /* Un grigio scuro per la navbar */
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+/* Alert con sfondo rosso e testo bianco */
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Modifica i link del bottone */
+a.btn {
+    color: white;
+    background-color: red;
+    border-color: red;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+a.btn:hover {
+    background-color: darkred;
+    border-color: darkred;
+}
+
+/* Testo dei dettagli dell'errore in preformattato */
+pre {
+    color: red;
+    background-color: black;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+}

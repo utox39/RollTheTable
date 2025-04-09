@@ -10,6 +10,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/home.css">
 
 </head>
