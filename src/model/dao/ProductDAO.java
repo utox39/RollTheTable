@@ -1,8 +1,8 @@
 package model.dao;
 
 import db.DatabaseConnectionPool;
+import model.ProductModel;
 import model.bean.ProductBean;
-import util.ServerLogger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDAO {
-    private ProductDAO() {
-    }
-
-    public static List<ProductBean> getAllProducts() {
+public class ProductDAO implements ProductModel {
+    public synchronized List<ProductBean> doRetriveAll() throws SQLException {
         Connection connection = null;
 
         List <ProductBean> products = null;
@@ -31,7 +28,6 @@ public class ProductDAO {
 
             preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
-
 
             while (resultSet.next()) {
                 ProductBean productBean = new ProductBean();
@@ -54,15 +50,13 @@ public class ProductDAO {
                 products.add(productBean);
             }
 
-            preparedStatement.close();
-        } catch (SQLException e) {
-            ServerLogger.severe(ProductDAO.class.getName(), "getAllProducts SQLException: " + e.getMessage());
         } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
             DatabaseConnectionPool.releaseConnection(connection);
         }
 
         return products;
     }
-
-
 }
