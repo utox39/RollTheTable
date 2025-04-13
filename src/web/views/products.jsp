@@ -1,7 +1,5 @@
-<%@ page import="model.dao.ProductDAO" %>
 <%@ page import="model.bean.ProductBean" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Collection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
