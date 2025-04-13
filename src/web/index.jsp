@@ -1,16 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>RollTheTable</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <title>RollTheTable</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/home.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/home.css">
 
-</head>
+    </head>
     <body class="container mt-5">
         <div class="main-header text-center">
             <h1>🎲 RollTheTable - Home</h1>
