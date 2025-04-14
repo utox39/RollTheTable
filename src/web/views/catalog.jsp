@@ -27,7 +27,7 @@
                 <%
                     List<ProductBean> products = (List<ProductBean>) request.getAttribute("products");
 
-                    if (products == null) {
+                    if (products == null || products.isEmpty()) {
                 %>
                 <div class="text-danger">Errore nel caricamento dei prodotti.</div>
                 <%
