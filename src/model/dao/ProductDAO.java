@@ -26,10 +26,11 @@ public class ProductDAO implements ProductModel {
             connection = DatabaseConnectionPool.getConnection();
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, id);
+            preparedStatement.setInt(1, Integer.parseInt(id));
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                productBean = new ProductBean();
                 productBean.setProductId(resultSet.getString("product_id"));
                 productBean.setName(resultSet.getString("name"));
                 productBean.setCategory(resultSet.getString("category"));
