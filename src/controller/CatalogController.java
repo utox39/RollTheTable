@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/products")
-public class ProductController extends HttpServlet {
+@WebServlet("/catalog")
+public class CatalogController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final String productsAttr = "products";
@@ -20,7 +20,7 @@ public class ProductController extends HttpServlet {
             ProductDAO productDAO = new ProductDAO();
             request.setAttribute(productsAttr, productDAO.doRetriveAll());
         } catch (SQLException e) {
-            ServerLogger.severe(ProductController.class.getName(), "doRetriveAll SQLException: " + e.getMessage());
+            ServerLogger.severe(CatalogController.class.getName(), "doRetriveAll SQLException: " + e.getMessage());
             request.setAttribute(productsAttr, null);
         }
 
