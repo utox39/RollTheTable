@@ -8,19 +8,19 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
         <!-- Custom CSS -->
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/home.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/homepage.css">
 
     </head>
-    <body class="container mt-5">
-        <div class="main-header text-center">
-            <h1>🎲 RollTheTable - Home</h1>
-            <p class="text-secondary">This is what happens when you lose!</p>
+    <body>
+        <div id="index" class="container mt-5">
+            <div class="main-header text-center">
+                <h1>🎲 RollTheTable - Home</h1>
+                <p class="text-secondary">This is what happens when you lose!</p>
+            </div>
         </div>
 
         <!-- Bootstrap JS -->
         <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Custom JS -->
-<%--        <script src="${pageContext.request.contextPath}/js/index.js"></script>--%>
     </body>
 </html>
