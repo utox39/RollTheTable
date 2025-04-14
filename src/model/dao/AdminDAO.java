@@ -2,9 +2,7 @@ package model.dao;
 
 import db.DatabaseConnectionPool;
 import model.bean.AdminBean;
-import util.HashUtil;
 import util.ServerLogger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
