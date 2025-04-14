@@ -24,7 +24,7 @@ public class CatalogController extends HttpServlet {
             request.setAttribute(productsAttr, null);
         }
 
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/views/products.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/views/catalog.jsp");
         dispatcher.forward(request, response);
     }
 }
