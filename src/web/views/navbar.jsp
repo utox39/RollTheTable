@@ -18,9 +18,7 @@
 					<a class="nav-link active" href="${pageContext.request.contextPath}/">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link active" href="${pageContext.request.contextPath}/products"
-						>Prodotti</a
-					>
+					<a class="nav-link active" href="${pageContext.request.contextPath}/catalog">Prodotti</a>
 				</li>
 			</ul>
 			<form class="d-flex" role="search">
