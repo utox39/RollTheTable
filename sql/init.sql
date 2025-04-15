@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS customer (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
+    username VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     psw_hash VARCHAR(255) NOT NULL
 );

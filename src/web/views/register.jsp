@@ -22,8 +22,13 @@
 
         <form method="post" action="${pageContext.request.contextPath}/register">
             <div class="mb-3">
-                <label for="fullname" class="form-label text-white">Nome completo</label>
-                <input type="text" class="form-control bg-dark text-white border-secondary" id="fullname" name="fullname" required>
+                <label for="name" class="form-label text-white">Nome</label>
+                <input type="text" class="form-control bg-dark text-white border-secondary" id="name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="surname" class="form-label text-white">Cognome</label>
+                <input type="text" class="form-control bg-dark text-white border-secondary" id="surname" name="surname" required>
             </div>
 
             <div class="mb-3">
