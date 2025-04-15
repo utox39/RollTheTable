@@ -22,8 +22,8 @@
 
         <form method="post" action="${pageContext.request.contextPath}/login">
             <div class="mb-3">
-                <label for="username" class="form-label text-white">Username</label>
-                <input type="text" class="form-control bg-dark text-white border-secondary" id="username" name="username" required>
+                <label for="login" class="form-label text-white">Username o Email</label>
+                <input type="text" class="form-control bg-dark text-white border-secondary" id="login" name="login" required>
             </div>
 
             <div class="mb-3">
