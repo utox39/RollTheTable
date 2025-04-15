@@ -42,6 +42,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="phone" class="form-label text-white">Phone</label>
+                <input type="tel" class="form-control bg-dark text-white border-secondary" id="phone" name="phone" required>
+            </div>
+
+            <div class="mb-3">
                 <label for="password" class="form-label text-white">Password</label>
                 <input type="password" class="form-control bg-dark text-white border-secondary" id="password" name="password" required>
             </div>
