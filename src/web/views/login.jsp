@@ -34,6 +34,12 @@
             <button type="submit" class="btn btn-danger w-100">Login</button>
         </form>
 
+        <% if (request.getAttribute("loginError") != null) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= (String) request.getAttribute("loginError")%>
+        </div>
+        <% } %>
+
         <p class="mt-3 text-center text-light">
             Non hai un account? <a href="${pageContext.request.contextPath}/register" class="text-decoration-none text-warning">Registrati</a>
         </p>
