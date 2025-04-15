@@ -1,4 +1,71 @@
 package model.bean;
 
-public class CustomerBean {
+import java.io.Serializable;
+
+public class CustomerBean implements Serializable {
+    int customerId;
+    String name;
+    String surname;
+    String username;
+    String email;
+    String phone;
+    String pswHash;
+
+    public CustomerBean() {}
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPswHash() {
+        return pswHash;
+    }
+
+    public void setPswHash(String pswHash) {
+        this.pswHash = pswHash;
+    }
 }
