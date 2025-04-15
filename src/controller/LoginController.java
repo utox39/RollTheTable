@@ -35,7 +35,6 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.removeAttribute("loggedUser");
                 session.setAttribute("loggedUser", customerBean);
-                ServerLogger.info(LoginController.class.getName(), "Logged In");
             } else {
                 request.setAttribute("loginError", "");
                 request.setAttribute("loginError", "Username o Password incorrette.");
