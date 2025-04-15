@@ -85,8 +85,13 @@ public class CustomerDAO implements CustomerModel {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                int id = resultSet.getInt("customer_id");
                 String customerPswHash = resultSet.getString("psw_hash");
-                return customerPswHash.equals(pawHash);
+
+                if (customerPswHash.equals(pswHash)) {
+                    DatabaseConnectionPool.releaseConnection(connection);
+                    return this.doRetriveById(id);
+                }
             }
         } finally {
             if (preparedStatement != null) {
@@ -95,6 +100,6 @@ public class CustomerDAO implements CustomerModel {
             DatabaseConnectionPool.releaseConnection(connection);
         }
 
-        return false;
+        return null;
     }
 }
