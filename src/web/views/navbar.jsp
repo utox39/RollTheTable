@@ -1,3 +1,4 @@
+<%@ page import="model.bean.CustomerBean" %>
 <nav class="navbar bg-dark navbar-expand-lg position-relative" data-bs-theme="dark">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="${pageContext.request.contextPath}/">RollTheTable</a>
@@ -32,11 +33,22 @@
 				<button class="btn btn-outline-success" type="submit">Search</button>
 			</form>
 
-			<ul class="navbar-nav mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link active" href="${pageContext.request.contextPath}/login">Login</a>
-				</li>
-			</ul>
+			<%
+				CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
+				if (user != null)  {
+			%>
+				<ul class="navbar-nav mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" href="#">Ciao, <%= user.getUsername()%>!</a>
+					</li>
+				</ul>
+			<% } else { %>
+				<ul class="navbar-nav mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" href="${pageContext.request.contextPath}/login">Login</a>
+					</li>
+				</ul>
+			<% } %>
 		</div>
 	</div>
 </nav>
