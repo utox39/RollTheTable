@@ -8,6 +8,40 @@ import model.bean.CustomerBean;
 
 public class CustomerDAO implements CustomerModel {
 
+    public synchronized CustomerBean doRetriveById(int id) throws SQLException{
+        Connection connection = null;
+        CustomerBean customerBean = null;
+
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT `name`, surname, username, email, phone, psw_hash FROM customer WHERE customer_id = ?";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                customerBean = new CustomerBean();
+                customerBean.setCustomerId(id);
+                customerBean.setName(resultSet.getString("name"));
+                customerBean.setSurname(resultSet.getString("surname"));
+                customerBean.setUsername(resultSet.getString("username"));
+                customerBean.setEmail(resultSet.getString("email"));
+                customerBean.setPhone(resultSet.getString("phone"));
+                customerBean.setPswHash(resultSet.getString("psw_hash"));
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return customerBean;
+    }
+
     @Override
     public synchronized void doSave(CustomerBean customerBean) throws SQLException {
         Connection connection = null;
