@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ProductDAO implements ProductModel {
     @Override
-    public ProductBean doRetrieveById(String id) throws SQLException {
+    public synchronized ProductBean doRetrieveById(String id) throws SQLException {
         Connection connection = null;
         ProductBean productBean = null;
 
