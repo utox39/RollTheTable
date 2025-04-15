@@ -42,5 +42,8 @@
               <div class="text-danger">Errore nel caricamento del prodotto.</div>
           <% } %>
       </div>
+
+      <!-- Bootstrap JS -->
+      <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
