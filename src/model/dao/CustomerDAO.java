@@ -36,4 +36,32 @@ public class CustomerDAO implements CustomerModel {
             DatabaseConnectionPool.releaseConnection(connection);
         }
     }
+
+    public synchronized boolean checkLogin(String login, String pawHash) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String sql = "SELECT psw_hash FROM customer WHERE username = ? OR email = ?";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, login);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String customerPswHash = resultSet.getString("psw_hash");
+                return customerPswHash.equals(pawHash);
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return false;
+    }
 }
