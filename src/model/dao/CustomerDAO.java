@@ -70,12 +70,11 @@ public class CustomerDAO implements CustomerModel {
             DatabaseConnectionPool.releaseConnection(connection);
         }
     }
-
-    public synchronized boolean checkLogin(String login, String pawHash) throws SQLException {
+    public synchronized CustomerBean authenticate(String login, String pswHash) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
-        String sql = "SELECT psw_hash FROM customer WHERE username = ? OR email = ?";
+        String sql = "SELECT customer_id, psw_hash FROM customer WHERE (username = ? OR email = ?)";
 
         try {
             connection = DatabaseConnectionPool.getConnection();
