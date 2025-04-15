@@ -1,52 +1,39 @@
 package model.dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import util.ServerLogger;
+
 import db.DatabaseConnectionPool;
+import model.CustomerModel;
+import model.bean.CustomerBean;
 
-public class CustomerDAO {
-    private CustomerDAO(){}
+public class CustomerDAO implements CustomerModel {
 
-    public static List<String> getAllCustomers() {
+    @Override
+    public synchronized void doSave(CustomerBean customerBean) throws SQLException {
         Connection connection = null;
-
-        List<String> users = null;
-
         PreparedStatement preparedStatement = null;
-        String query = "select * from customer";
+
+        String sql = "INSERT INTO customer (`name`, surname, username, email, phone, psw_hash) " +
+                "VALUES(?, ?, ?, ?, ?, ?)";
 
         try {
             connection = DatabaseConnectionPool.getConnection();
-            users = new ArrayList<>();
+            preparedStatement = connection.prepareStatement(sql);
 
-            // Sample query to be replaced with
-            preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            ResultSetMetaData metaData = resultSet.getMetaData();
+            preparedStatement.setString(1, customerBean.getName());
+            preparedStatement.setString(2, customerBean.getSurname());
+            preparedStatement.setString(3, customerBean.getUsername());
+            preparedStatement.setString(4, customerBean.getEmail());
+            preparedStatement.setString(5, customerBean.getPhone());
+            preparedStatement.setString(6, customerBean.getPswHash());
 
-            // NOTE:
-            // future optimization to be done is to replace the inner
-            // for loop with the specific column names of the table
-            // might introduce spaghetti code but the performance will be better
-
-            while (resultSet.next()) {
-                for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                    users.add(resultSet.getString(metaData.getColumnLabel(i)));
-                }
-                users.add("\n");
-            }
-
-            preparedStatement.close();
-        } catch (SQLException e) {
-            ServerLogger.severe(CustomerDAO.class.getName(), "getAllCustomers SQLException: " + e.getMessage());
+            preparedStatement.executeUpdate();
+            connection.commit();
         } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
             DatabaseConnectionPool.releaseConnection(connection);
         }
-
-        return users;
     }
-
-    // actions to be done on the customer table will go here
 }
