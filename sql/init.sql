@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS customer (
     surname VARCHAR(100) NOT NULL,
     username VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
+    phone VARCHAR(13) NOT NULL,
     psw_hash VARCHAR(255) NOT NULL
 );
 
