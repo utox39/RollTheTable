@@ -13,7 +13,6 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarSupportedContent">
-			<!-- Sinistra -->
 			<ul class="navbar-nav mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="nav-link active" href="${pageContext.request.contextPath}/">Home</a>
@@ -23,7 +22,6 @@
 				</li>
 			</ul>
 
-			<!-- Centro assoluto -->
 			<form class="d-flex position-absolute top-50 start-50 translate-middle" role="search" style="width: 50%;">
 				<input
 						class="form-control me-2"
@@ -34,7 +32,6 @@
 				<button class="btn btn-outline-success" type="submit">Search</button>
 			</form>
 
-			<!-- Destra -->
 			<ul class="navbar-nav mb-2 mb-lg-0">
 				<li class="nav-item">
 					<a class="nav-link active" href="${pageContext.request.contextPath}/login">Login</a>
