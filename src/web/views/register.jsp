@@ -59,6 +59,18 @@
             <button type="submit" class="btn btn-danger w-100">Registrati</button>
         </form>
 
+        <% if (request.getAttribute("mismatchedPasswordsError") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= (String) request.getAttribute("mismatchedPasswordsError")%>
+            </div>
+        <% } %>
+
+        <% if (request.getAttribute("registrationError") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= (String) request.getAttribute("registrationError")%>
+            </div>
+        <% } %>
+
         <p class="mt-3 text-center text-light">
             Hai già un account? <a href="${pageContext.request.contextPath}/login" class="text-decoration-none text-warning">Accedi</a>
         </p>
