@@ -10,7 +10,14 @@ import java.io.IOException;
 public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        request.getRequestDispatcher("/views/cart.jsp").forward(request, response);
+        doPost(request, response);
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // get product
+        // get operation
+        // create bean
+        // switch on op -> dao op
+        // save car in session
     }
 }
