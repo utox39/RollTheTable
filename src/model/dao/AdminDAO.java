@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class AdminDAO {
 
 
-    public boolean exists(AdminBean admin) throws SQLException {
+    public synchronized boolean exists(AdminBean admin) throws SQLException {
         Connection connection = null;
 
 
