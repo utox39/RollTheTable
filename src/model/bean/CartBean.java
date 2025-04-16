@@ -1,11 +1,12 @@
 package model.bean;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CartBean implements Serializable {
     private int id;
-    private Map<ProductBean, Integer> cart;
+    private Map<ProductBean, Integer> cart = new HashMap<>();
 
     // Costruttore vuoto
     public CartBean() {
@@ -49,6 +50,4 @@ public class CartBean implements Serializable {
                 "cart=" + cart +
                 '}';
     }
-
-
 }
