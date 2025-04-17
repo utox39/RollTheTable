@@ -22,8 +22,12 @@ public class CartBean implements Serializable {
         return cart;
     }
 
-    public int getId() {
+    public int getCartId() {
         return id;
+    }
+
+    public int getQuantity() {
+        return cart.size();
     }
 
     // Setter
