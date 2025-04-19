@@ -5,18 +5,11 @@ import model.bean.CartBean;
 import model.bean.CustomerBean;
 import model.bean.ProductBean;
 import util.ServerLogger;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
-
-//TODO:
-// OP:
-// insert cart (1 time) -> insert ignores values
-// insert cart_contains
-// OP:
-// remove cart_contains
+import java.util.HashMap;
 
 
 public class CartDAO {
@@ -24,8 +17,8 @@ public class CartDAO {
     public synchronized void addToCart(CustomerBean customer, CartBean cart) throws SQLException {
         String cartQuery = "insert into cart(customer_id) values(?) on duplicate key update customer_id = customer_id";
         String cartContainsQuery = "insert into cart_contains values(?, ? , ?) on duplicate key update quantity = ?)";
-        PreparedStatement stmt1 = null;
-        PreparedStatement stmt2 = null;
+        PreparedStatement stmt1;
+        PreparedStatement stmt2;
         Connection connection = null;
 
         try {
@@ -58,10 +51,49 @@ public class CartDAO {
     }
 
     public synchronized CartBean retrieveCart(CustomerBean customer) throws SQLException {
-       return null;
+        String cartQuery = "SELECT cart_id FROM cart WHERE customer_id = ?";
+        String cartContainsQuery = "SELECT product_id FROM cart_contains WHERE customer_id = ?";
+        PreparedStatement stmt1;
+        PreparedStatement stmt2;
+        CartBean cart;
+        Connection connection = null;
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+
+            stmt1 = connection.prepareStatement(cartQuery);
+            stmt1.setInt(1, customer.getCustomerId());
+
+            int cartId = -1;
+
+            // assume that only one cart exists for a customer
+            var res = stmt1.executeQuery();
+            res.next();
+            cartId = res.getInt("cart_id");
+
+
+            stmt2 = connection.prepareStatement(cartContainsQuery);
+            stmt2.setInt(1, cartId);
+            ResultSet resultSet = stmt2.executeQuery();
+
+
+            cart = new CartBean();
+            cart.setCart(new HashMap<>());
+            ProductDAO productDAO = new ProductDAO();
+
+            while (resultSet.next()) {
+                cart.add(productDAO.doRetrieveById(resultSet.getString("product_id")));
+            }
+
+        } finally {
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+
+        return cart;
     }
 
-    public synchronized void removeFromCart(CartBean cart) throws SQLException {
+    public synchronized void removeFromCart(CartBean cart, ProductBean product) throws SQLException {
 
     }
 
