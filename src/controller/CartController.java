@@ -21,8 +21,8 @@ public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String op = request.getParameter("op");
-        ProductBean productBean = null;
-        CartBean cartBean = null;
+        ProductBean productBean;
+        CartBean cartBean;
         HttpSession session = request.getSession();
         String productId = request.getParameter("productId");
         boolean logged = false;
@@ -31,11 +31,10 @@ public class CartController extends HttpServlet {
 
         try {
 
-            if (user != null) {
-                if (user.getCustomerId() == new CustomerDAO().doRetriveById(user.getCustomerId()).getCustomerId()) {
-                    logged = true;
-                }
+            if (user != null && user.getCustomerId() == new CustomerDAO().doRetriveById(user.getCustomerId()).getCustomerId()) {
+                logged = true;
             }
+
 
             if (op != null && op.equals("add")) {
                 productBean = new ProductDAO().doRetrieveById(productId);
@@ -58,8 +57,8 @@ public class CartController extends HttpServlet {
                 cartBean = (CartBean) session.getAttribute("cart");
                 cartBean.remove(productBean);
 
-                if (logged){
-                    new CartDAO().removeFromCart(cartBean);
+                if (logged) {
+                    new CartDAO().removeFromCart(cartBean, productBean);
                 }
             }
         } catch (SQLException e) {
