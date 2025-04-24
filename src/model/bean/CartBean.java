@@ -31,6 +31,10 @@ public class CartBean implements Serializable {
     }
 
     // Setter
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setCart(Map<ProductBean, Integer> cart) {
         this.cart = cart;
     }
