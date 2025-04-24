@@ -33,22 +33,23 @@
 				<button class="btn btn-outline-success" type="submit">Search</button>
 			</form>
 
-			<%
-				CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
-				if (user != null)  {
-			%>
-				<ul class="navbar-nav mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link active" href="#">Ciao, <%= user.getUsername()%>!</a>
-					</li>
-				</ul>
-			<% } else { %>
-				<ul class="navbar-nav mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link active" href="${pageContext.request.contextPath}/login">Login</a>
-					</li>
-				</ul>
-			<% } %>
+			<ul class="navbar-nav mb-2 mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link active" href="${pageContext.request.contextPath}/cart?op=get">Carrello</a>
+				</li>
+				<%
+					CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
+					if (user != null)  {
+				%>
+						<li class="nav-item">
+							<a class="nav-link active" href="#">Ciao, <%= user.getUsername()%>!</a>
+						</li>
+				<% 	} else { %>
+						<li class="nav-item">
+							<a class="nav-link active" href="${pageContext.request.contextPath}/login">Login</a>
+						</li>
+				<% 	} %>
+			</ul>
 		</div>
 	</div>
 </nav>
