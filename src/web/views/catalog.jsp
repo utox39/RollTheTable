@@ -38,7 +38,7 @@
         <div class="col-md-4 mb-4 d-flex">
             <div class="card w-100" style="width: 18rem;">
                 <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>">
-                    <img src="../assets/images/logo.JPG" class="card-img-top" alt="">
+                    <img src="${pageContext.request.contextPath}/assets/images/logo.JPG" class="card-img-top" alt="">
                 </a>
 
                 <div class="card-body">
