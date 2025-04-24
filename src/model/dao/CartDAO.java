@@ -63,9 +63,9 @@ public class CartDAO {
 
     public synchronized CartBean retrieveCart(CustomerBean customer) throws SQLException {
         String cartQuery = "SELECT cart_id FROM cart WHERE customer_id = ?";
-        String cartContainsQuery = "SELECT product_id FROM cart_contains WHERE cart_id = ?";
-        PreparedStatement stmt1;
-        PreparedStatement stmt2;
+        String cartContainsQuery = "SELECT product_id, quantity FROM cart_contains WHERE cart_id = ?";
+        PreparedStatement stmt1 = null;
+        PreparedStatement stmt2 = null;
         CartBean cart;
         Connection connection = null;
 
@@ -78,25 +78,35 @@ public class CartDAO {
             int cartId = -1;
 
             // assume that only one cart exists for a customer
-            var res = stmt1.executeQuery();
+            ResultSet res = stmt1.executeQuery();
             res.next();
             cartId = res.getInt("cart_id");
-
 
             stmt2 = connection.prepareStatement(cartContainsQuery);
             stmt2.setInt(1, cartId);
             ResultSet resultSet = stmt2.executeQuery();
 
-
             cart = new CartBean();
             cart.setCart(new HashMap<>());
             ProductDAO productDAO = new ProductDAO();
 
+            cart.setId(cartId);
+
             while (resultSet.next()) {
-                cart.add(productDAO.doRetrieveById(resultSet.getString("product_id")));
+                cart.add(
+                        productDAO.doRetrieveById(resultSet.getString("product_id")),
+                        resultSet.getInt("quantity")
+                );
+            }
+        } finally {
+            if (stmt1 != null) {
+                stmt1.close();
             }
 
-        } finally {
+            if (stmt2 != null) {
+                stmt2.close();
+            }
+
             DatabaseConnectionPool.releaseConnection(connection);
         }
 
