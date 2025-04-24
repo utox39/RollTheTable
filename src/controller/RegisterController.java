@@ -58,12 +58,15 @@ public class RegisterController extends HttpServlet {
 
         customerBean.setPswHash("");
         HttpSession session = request.getSession();
-        session.removeAttribute("loggedUser");
-        session.setAttribute("loggedUser", customerBean);
+
+        // TODO: fix NullPointerException when the user add a product to the cart after registration
+
+//          session.removeAttribute("loggedUser");
+//          session.setAttribute("loggedUser", customerBean);
 
         session.removeAttribute("isAdmin");
         session.setAttribute("isAdmin", false);
 
-        response.sendRedirect(request.getContextPath() + "/");
+        response.sendRedirect(request.getContextPath() + "/login");
     }
 }
