@@ -8,7 +8,6 @@ public class CartBean implements Serializable {
     private int id;
     private Map<ProductBean, Integer> cart = new HashMap<>();
 
-    // Costruttore vuoto
     public CartBean() {
     }
 
