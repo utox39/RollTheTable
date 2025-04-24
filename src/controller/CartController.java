@@ -57,6 +57,14 @@ public class CartController extends HttpServlet {
                 if (logged) {
                     new CartDAO().removeFromCart(cartBean, productBean);
                 }
+            } else if (op != null && op.equals("get")) {
+                if (logged) {
+                    cartBean = new CartDAO().retrieveCart(user);
+                    session.setAttribute("cart", cartBean);
+                    ServerLogger.severe(CartController.class.getName(), cartBean.toString());
+                }
+
+                request.getRequestDispatcher("/views/cart.jsp").forward(request, response);
             }
         } catch (SQLException e) {
             ServerLogger.severe(CartController.class.getName(), "CartController SQLException: " + e.getMessage());
