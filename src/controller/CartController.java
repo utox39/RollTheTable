@@ -65,7 +65,6 @@ public class CartController extends HttpServlet {
                 if (logged) {
                     cartBean = new CartDAO().retrieveCart(user);
                     session.setAttribute("cart", cartBean);
-                    ServerLogger.severe(CartController.class.getName(), cartBean.toString());
                 }
 
                 request.getRequestDispatcher("/views/cart.jsp").forward(request, response);
