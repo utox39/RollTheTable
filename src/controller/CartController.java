@@ -30,11 +30,10 @@ public class CartController extends HttpServlet {
         CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
 
         try {
-
             if (user != null && user.getCustomerId() == new CustomerDAO().doRetriveById(user.getCustomerId()).getCustomerId()) {
                 logged = true;
             }
-            
+
             if (op != null && op.equals("add")) {
                 productBean = new ProductDAO().doRetrieveById(productId);
 
@@ -50,7 +49,6 @@ public class CartController extends HttpServlet {
                 if (logged) {
                     new CartDAO().addToCart(user, cartBean);
                 }
-
             } else if (op != null && op.equals("remove")) {
                 productBean = new ProductDAO().doRetrieveById(productId);
                 cartBean = (CartBean) session.getAttribute("cart");
