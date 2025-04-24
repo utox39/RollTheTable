@@ -55,9 +55,14 @@ public class CartBean implements Serializable {
     }
 
     public void remove(ProductBean product) {
-        cart.computeIfPresent(product, (k, v) -> v - 1);
-        if (cart.get(product) <= 0) {
-            cart.remove(product);
+        for (Map.Entry<ProductBean, Integer>productEntry : this.cart.entrySet()) {
+            if (productEntry.getKey().getProductId().equals(product.getProductId())) {
+                if (productEntry.getValue() == 1) {
+                    this.cart.remove(productEntry.getKey());
+                } else {
+                    productEntry.setValue(productEntry.getValue() - 1);
+                }
+            }
         }
     }
 
