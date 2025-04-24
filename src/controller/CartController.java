@@ -34,8 +34,7 @@ public class CartController extends HttpServlet {
             if (user != null && user.getCustomerId() == new CustomerDAO().doRetriveById(user.getCustomerId()).getCustomerId()) {
                 logged = true;
             }
-
-
+            
             if (op != null && op.equals("add")) {
                 productBean = new ProductDAO().doRetrieveById(productId);
 
