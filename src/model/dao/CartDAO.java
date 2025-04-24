@@ -16,9 +16,9 @@ public class CartDAO {
 
     public synchronized void addToCart(CustomerBean customer, CartBean cart) throws SQLException {
         String cartQuery = "insert into cart(customer_id) values(?) on duplicate key update customer_id = customer_id";
-        String cartContainsQuery = "insert into cart_contains values(?, ? , ?) on duplicate key update quantity = ?)";
-        PreparedStatement stmt1;
-        PreparedStatement stmt2;
+        String cartContainsQuery = "insert into cart_contains values(?, ? , ?) on duplicate key update quantity = ?";
+        PreparedStatement stmt1 = null;
+        PreparedStatement stmt2 = null;
         Connection connection = null;
 
         try {
@@ -27,25 +27,36 @@ public class CartDAO {
             // insert cart
             stmt1 = connection.prepareStatement(cartQuery);
             stmt1.setInt(1, customer.getCustomerId());
-            stmt1.executeQuery();
+            stmt1.executeUpdate();
+            connection.commit();
 
             // insert cart_contains
             stmt2 = connection.prepareStatement(cartContainsQuery);
             PreparedStatement finalStmt = stmt2;
-            cart.getCart().forEach((key, value) -> {
+            cart.getCart().forEach((product, quantity) -> {
                 try {
                     finalStmt.setInt(1, cart.getCartId());
-                    finalStmt.setInt(2, customer.getCustomerId());
-                    finalStmt.setInt(3, cart.getQuantity());
-                    finalStmt.setInt(4, cart.getQuantity());
-                    finalStmt.executeQuery();
+                    finalStmt.setInt(2, Integer.parseInt(product.getProductId()));
+                    finalStmt.setInt(3, quantity);
+                    finalStmt.setInt(4, quantity);
+                    finalStmt.addBatch();
+                    finalStmt.clearParameters();
                 } catch (SQLException e) {
                     ServerLogger.severe(CartDAO.class.getName(), "addToCart SQLException: " + e.getMessage());
                 }
 
             });
-
+            finalStmt.executeBatch();
+            connection.commit();
         } finally {
+            if (stmt1 != null) {
+                stmt1.close();
+            }
+
+            if (stmt2 != null) {
+                stmt2.close();
+            }
+
             DatabaseConnectionPool.releaseConnection(connection);
         }
     }
