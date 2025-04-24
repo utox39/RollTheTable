@@ -40,8 +40,6 @@ public class CartBean implements Serializable {
     }
 
     public void add(ProductBean product) {
-//        cart.computeIfPresent(product, (k, v) -> v + 1);
-//        cart.computeIfAbsent(product, k -> 1);
         boolean alreadyExists = false;
 
         for (Map.Entry<ProductBean, Integer>productEntry : this.cart.entrySet()) {
