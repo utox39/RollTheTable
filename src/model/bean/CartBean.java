@@ -12,11 +12,6 @@ public class CartBean implements Serializable {
     public CartBean() {
     }
 
-    // Costruttore completo
-    public CartBean(Map<ProductBean, Integer> cart) {
-        this.cart = cart;
-    }
-
     // Getter
     public Map<ProductBean, Integer> getCart() {
         return cart;
