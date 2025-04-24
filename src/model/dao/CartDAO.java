@@ -52,7 +52,7 @@ public class CartDAO {
 
     public synchronized CartBean retrieveCart(CustomerBean customer) throws SQLException {
         String cartQuery = "SELECT cart_id FROM cart WHERE customer_id = ?";
-        String cartContainsQuery = "SELECT product_id FROM cart_contains WHERE customer_id = ?";
+        String cartContainsQuery = "SELECT product_id FROM cart_contains WHERE cart_id = ?";
         PreparedStatement stmt1;
         PreparedStatement stmt2;
         CartBean cart;
