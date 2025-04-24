@@ -110,13 +110,10 @@ public class CartDAO {
             DatabaseConnectionPool.releaseConnection(connection);
         }
 
-
         return cart;
     }
 
     public synchronized void removeFromCart(CartBean cart, ProductBean product) throws SQLException {
 
     }
-
-
 }
