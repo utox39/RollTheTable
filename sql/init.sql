@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS uses (
 -- Creates the table cart
 CREATE TABLE IF NOT EXISTS cart (
     cart_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
+    customer_id INT NOT NULL UNIQUE,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 );
 
