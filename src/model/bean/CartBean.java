@@ -36,8 +36,20 @@ public class CartBean implements Serializable {
     }
 
     public void add(ProductBean product) {
-        cart.computeIfPresent(product, (k, v) -> v + 1);
-        cart.computeIfAbsent(product, k -> 1);
+//        cart.computeIfPresent(product, (k, v) -> v + 1);
+//        cart.computeIfAbsent(product, k -> 1);
+        boolean alreadyExists = false;
+
+        for (Map.Entry<ProductBean, Integer>productEntry : this.cart.entrySet()) {
+            if (productEntry.getKey().getProductId().equals(product.getProductId())) {
+                productEntry.setValue(productEntry.getValue() + 1);
+                alreadyExists = true;
+            }
+        }
+
+        if (!alreadyExists) {
+            this.cart.put(product, 1);
+        }
     }
 
     public void remove(ProductBean product) {
