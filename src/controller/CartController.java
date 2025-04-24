@@ -49,6 +49,8 @@ public class CartController extends HttpServlet {
                 if (logged) {
                     new CartDAO().addToCart(user, cartBean);
                 }
+
+                response.sendRedirect(request.getHeader("Referer"));
             } else if (op != null && op.equals("remove")) {
                 productBean = new ProductDAO().doRetrieveById(productId);
                 cartBean = (CartBean) session.getAttribute("cart");
@@ -57,6 +59,8 @@ public class CartController extends HttpServlet {
                 if (logged) {
                     new CartDAO().removeFromCart(cartBean, productBean);
                 }
+
+                response.sendRedirect(request.getHeader("Referer"));
             } else if (op != null && op.equals("get")) {
                 if (logged) {
                     cartBean = new CartDAO().retrieveCart(user);
