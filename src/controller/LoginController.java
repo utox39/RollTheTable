@@ -34,7 +34,9 @@ public class LoginController extends HttpServlet {
                 customerBean.setPswHash("");
                 HttpSession session = request.getSession();
                 session.removeAttribute("loggedUser");
-                session.setAttribute("loggedUser", customerBean);
+                session.invalidate();
+                HttpSession newSession = request.getSession(true);
+                newSession.setAttribute("loggedUser", customerBean);
             } else {
                 request.setAttribute("loginError", "");
                 request.setAttribute("loginError", "Username o Password incorrette.");
