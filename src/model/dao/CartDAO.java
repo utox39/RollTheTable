@@ -17,8 +17,10 @@ public class CartDAO {
     public synchronized void addToCart(CustomerBean customer, CartBean cart) throws SQLException {
         String cartQuery = "insert into cart(customer_id) values(?) on duplicate key update customer_id = customer_id";
         String cartContainsQuery = "insert into cart_contains values(?, ? , ?) on duplicate key update quantity = ?";
+        String getCartidQuery = "select cart_id from cart where customer_id = ?";
         PreparedStatement stmt1 = null;
         PreparedStatement stmt2 = null;
+        PreparedStatement cartIdStmt = null;
         Connection connection = null;
 
         try {
@@ -30,12 +32,21 @@ public class CartDAO {
             stmt1.executeUpdate();
             connection.commit();
 
+            cartIdStmt = connection.prepareStatement(getCartidQuery);
+            cartIdStmt.setInt(1, customer.getCustomerId());
+            ResultSet cartIdRes = cartIdStmt.executeQuery();
+            int cartId = -1;
+            if (cartIdRes.next()) {
+                cartId = cartIdRes.getInt(1);
+            }
+
+            int finalCartId = cartId;
             // insert cart_contains
             stmt2 = connection.prepareStatement(cartContainsQuery);
             PreparedStatement finalStmt = stmt2;
             cart.getCart().forEach((product, quantity) -> {
                 try {
-                    finalStmt.setInt(1, cart.getCartId());
+                    finalStmt.setInt(1, finalCartId);
                     finalStmt.setInt(2, Integer.parseInt(product.getProductId()));
                     finalStmt.setInt(3, quantity);
                     finalStmt.setInt(4, quantity);
@@ -55,6 +66,10 @@ public class CartDAO {
 
             if (stmt2 != null) {
                 stmt2.close();
+            }
+
+            if (cartIdStmt != null) {
+                cartIdStmt.close();
             }
 
             DatabaseConnectionPool.releaseConnection(connection);
