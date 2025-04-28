@@ -1,4 +1,5 @@
 <%@ page import="model.bean.CustomerBean" %>
+<%@ page import="model.bean.AdminBean" %>
 <nav class="navbar bg-dark navbar-expand-lg position-relative" data-bs-theme="dark">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="${pageContext.request.contextPath}/">RollTheTable</a>
@@ -38,11 +39,16 @@
 					<a class="nav-link active" href="${pageContext.request.contextPath}/cart?op=get">Carrello</a>
 				</li>
 				<%
-					CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
-					if (user != null)  {
+					CustomerBean customer = (CustomerBean) session.getAttribute("loggedUser");
+					AdminBean admin = (AdminBean) session.getAttribute("loggedAdmin");
+					if (customer != null)  {
 				%>
 						<li class="nav-item">
-							<a class="nav-link active" href="#">Ciao, <%= user.getUsername()%>!</a>
+							<a class="nav-link active" href="#">Ciao, <%= customer.getUsername()%>!</a>
+						</li>
+				<% 	} else if (admin != null) { %>
+						<li class="nav-item">
+							<a class="nav-link active" href="#">Benvenuto, <%= admin.getUsername()%>!</a>
 						</li>
 				<% 	} else { %>
 						<li class="nav-item">
