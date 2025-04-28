@@ -46,7 +46,7 @@ public class AdminLoginController extends HttpServlet {
                 request.getRequestDispatcher("/views/admin/login.jsp").forward(request, response);
                 return;
             }
-            response.sendRedirect(request.getContextPath() + "/catalog");
+            response.sendRedirect(request.getContextPath() + "/admin/secure/panel");
         } catch (SQLException e) {
             ServerLogger.severe(AdminLoginController.class.getName(), "CustomerDao authenticate SQLException: " + e.getMessage());
             request.setAttribute("loginError", "");
