@@ -129,6 +129,24 @@ public class CartDAO {
     }
 
     public synchronized void removeFromCart(CartBean cart, ProductBean product) throws SQLException {
+        String removeFromCartQuery = "DELETE FROM cart_contains WHERE cart_id = ? AND product_id = ?";
+        PreparedStatement stmt1 = null;
+        Connection connection = null;
 
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            stmt1 = connection.prepareStatement(removeFromCartQuery);
+
+            stmt1.setInt(1, cart.getCartId());
+            stmt1.setInt(2, Integer.parseInt(product.getProductId()));
+            stmt1.executeUpdate();
+            connection.commit();
+        } finally {
+            if (stmt1 != null) {
+                stmt1.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
     }
 }
