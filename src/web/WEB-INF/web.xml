@@ -6,5 +6,16 @@
     <error-page>
         <location>/views/fallback.jsp</location>
     </error-page>
+
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>filter.AdminFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/admin/secure/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
 
