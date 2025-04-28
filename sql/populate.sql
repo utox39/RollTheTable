@@ -51,3 +51,7 @@ INSERT INTO product (
           80, 0.00, 'Educativo',
           3, '5678901234567', 'on_sale'
       );
+
+# TODO: remove as soon as possible
+-- Insert temporary admin credentials
+INSERT INTO admin (username, email, psw_hash) VALUES ('admin', 'admin@email.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
