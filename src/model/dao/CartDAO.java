@@ -17,7 +17,7 @@ public class CartDAO {
     public synchronized void addToCart(CustomerBean customer, CartBean cart) throws SQLException {
         String cartQuery = "insert into cart(customer_id) values(?) on duplicate key update customer_id = customer_id";
         String cartContainsQuery = "insert into cart_contains values(?, ? , ?) on duplicate key update quantity = ?";
-        String getCartidQuery = "select cart_id from cart where customer_id = ?";
+        String getCartIdQuery = "select cart_id from cart where customer_id = ?";
         PreparedStatement stmt1 = null;
         PreparedStatement stmt2 = null;
         PreparedStatement cartIdStmt = null;
@@ -32,7 +32,7 @@ public class CartDAO {
             stmt1.executeUpdate();
             connection.commit();
 
-            cartIdStmt = connection.prepareStatement(getCartidQuery);
+            cartIdStmt = connection.prepareStatement(getCartIdQuery);
             cartIdStmt.setInt(1, customer.getCustomerId());
             ResultSet cartIdRes = cartIdStmt.executeQuery();
             int cartId = -1;
