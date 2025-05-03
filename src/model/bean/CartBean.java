@@ -1,12 +1,12 @@
 package model.bean;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CartBean implements Serializable {
     private int id;
-    private Map<ProductBean, Integer> cart = new HashMap<>();
+    private Map<ProductBean, Integer> cart = new ConcurrentHashMap<>();
 
     public CartBean() {
     }
@@ -67,6 +67,7 @@ public class CartBean implements Serializable {
         for (Map.Entry<ProductBean, Integer>productEntry : this.cart.entrySet()) {
             if (productEntry.getKey().getProductId().equals(product.getProductId())) {
                 this.cart.remove(productEntry.getKey());
+                break;
             }
         }
     }
