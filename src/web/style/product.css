@@ -1,0 +1,9 @@
+#product .btn-primary {
+    background-color: #ee3e37;
+    border: none;
+    font-weight: bold;
+}
+
+#product .btn-primary:hover {
+    background-color: #e60000;
+}
