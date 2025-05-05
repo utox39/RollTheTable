@@ -63,7 +63,7 @@ public class CartBean implements Serializable {
         }
     }
 
-    public synchronized void remove(ProductBean product) {
+    public void remove(ProductBean product) {
         for (Map.Entry<ProductBean, Integer>productEntry : this.cart.entrySet()) {
             if (productEntry.getKey().getProductId().equals(product.getProductId())) {
                 this.cart.remove(productEntry.getKey());
