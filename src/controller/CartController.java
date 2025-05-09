@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-// sample class created to debug the routing functionality
 @WebServlet("/cart")
 public class CartController extends HttpServlet {
     @Override
