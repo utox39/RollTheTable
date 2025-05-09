@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Title</title>
+    <title>RollTheTable</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
@@ -12,7 +12,7 @@
           href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/product.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/maindd.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
 
 </head>
 <body>
