@@ -17,5 +17,15 @@
         <url-pattern>/admin/secure/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>UserFilter</filter-name>
+        <filter-class>filter.UserFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>UserFilter</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
 
