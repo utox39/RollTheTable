@@ -87,6 +87,8 @@ CREATE TABLE IF NOT EXISTS address (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
     postcode VARCHAR(20) NOT NULL,
     city VARCHAR(50) NOT NULL,
+    province VARCHAR(50) NOT NULL,
+    country VARCHAR(50) NOT NULL,
     street_name VARCHAR(100) NOT NULL,
     street_number VARCHAR(10) NOT NULL,
     type VARCHAR(50) NOT NULL
