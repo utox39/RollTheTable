@@ -1,20 +1,8 @@
 package model.bean;
 
-/*
-order_id INT NOT NULL,
-    product_id INT NOT NULL,
-    quantity INT NOT NULL,
-    price_at_purchase DECIMAL(10, 2) NOT NULL,
-*/
-
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-
-
 
 public class OrdersBean {
     class PurchaseInfo {
