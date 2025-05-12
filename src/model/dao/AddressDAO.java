@@ -46,7 +46,7 @@ public class AddressDAO implements AddressModel {
         return addressBean;
     }
 
-    public synchronized void doSave(AddressBean customerBean) throws SQLException {
+    public synchronized void doSave(AddressBean addressBean) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -57,13 +57,13 @@ public class AddressDAO implements AddressModel {
             connection = DatabaseConnectionPool.getConnection();
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, customerBean.getPostcode());
-            preparedStatement.setString(2, customerBean.getCity());
-            preparedStatement.setString(3, customerBean.getProvince());
-            preparedStatement.setString(4, customerBean.getCountry());
-            preparedStatement.setString(5, customerBean.getStreetName());
-            preparedStatement.setString(6, customerBean.getStreetNumber());
-            preparedStatement.setString(7, customerBean.getType());
+            preparedStatement.setString(1, addressBean.getPostcode());
+            preparedStatement.setString(2, addressBean.getCity());
+            preparedStatement.setString(3, addressBean.getProvince());
+            preparedStatement.setString(4, addressBean.getCountry());
+            preparedStatement.setString(5, addressBean.getStreetName());
+            preparedStatement.setString(6, addressBean.getStreetNumber());
+            preparedStatement.setString(7, addressBean.getType());
 
             preparedStatement.executeUpdate();
             connection.commit();
