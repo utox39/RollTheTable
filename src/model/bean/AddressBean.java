@@ -12,6 +12,8 @@ public class AddressBean implements Serializable {
     private String streetNumber;
     private String type;
 
+    public AddressBean() {}
+
     public int getAddressId() {
         return addressId;
     }
