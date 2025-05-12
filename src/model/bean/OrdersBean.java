@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class OrdersBean {
-    class PurchaseInfo {
+
+    public class PurchaseInfo {
         private int quantity;
         private double priceAtPurchase;
 
@@ -80,6 +81,14 @@ public class OrdersBean {
 
     public void setPaymentMethodId(int paymentMethodId) {
         this.paymentMethodId = paymentMethodId;
+    }
+
+    public Map<ProductBean, PurchaseInfo> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Map<ProductBean, PurchaseInfo> products) {
+        this.products = products;
     }
 }
 
