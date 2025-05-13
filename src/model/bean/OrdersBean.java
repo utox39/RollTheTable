@@ -39,7 +39,6 @@ public class OrdersBean {
     private double shippingPrice;
     private Map<ProductBean, PurchaseInfo> products = new ConcurrentHashMap<>();
 
-
     public OrdersBean() {
     }
 
@@ -87,8 +86,9 @@ public class OrdersBean {
         return products;
     }
 
-    public void setProducts(Map<ProductBean, PurchaseInfo> products) {
-        this.products = products;
+    public void addProducts(ProductBean productBean, int quantity, double priceAtPurchase) {
+        PurchaseInfo purchaseInfo = new PurchaseInfo(quantity, priceAtPurchase);
+        products.put(productBean, purchaseInfo);
     }
 }
 
