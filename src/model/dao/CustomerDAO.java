@@ -1,12 +1,48 @@
 package model.dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import db.DatabaseConnectionPool;
 import model.CustomerModel;
 import model.bean.CustomerBean;
 
 public class CustomerDAO implements CustomerModel {
+    public synchronized List<CustomerBean> doRetrieveAll() throws SQLException {
+        Connection connection = null;
+        CustomerBean customerBean;
+        List<CustomerBean> customers = null;
+
+        PreparedStatement preparedStatement = null;
+        String sql = "SELECT `name`, surname, username, email, phone, psw_hash FROM customer";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            customers = new ArrayList<>();
+
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                customerBean = new CustomerBean();
+                customerBean.setName(resultSet.getString("name"));
+                customerBean.setSurname(resultSet.getString("surname"));
+                customerBean.setUsername(resultSet.getString("username"));
+                customerBean.setEmail(resultSet.getString("email"));
+                customerBean.setPhone(resultSet.getString("phone"));
+                customerBean.setPswHash(resultSet.getString("psw_hash"));
+                customers.add(customerBean);
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return customers;
+    }
 
     public synchronized CustomerBean doRetriveById(int id) throws SQLException{
         Connection connection = null;
