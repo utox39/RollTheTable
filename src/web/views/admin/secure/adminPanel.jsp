@@ -37,7 +37,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Visualizza utenti</h5>
                             <p class="card-text">...</p>
-                            <a href="#" class="btn btn-primary">Visualizza utenti</a>
+                            <a href="${pageContext.request.contextPath}/admin/secure/users" class="btn btn-primary">Visualizza utenti</a>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Visualizza ordini</h5>
                             <p class="card-text">...</p>
-                            <a href="#" class="btn btn-primary">Visualizza ordini</a>
+                            <a href="${pageContext.request.contextPath}/admin/secure/orders" class="btn btn-primary">Visualizza ordini</a>
                         </div>
                     </div>
                 </div>
