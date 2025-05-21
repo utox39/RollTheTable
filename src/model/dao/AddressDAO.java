@@ -6,9 +6,11 @@ import model.bean.AddressBean;
 
 import java.sql.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddressDAO implements AddressModel {
-    public synchronized AddressBean doRetriveById(int id) throws SQLException {
+    public synchronized AddressBean doRetrieveById(int id) throws SQLException {
         Connection connection = null;
         AddressBean addressBean = null;
 
@@ -44,6 +46,35 @@ public class AddressDAO implements AddressModel {
         }
 
         return addressBean;
+    }
+
+    public synchronized List<AddressBean> doRetrieveAllByCustomerId(int id) throws SQLException {
+        Connection connection = null;
+        AddressBean addressBean = null;
+
+        ArrayList<AddressBean> addressList = new ArrayList<>();
+
+        PreparedStatement preparedStatement = null;
+        String getAddressId = "SELECT address FROM uses WHERE customer = ?";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(getAddressId);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                addressBean = doRetrieveById(resultSet.getInt("address"));
+                addressList.add(addressBean);
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return addressList;
     }
 
     public synchronized void doSave(AddressBean addressBean) throws SQLException {
