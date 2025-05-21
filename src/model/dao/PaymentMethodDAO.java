@@ -5,6 +5,8 @@ import model.PaymentMethodModel;
 import model.bean.PaymentMethodBean;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PaymentMethodDAO implements PaymentMethodModel {
     public PaymentMethodBean doRetriveById(int id) throws SQLException {
@@ -40,6 +42,35 @@ public class PaymentMethodDAO implements PaymentMethodModel {
         }
 
         return paymentMethodBean;
+    }
+
+    public synchronized List<PaymentMethodBean> doRetrieveAllByCustomerId(int id) throws SQLException {
+        Connection connection = null;
+        PaymentMethodBean paymentBean = null;
+
+        ArrayList<PaymentMethodBean> paymentMethodList = new ArrayList<>();
+
+        PreparedStatement preparedStatement = null;
+        String getPaymentMethodId = "SELECT payment_method FROM has WHERE customer = ?";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(getPaymentMethodId);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                paymentBean = doRetriveById(resultSet.getInt("payment_method_id"));
+                paymentMethodList.add(paymentBean);
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return paymentMethodList;
     }
 
     public void doSave(PaymentMethodBean paymentMethodBean) throws SQLException {
