@@ -8,7 +8,7 @@ import java.sql.*;
 import java.sql.SQLException;
 
 public class AddressDAO implements AddressModel {
-    public synchronized AddressBean doRetriveById(int id) throws SQLException {
+    public synchronized AddressBean doRetrieveById(int id) throws SQLException {
         Connection connection = null;
         AddressBean addressBean = null;
 
