@@ -2,6 +2,7 @@ package model.dao;
 
 import db.DatabaseConnectionPool;
 import model.ProductModel;
+import model.bean.AddressBean;
 import model.bean.ProductBean;
 
 import java.sql.Connection;
@@ -104,5 +105,107 @@ public class ProductDAO implements ProductModel {
         }
 
         return products;
+    }
+
+    public synchronized void doSave(ProductBean productBean) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String sql = "INSERT INTO product" +
+                "(name, purchase_price, iva, barcode, sale_price, images_path, description, vendor, stock_quantity, " +
+                "discount, category, minimum_age, barcode, sale_status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productBean.getName());
+            preparedStatement.setDouble(2, productBean.getPurchasePrice());
+            preparedStatement.setDouble(3, productBean.getIva());
+            preparedStatement.setString(4, productBean.getBarcode());
+            preparedStatement.setDouble(5, productBean.getSalePrice());
+            preparedStatement.setString(6, productBean.getImagesPath());
+            preparedStatement.setString(7, productBean.getDescription());
+            preparedStatement.setString(8, productBean.getVendor());
+            preparedStatement.setInt(9, productBean.getStockQuantity());
+            preparedStatement.setDouble(10, productBean.getDiscount());
+            preparedStatement.setString(11, productBean.getCategory());
+            preparedStatement.setInt(12, productBean.getMinimumAge());
+            preparedStatement.setString(13, productBean.getBarcode());
+            preparedStatement.setString(14, productBean.getSalesStatus().toString());
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+    }
+
+    public synchronized void doUpdate(ProductBean productBean, int productId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String sql = "UPDATE product " +
+                "SET name = ?, purchase_price = ?, iva = ?, barcode = ?, sale_price = ?, images_path = ?, description = ?, vendor = ?, stock_quantity = ?, " +
+                "discount = ?, category = ?, minimum_age = ?, barcode = ?, sale_status = ? " +
+                "WHERE product_id = ?";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, productBean.getName());
+            preparedStatement.setDouble(2, productBean.getPurchasePrice());
+            preparedStatement.setDouble(3, productBean.getIva());
+            preparedStatement.setString(4, productBean.getBarcode());
+            preparedStatement.setDouble(5, productBean.getSalePrice());
+            preparedStatement.setString(6, productBean.getImagesPath());
+            preparedStatement.setString(7, productBean.getDescription());
+            preparedStatement.setString(8, productBean.getVendor());
+            preparedStatement.setInt(9, productBean.getStockQuantity());
+            preparedStatement.setDouble(10, productBean.getDiscount());
+            preparedStatement.setString(11, productBean.getCategory());
+            preparedStatement.setInt(12, productBean.getMinimumAge());
+            preparedStatement.setString(13, productBean.getBarcode());
+            preparedStatement.setString(14, productBean.getSalesStatus().toString());
+
+            preparedStatement.setInt(15, productId);
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+    }
+
+    public synchronized void doDelete(int id) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String sql = "DELETE FROM product WHERE product_id = ?";
+
+        try{
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
     }
 }
