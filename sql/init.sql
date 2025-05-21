@@ -28,6 +28,15 @@ CREATE TABLE IF NOT EXISTS payment_method (
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 );
 
+-- Creates the table `has`
+CREATE TABLE IF NOT EXISTS `has` (
+    customer INT NOT NULL,
+    payment_method INT NOT NULL,
+    FOREIGN KEY (customer) REFERENCES customer(customer_id) ON DELETE CASCADE,
+    FOREIGN KEY (payment_method) REFERENCES payment_method(payment_method_id) ON DELETE CASCADE,
+    PRIMARY KEY(customer, payment_method)
+);
+
 -- Creates the table purchase
 CREATE TABLE IF NOT EXISTS purchase (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
