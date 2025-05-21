@@ -23,7 +23,7 @@
         href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
   <!-- Custom CSS -->
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/catalog.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/users.css">
 </head>
 <body>
 <jsp:include page="/views/navbar.jsp" flush="true"/>

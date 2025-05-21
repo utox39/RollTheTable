@@ -23,14 +23,14 @@
                         <div class="card-body">
                             <h5 class="card-title">Modifica prodotti</h5>
                             <p class="card-text">...</p>
-                            <a href="#" class="btn btn-primary">Modifica prodotti</a>
+                            <a href="${pageContext.request.contextPath}/views/admin/secure/products.jsp" class="btn btn-primary">Modifica prodotti</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4 mb-4 d-flex">
                     <div class="card w-100" style="width: 18rem;">
-                        <a href="#">
+                        <a href="">
                             <img src="${pageContext.request.contextPath}/assets/images/logo.JPG" class="card-img-top" alt="">
                         </a>
 
