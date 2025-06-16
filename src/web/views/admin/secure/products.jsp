@@ -31,7 +31,7 @@
 
   <h2 class="text-white">Lista dei Prodotti</h2>
   <div class="row">
-    <%1
+    <%
       List<ProductBean> products = new ProductDAO().doRetriveAll();
 
       if (products == null || products.isEmpty()) {
@@ -56,7 +56,7 @@
             <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=edit&id=<%= product.getProductId() %>" class="btn btn-warning btn-sm">✏️ Modifica</a>
 
             <!-- TODO: Implementare eliminazione prodotto -->
-            <form action="${pageContext.request.contextPath}/admin/secure/manageProducts" method="post" style="display:inline;">
+            <form action="${pageContext.request.contextPath}/admin/secure/manageProducts?op=del&id=<%= product.getProductId() %>" method="post" style="display:inline;">
 
               <input type="hidden" name="id" value="<%= product.getProductId() %>">
               <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Sei sicuro di voler eliminare questo prodotto?')">🗑️ Elimina</button>
