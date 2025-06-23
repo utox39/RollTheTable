@@ -46,7 +46,7 @@ public class ProductDAO implements ProductModel {
                 productBean.setIva(resultSet.getDouble("iva"));
                 productBean.setImagesPath(resultSet.getString("images_path"));
 
-                productBean.setSalesStatus(ProductBean.SalesStatus.valueOf(resultSet.getString("sale_status").toUpperCase()));
+                productBean.setSalesStatus(ProductBean.SaleStatus.valueOf(resultSet.getString("sale_status").toUpperCase()));
             }
         } finally {
             if (preparedStatement != null) {
@@ -92,7 +92,7 @@ public class ProductDAO implements ProductModel {
                 productBean.setIva(resultSet.getDouble("iva"));
                 productBean.setImagesPath(resultSet.getString("images_path"));
 
-                productBean.setSalesStatus(ProductBean.SalesStatus.valueOf(resultSet.getString("sale_status").toUpperCase()));
+                productBean.setSalesStatus(ProductBean.SaleStatus.valueOf(resultSet.getString("sale_status").toUpperCase()));
 
                 products.add(productBean);
             }
@@ -112,9 +112,9 @@ public class ProductDAO implements ProductModel {
         PreparedStatement preparedStatement = null;
 
         String sql = "INSERT INTO product" +
-                "(name, purchase_price, iva, barcode, sale_price, images_path, description, vendor, stock_quantity, " +
+                "(name, purchase_price, iva, sale_price, images_path, description, vendor, stock_quantity, " +
                 "discount, category, minimum_age, barcode, sale_status) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             connection = DatabaseConnectionPool.getConnection();
@@ -123,17 +123,16 @@ public class ProductDAO implements ProductModel {
             preparedStatement.setString(1, productBean.getName());
             preparedStatement.setDouble(2, productBean.getPurchasePrice());
             preparedStatement.setDouble(3, productBean.getIva());
-            preparedStatement.setString(4, productBean.getBarcode());
-            preparedStatement.setDouble(5, productBean.getSalePrice());
-            preparedStatement.setString(6, productBean.getImagesPath());
-            preparedStatement.setString(7, productBean.getDescription());
-            preparedStatement.setString(8, productBean.getVendor());
-            preparedStatement.setInt(9, productBean.getStockQuantity());
-            preparedStatement.setDouble(10, productBean.getDiscount());
-            preparedStatement.setString(11, productBean.getCategory());
-            preparedStatement.setInt(12, productBean.getMinimumAge());
-            preparedStatement.setString(13, productBean.getBarcode());
-            preparedStatement.setString(14, productBean.getSalesStatus().toString());
+            preparedStatement.setDouble(4, productBean.getSalePrice());
+            preparedStatement.setString(5, productBean.getImagesPath());
+            preparedStatement.setString(6, productBean.getDescription());
+            preparedStatement.setString(7, productBean.getVendor());
+            preparedStatement.setInt(8, productBean.getStockQuantity());
+            preparedStatement.setDouble(9, productBean.getDiscount());
+            preparedStatement.setString(10, productBean.getCategory());
+            preparedStatement.setInt(11, productBean.getMinimumAge());
+            preparedStatement.setString(12, productBean.getBarcode());
+            preparedStatement.setString(13, productBean.getSalesStatus().toString());
 
             preparedStatement.executeUpdate();
             connection.commit();
@@ -172,8 +171,7 @@ public class ProductDAO implements ProductModel {
             preparedStatement.setString(11, productBean.getCategory());
             preparedStatement.setInt(12, productBean.getMinimumAge());
             preparedStatement.setString(13, productBean.getBarcode());
-            preparedStatement.setString(14, productBean.getSalesStatus().toString());
-
+            preparedStatement.setString(14, productBean.getSalesStatus().toString().toLowerCase());
             preparedStatement.setInt(15, productId);
 
             preparedStatement.executeUpdate();
