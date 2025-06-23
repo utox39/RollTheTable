@@ -25,8 +25,7 @@
   </div>
 
   <div class="text-end mb-3">
-    <!-- TODO: Implementare link a form per aggiungere nuovo prodotto -->
-    <a href="${pageContext.request.contextPath}/admin/secure/manageProducts" class="btn btn-success">➕ Aggiungi Prodotto</a>
+    <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=showAddForm" class="btn btn-success">➕ Aggiungi Prodotto</a>
   </div>
 
   <h2 class="text-white">Lista dei Prodotti</h2>
@@ -52,15 +51,9 @@
           <p class="card-text">Descrizione: <%= product.getDescription() %></p>
 
           <div class="d-flex justify-content-between">
-            <!-- TODO: Implementare collegamento alla modifica -->
             <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=edit&id=<%= product.getProductId() %>" class="btn btn-warning btn-sm">✏️ Modifica</a>
 
-            <!-- TODO: Implementare eliminazione prodotto -->
-            <form action="${pageContext.request.contextPath}/admin/secure/manageProducts?op=del&id=<%= product.getProductId() %>" method="post" style="display:inline;">
-
-              <input type="hidden" name="id" value="<%= product.getProductId() %>">
-              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Sei sicuro di voler eliminare questo prodotto?')">🗑️ Elimina</button>
-            </form>
+            <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=del&id=<%= product.getProductId() %>" onclick="return confirm('vuoi davvero cancellare questo prodotto?');" class="btn btn-danger btn-sm">🗑️ Elimina</a>
           </div>
         </div>
       </div>
