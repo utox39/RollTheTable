@@ -49,7 +49,6 @@ public class AdminManageProducts extends HttpServlet {
                     newProduct.setSalesStatus(ProductBean.SaleStatus.valueOf(request.getParameter("sale_status")));
                     newProduct.setImagesPath(request.getParameter("images_path"));
 
-                    System.out.println(newProduct);
                     productDAO.doSave(newProduct);
                     response.sendRedirect(request.getContextPath() + "/admin/secure/manageProducts");
                     break;
