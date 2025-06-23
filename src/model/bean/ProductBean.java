@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ProductBean implements Serializable {
 
-    public enum SalesStatus {
+    public enum SaleStatus {
         ON_SALE,
         OUT_OF_STOCK,
         NOT_AVAILABLE,
@@ -24,7 +24,7 @@ public class ProductBean implements Serializable {
     private String category;
     private int minimumAge;
     private String barcode;
-    private SalesStatus salesStatus;
+    private SaleStatus saleStatus;
 
     public ProductBean(){}
 
@@ -132,12 +132,12 @@ public class ProductBean implements Serializable {
         this.barcode = barcode;
     }
 
-    public SalesStatus getSalesStatus() {
-        return salesStatus;
+    public SaleStatus getSalesStatus() {
+        return saleStatus;
     }
 
-    public void setSalesStatus(SalesStatus salesStatus) {
-        this.salesStatus = salesStatus;
+    public void setSalesStatus(SaleStatus saleStatus) {
+        this.saleStatus = saleStatus;
     }
 
     @Override
@@ -156,7 +156,7 @@ public class ProductBean implements Serializable {
                 ", category='" + category + '\'' +
                 ", minimumAge=" + minimumAge +
                 ", barcode='" + barcode + '\'' +
-                ", salesStatus=" + salesStatus +
+                ", salesStatus=" + saleStatus +
                 '}';
     }
 
