@@ -9,46 +9,96 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/admin/secure/manageProducts")
 public class AdminManageProducts extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String op = request.getParameter("op");
-        ProductBean productBean;
         ProductDAO productDAO = new ProductDAO();
-        HttpSession session = request.getSession();
-        String productId = request.getParameter("id");
-
-        if (op == null) {
-            return;
-        }
 
         try {
-            if (op.equals("add")) {
-                // get params
-                // build bean
-                // productDAO.doSave(productbean)
+            if (op == null) {
+                // Mostra lista prodotti
+                request.setAttribute("products", productDAO.doRetriveAll());
+                request.getRequestDispatcher("/views/admin/secure/products.jsp").forward(request, response);
+                return;
             }
-            if (op.equals("edit")) {
-                // get params
-                // check params
-                // build bean
-                // productDAO.doUpdate(productbean)
-            }
-            if (op.equals("delete")) {
-                int id = Integer.parseInt(productId);
-                productDAO.doDelete(id);
-            }
-        } catch (SQLException e) {
-            ServerLogger.severe(AdminManageProducts.class.getName(), "AdminManageProducts SQLException: " + e.getMessage());
-        } catch (NumberFormatException e) {
 
-            ServerLogger.severe(AdminManageProducts.class.getName(), "AdminManageProducts NumberFormatException: " + e.getMessage());
+            switch (op) {
+                case "showAddForm":
+                    request.getRequestDispatcher("/views/admin/secure/addProduct.jsp").forward(request, response);
+                    break;
+
+                case "add":
+                    ProductBean newProduct = new ProductBean();
+                    newProduct.setName(request.getParameter("name"));
+                    newProduct.setVendor(request.getParameter("vendor"));
+                    newProduct.setPurchasePrice(Double.parseDouble(request.getParameter("purchase_price")));
+                    newProduct.setSalePrice(Double.parseDouble(request.getParameter("sale_price")));
+                    newProduct.setIva(Double.parseDouble(request.getParameter("iva")));
+                    newProduct.setDescription(request.getParameter("description"));
+                    newProduct.setStockQuantity(Integer.parseInt(request.getParameter("stock_quantity")));
+                    newProduct.setDiscount(Double.parseDouble(request.getParameter("discount")));
+                    newProduct.setCategory(request.getParameter("category"));
+                    newProduct.setMinimumAge(Integer.parseInt(request.getParameter("minimum_age")));
+                    newProduct.setBarcode(request.getParameter("barcode"));
+                    newProduct.setSalesStatus(ProductBean.SaleStatus.valueOf(request.getParameter("sale_status")));
+                    newProduct.setImagesPath(request.getParameter("images_path"));
+
+                    System.out.println(newProduct);
+                    productDAO.doSave(newProduct);
+                    response.sendRedirect(request.getContextPath() + "/admin/secure/manageProducts");
+                    break;
+
+                case "edit":
+                    String id = request.getParameter("id");
+                    ProductBean product = productDAO.doRetrieveById(id);
+                    if (product != null) {
+                        request.setAttribute("product", product);
+                        request.getRequestDispatcher("/views/admin/secure/editProduct.jsp").forward(request, response);
+                    } else {
+                        response.sendRedirect(request.getContextPath() + "/admin/secure/manageProducts?error=notfound");
+                    }
+                    break;
+
+                case "update":
+                    // Raccolta parametri e aggiornamento prodotto
+                    ProductBean updatedProduct = new ProductBean();
+                    updatedProduct.setProductId(request.getParameter("product_id"));
+                    updatedProduct.setName(request.getParameter("name"));
+                    updatedProduct.setPurchasePrice(Double.parseDouble(request.getParameter("purchase_price")));
+                    updatedProduct.setIva(Double.parseDouble(request.getParameter("iva")));
+                    updatedProduct.setSalePrice(Double.parseDouble(request.getParameter("sale_price")));
+                    updatedProduct.setImagesPath(request.getParameter("images_path"));
+                    updatedProduct.setDescription(request.getParameter("description"));
+                    updatedProduct.setVendor(request.getParameter("vendor"));
+                    updatedProduct.setStockQuantity(Integer.parseInt(request.getParameter("stock_quantity")));
+                    updatedProduct.setDiscount(Double.parseDouble(request.getParameter("discount")));
+                    updatedProduct.setCategory(request.getParameter("category"));
+                    updatedProduct.setMinimumAge(Integer.parseInt(request.getParameter("minimum_age")));
+                    updatedProduct.setBarcode(request.getParameter("barcode"));
+                    updatedProduct.setSalesStatus(ProductBean.SaleStatus.valueOf(request.getParameter("sale_status")));
+                    productDAO.doUpdate(updatedProduct, Integer.parseInt(updatedProduct.getProductId()));
+                    response.sendRedirect(request.getContextPath() + "/admin/secure/manageProducts");
+                    break;
+
+                case "del":
+                    int deleteId = Integer.parseInt(request.getParameter("id"));
+                    productDAO.doDelete(deleteId);
+                    response.sendRedirect(request.getContextPath() + "/admin/secure/manageProducts");
+                    break;
+
+                default:
+                    response.sendRedirect(request.getContextPath() + "/admin/secure/manageProducts?error=invalid_op");
+            }
+
+        } catch (SQLException | NumberFormatException e) {
+            ServerLogger.severe(AdminManageProducts.class.getName(), "Exception: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
