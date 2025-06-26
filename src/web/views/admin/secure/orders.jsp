@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
 </head>
 <body>
-<jsp:include page="../../../views/navbar.jsp" flush="true" />
+<jsp:include page="/views/admin/navbar.jsp" flush="true" />
 
 <div id="cart" class="container mt-5">
     <%

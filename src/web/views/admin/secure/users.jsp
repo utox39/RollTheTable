@@ -26,7 +26,7 @@
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/users.css">
 </head>
 <body>
-<jsp:include page="/views/navbar.jsp" flush="true"/>
+<jsp:include page="/views/admin/navbar.jsp" flush="true"/>
 <div id="products" class="container mt-5">
   <div class="main-header text-center">
     <h1>🎲 RollTheTable - Utenti</h1>
