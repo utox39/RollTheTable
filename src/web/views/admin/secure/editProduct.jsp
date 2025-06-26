@@ -112,12 +112,13 @@
         </div>
 
         <div class="text-end">
-            <button type="submit" class="btn btn-primary">💾 Salva Modifiche</button>
+            <button type="submit" class="btn btn-primary" id="submitButton">💾 Salva Modifiche</button>
             <a href="${pageContext.request.contextPath}/admin/secure/manageProducts" class="btn btn-secondary">↩️ Annulla</a>
         </div>
     </form>
 </div>
 
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/editProducts.js"></script>
 </body>
 </html>
