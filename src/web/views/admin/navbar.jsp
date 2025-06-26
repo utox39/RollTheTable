@@ -1,4 +1,3 @@
-<%@ page import="model.bean.CustomerBean" %>
 <%@ page import="model.bean.AdminBean" %>
 <nav class="navbar bg-dark navbar-expand-lg position-relative" data-bs-theme="dark">
 	<div class="container-fluid">
@@ -39,20 +38,22 @@
 					<a class="nav-link active" href="${pageContext.request.contextPath}/cart?op=get">Carrello</a>
 				</li>
 				<%
-					CustomerBean customer = (CustomerBean) session.getAttribute("loggedUser");
 					AdminBean admin = (AdminBean) session.getAttribute("loggedAdmin");
-					if (customer != null)  {
+					if (admin != null) {
 				%>
-						<li class="nav-item">
-							<a class="nav-link active" href="#">Ciao, <%= customer.getUsername()%>!</a>
-						</li>
-				<% 	} else if (admin != null) { %>
-						<li class="nav-item">
-							<a class="nav-link active" href="#">Benvenuto, <%= admin.getUsername()%>!</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Benvenuto, <%= admin.getUsername()%>!
+							</a>
+
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a class="dropdown-item" href="#">Profilo</a></li>
+								<li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/logout">Logout</a></li>
+							</ul>
 						</li>
 				<% 	} else { %>
 						<li class="nav-item">
-							<a class="nav-link active" href="${pageContext.request.contextPath}/login">Login</a>
+							<a class="nav-link active" href="${pageContext.request.contextPath}/admin/login">Login</a>
 						</li>
 				<% 	} %>
 			</ul>
