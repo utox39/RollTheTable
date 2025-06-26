@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/products.css">
 </head>
 <body>
-<jsp:include page="/views/navbar.jsp" flush="true"/>
+<jsp:include page="/views/admin/navbar.jsp" flush="true"/>
 
 <div class="container mt-5">
   <div class="main-header text-center">

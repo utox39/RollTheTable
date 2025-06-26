@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/products.css">
 </head>
 <body>
-<jsp:include page="/views/navbar.jsp" flush="true"/>
+<jsp:include page="/views/admin/navbar.jsp" flush="true"/>
 
 <!-- http://localhost:8080/admin/secure/manageProducts?op=add&name=Tatonno+in+scatola&vendor=Tatonno&purchase_price=3&sale_price=3&iva=3&description=asdf&stock_quantity=4&discount=0.04&category=Party+game&minimum_age=4&barcode=567890123456sadf7&sale_status=ON_SALE&images_path=images%2Fproducts%2Fmemory_animals.jpg-->
 <div class="container mt-5" id="product">
