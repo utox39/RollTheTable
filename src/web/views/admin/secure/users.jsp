@@ -47,14 +47,14 @@
     %>
     <div class="col-md-4 mb-4 d-flex">
       <div class="card w-100" style="width: 18rem;">
-        <a href="${pageContext.request.contextPath}/product?productId=<%= customer.getCustomerId() %>">
           <img src="${pageContext.request.contextPath}/assets/images/logo.JPG" class="card-img-top" alt="">
         </a>
 
         <div class="card-body">
           <h5 class="card-title"><%= customer.getName() %>
           </h5>
-          <p class="card-text"><%= customer.getUsername() %></p>
+          <p class="card-text">Username: <%= customer.getUsername() %></p>
+          <p class="card-text">ID utente: <%= customer.getCustomerId() %></p>
         </div>
       </div>
     </div>
