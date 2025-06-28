@@ -21,7 +21,7 @@ public class OrdersDAO implements OrdersModel {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
 
-        String getOrderQuery = "SELECT order_id, customer_id, payment_method_id, purchase_date, shipping_price " +
+        String getOrderQuery = "SELECT order_id, customer_id, payment_method_id, shipping_address_id, billing_address_id, purchase_date, shipping_price " +
                 "FROM purchase " +
                 "WHERE order_id = ?";
 
@@ -42,6 +42,8 @@ public class OrdersDAO implements OrdersModel {
                 ordersBean.setOrderId(rs1.getInt("order_id"));
                 ordersBean.setCustomerId(rs1.getInt("customer_id"));
                 ordersBean.setPaymentMethodId(rs1.getInt("payment_method_id"));
+                ordersBean.setShippingAddressId(rs1.getInt("shipping_address_id"));
+                ordersBean.setBillingAddressId(rs1.getInt("billing_address_id"));
                 ordersBean.setPurchaseDate(rs1.getDate("purchase_date"));
                 ordersBean.setShippingPrice(rs1.getDouble("shipping_price"));
             }
@@ -77,8 +79,8 @@ public class OrdersDAO implements OrdersModel {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
 
-        String insertPurchaseQuery = "INSERT INTO purchase (order_id, customer_id, payment_method_id, shipping_price) "
-                + "VALUES (?, ?, ?, ?)";
+        String insertPurchaseQuery = "INSERT INTO purchase (order_id, customer_id, payment_method_id, shipping_address_id, billing_address_id, shipping_price) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
 
         String insertProductsQuery = "INSERT INTO purchase_items (order_id, product_id, quantity, price_at_purchase) "
                 + "VALUES (?, ?, ?, ?)";
@@ -93,7 +95,9 @@ public class OrdersDAO implements OrdersModel {
             ps1.setInt(1, orderId);
             ps1.setInt(2, ordersBean.getCustomerId());
             ps1.setInt(3, ordersBean.getPaymentMethodId());
-            ps1.setDouble(4, ordersBean.getShippingPrice());
+            ps1.setInt(4, ordersBean.getShippingAddressId());
+            ps1.setDouble(5, ordersBean.getBillingAddressId());
+            ps1.setDouble(6, ordersBean.getShippingPrice());
             ps1.executeUpdate();
             connection.commit();
 
@@ -132,7 +136,7 @@ public class OrdersDAO implements OrdersModel {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
 
-        String getOrderQuery = "SELECT order_id, customer_id, payment_method_id, purchase_date, shipping_price " +
+        String getOrderQuery = "SELECT order_id, customer_id, payment_method_id, shipping_address_id, billing_address_id, purchase_date, shipping_price " +
                 "FROM purchase";
 
         String getOrderProductsQuery = "SELECT order_id, product_id, quantity, price_at_purchase " +
@@ -151,6 +155,8 @@ public class OrdersDAO implements OrdersModel {
                 ordersBean.setOrderId(rs1.getInt("order_id"));
                 ordersBean.setCustomerId(rs1.getInt("customer_id"));
                 ordersBean.setPaymentMethodId(rs1.getInt("payment_method_id"));
+                ordersBean.setShippingAddressId(rs1.getInt("shipping_address_id"));
+                ordersBean.setBillingAddressId(rs1.getInt("billing_address_id"));
                 ordersBean.setPurchaseDate(rs1.getDate("purchase_date"));
                 ordersBean.setShippingPrice(rs1.getDouble("shipping_price"));
 
@@ -191,7 +197,7 @@ public class OrdersDAO implements OrdersModel {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
 
-        String getOrderQuery = "SELECT order_id, customer_id, payment_method_id, purchase_date, shipping_price " +
+        String getOrderQuery = "SELECT order_id, customer_id, payment_method_id, shipping_address_id, billing_address_id, purchase_date, shipping_price " +
                 "FROM purchase " +
                 "WHERE customer_id = ?";
 
@@ -212,6 +218,8 @@ public class OrdersDAO implements OrdersModel {
                 ordersBean.setOrderId(rs1.getInt("order_id"));
                 ordersBean.setCustomerId(rs1.getInt("customer_id"));
                 ordersBean.setPaymentMethodId(rs1.getInt("payment_method_id"));
+                ordersBean.setShippingAddressId(rs1.getInt("shipping_address_id"));
+                ordersBean.setBillingAddressId(rs1.getInt("billing_address_id"));
                 ordersBean.setPurchaseDate(rs1.getDate("purchase_date"));
                 ordersBean.setShippingPrice(rs1.getDouble("shipping_price"));
 
