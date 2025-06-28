@@ -103,27 +103,6 @@ CREATE TABLE IF NOT EXISTS purchase_items (
     PRIMARY KEY (order_id, product_id)
 );
 
--- Creates the table address
-CREATE TABLE IF NOT EXISTS address (
-    address_id INT AUTO_INCREMENT PRIMARY KEY,
-    postcode VARCHAR(20) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    province VARCHAR(50) NOT NULL,
-    country VARCHAR(50) NOT NULL,
-    street_name VARCHAR(100) NOT NULL,
-    street_number VARCHAR(10) NOT NULL,
-    type VARCHAR(50) NOT NULL
-);
-
--- Creates the table uses
-CREATE TABLE IF NOT EXISTS uses (
-    customer INT NOT NULL,
-    address INT NOT NULL,
-    FOREIGN KEY (customer) REFERENCES customer(customer_id) ON DELETE CASCADE,
-    FOREIGN KEY (address) REFERENCES address(address_id) ON DELETE CASCADE,
-    PRIMARY KEY(customer, address)
-);
-
 -- Creates the table cart
 CREATE TABLE IF NOT EXISTS cart (
     cart_id INT AUTO_INCREMENT PRIMARY KEY,
