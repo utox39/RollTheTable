@@ -44,7 +44,7 @@ public class PaymentMethodDAO implements PaymentMethodModel {
         return paymentMethodBean;
     }
 
-    public synchronized List<PaymentMethodBean> doRetrieveAllByCustomerId(int id) throws SQLException {
+    public synchronized List<PaymentMethodBean> doRetrieveAllByCustomerId(int customerId) throws SQLException {
         Connection connection = null;
         PaymentMethodBean paymentMethodBean = null;
 
@@ -58,12 +58,12 @@ public class PaymentMethodDAO implements PaymentMethodModel {
         try {
             connection = DatabaseConnectionPool.getConnection();
             preparedStatement = connection.prepareStatement(getPaymentMethods);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, customerId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 paymentMethodBean = new PaymentMethodBean();
                 paymentMethodBean.setPaymentMethodId(resultSet.getInt("payment_method_id"));
-                paymentMethodBean.setCustomerId(id);
+                paymentMethodBean.setCustomerId(customerId);
                 paymentMethodBean.setCardNumber(resultSet.getString("card_number"));
                 paymentMethodBean.setOwner(resultSet.getString("owner"));
                 paymentMethodBean.setExpireDate(resultSet.getDate("expire_date"));

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PaymentMethodModel {
     public PaymentMethodBean doRetriveById(int id) throws SQLException;
-    public List<PaymentMethodBean> doRetrieveAllByCustomerId(int id) throws SQLException;
+    public List<PaymentMethodBean> doRetrieveAllByCustomerId(int customerId) throws SQLException;
     public void doSave(PaymentMethodBean paymentMethodBean) throws SQLException;
 }
