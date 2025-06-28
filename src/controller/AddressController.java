@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/customer/address")
+@WebServlet("/secure/customer/address")
 public class AddressController extends HttpServlet {
 
     @Override
