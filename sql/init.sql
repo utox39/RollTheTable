@@ -37,15 +37,36 @@ CREATE TABLE IF NOT EXISTS `has` (
     PRIMARY KEY(customer, payment_method)
 );
 
+-- Creates the table address
+CREATE TABLE IF NOT EXISTS address (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50) NOT NULL,
+    postcode VARCHAR(20) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    province VARCHAR(50) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    street_name VARCHAR(100) NOT NULL,
+    street_number VARCHAR(10) NOT NULL,
+    notes VARCHAR(128),
+    type VARCHAR(50) NOT NULL,
+    FOREIGN KEY (customer_id) references customer(customer_id) ON DELETE CASCADE
+);
+
 -- Creates the table purchase
 CREATE TABLE IF NOT EXISTS purchase (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     payment_method_id INT DEFAULT NULL,
+    shipping_address_id INT DEFAULT NULL,
+    billing_address_id INT DEFAULT NULL,
     purchase_date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
     shipping_price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE,
-    FOREIGN KEY (payment_method_id) REFERENCES payment_method(payment_method_id) ON DELETE SET NULL
+    FOREIGN KEY (payment_method_id) REFERENCES payment_method(payment_method_id) ON DELETE SET NULL,
+    FOREIGN KEY (shipping_address_id) REFERENCES  address(address_id) ON DELETE SET NULL,
+    FOREIGN KEY (billing_address_id) REFERENCES  address(address_id) ON DELETE SET NULL
 );
 
 -- Creates the table invoice
