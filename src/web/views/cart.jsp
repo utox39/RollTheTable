@@ -23,6 +23,12 @@
 			if (cart == null || cart.getCart().isEmpty()) { %>
 				<h3 class="text-center">Il carrello è vuoto...</h3>
 		<%	} else { %>
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h2 class="text-white m-0">Carrello</h2>
+					<a href="${pageContext.request.contextPath}/secure/checkout" class="btn btn-success">
+						Acquista ora
+					</a>
+				</div>
 				<div class="list-group-item py-3 px-4">
 					<% for (Map.Entry<ProductBean, Integer>productEntry : cart.getCart().entrySet()) {%>
 					<div class="row align-items-center">
