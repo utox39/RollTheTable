@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "inline-block";
       }
     });
+
   document.addEventListener("submit", function (e) {
     const form = e.target;
     if (
