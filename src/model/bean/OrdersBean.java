@@ -35,6 +35,8 @@ public class OrdersBean {
     private int orderId;
     private int customerId;
     private int paymentMethodId;
+    private int shippingAddressId;
+    private int billingAddressId;
     private Date purchaseDate;
     private double shippingPrice;
     private Map<ProductBean, PurchaseInfo> products = new ConcurrentHashMap<>();
@@ -80,6 +82,22 @@ public class OrdersBean {
 
     public void setPaymentMethodId(int paymentMethodId) {
         this.paymentMethodId = paymentMethodId;
+    }
+
+    public int getShippingAddressId() {
+        return shippingAddressId;
+    }
+
+    public void setShippingAddressId(int shippingAddressId) {
+        this.shippingAddressId = shippingAddressId;
+    }
+
+    public int getBillingAddressId() {
+        return billingAddressId;
+    }
+
+    public void setBillingAddressId(int billingAddressId) {
+        this.billingAddressId = billingAddressId;
     }
 
     public Map<ProductBean, PurchaseInfo> getProducts() {

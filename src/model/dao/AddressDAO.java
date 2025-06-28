@@ -15,7 +15,7 @@ public class AddressDAO implements AddressModel {
         AddressBean addressBean = null;
 
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT address_id, postcode, city, province, country, street_name, street_number, type " +
+        String sql = "SELECT customer_id, `name`, surname, postcode, city, province, country, street_name, street_number, notes, type " +
                 "FROM address " +
                 "WHERE address_id = ?";
 
@@ -28,13 +28,17 @@ public class AddressDAO implements AddressModel {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 addressBean = new AddressBean();
-                addressBean.setAddressId(resultSet.getInt("address_id"));
+                addressBean.setCustomerId(resultSet.getInt("customer_id"));
+                addressBean.setAddressId(id);
+                addressBean.setName(resultSet.getString("name"));
+                addressBean.setSurname(resultSet.getString("surname"));
                 addressBean.setPostcode(resultSet.getString("postcode"));
                 addressBean.setCity(resultSet.getString("city"));
                 addressBean.setProvince(resultSet.getString("province"));
                 addressBean.setCountry(resultSet.getString("country"));
                 addressBean.setStreetName(resultSet.getString("street_name"));
                 addressBean.setStreetNumber(resultSet.getString("street_number"));
+                addressBean.setNotes(resultSet.getString("notes"));
                 addressBean.setType(resultSet.getString("type"));
             }
         } finally {
@@ -48,22 +52,37 @@ public class AddressDAO implements AddressModel {
         return addressBean;
     }
 
-    public synchronized List<AddressBean> doRetrieveAllByCustomerId(int id) throws SQLException {
+    public synchronized List<AddressBean> doRetrieveAllByCustomerId(int customerId) throws SQLException {
         Connection connection = null;
         AddressBean addressBean = null;
 
         ArrayList<AddressBean> addressList = new ArrayList<>();
 
         PreparedStatement preparedStatement = null;
-        String getAddressId = "SELECT address FROM uses WHERE customer = ?";
+        String sql = "SELECT address_id, `name`, surname, postcode, city, province, country, street_name, street_number, notes, type " +
+                "FROM address " +
+                "WHERE customer_id = ?";
 
         try {
             connection = DatabaseConnectionPool.getConnection();
-            preparedStatement = connection.prepareStatement(getAddressId);
-            preparedStatement.setInt(1, id);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, customerId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                addressBean = doRetrieveById(resultSet.getInt("address"));
+                addressBean = new AddressBean();
+                addressBean.setCustomerId(customerId);
+                addressBean.setAddressId(resultSet.getInt("address_id"));
+                addressBean.setName(resultSet.getString("name"));
+                addressBean.setSurname(resultSet.getString("surname"));
+                addressBean.setPostcode(resultSet.getString("postcode"));
+                addressBean.setCity(resultSet.getString("city"));
+                addressBean.setProvince(resultSet.getString("province"));
+                addressBean.setCountry(resultSet.getString("country"));
+                addressBean.setStreetName(resultSet.getString("street_name"));
+                addressBean.setStreetNumber(resultSet.getString("street_number"));
+                addressBean.setNotes(resultSet.getString("notes"));
+                addressBean.setType(resultSet.getString("type"));
+
                 addressList.add(addressBean);
             }
         } finally {
@@ -81,20 +100,24 @@ public class AddressDAO implements AddressModel {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
-        String sql = "INSERT INTO address (postcode, city, province, country, street_name, street_number, type) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO address (customer_id, `name`, surname, postcode, city, province, country, street_name, street_number, notes, type) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             connection = DatabaseConnectionPool.getConnection();
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, addressBean.getPostcode());
-            preparedStatement.setString(2, addressBean.getCity());
-            preparedStatement.setString(3, addressBean.getProvince());
-            preparedStatement.setString(4, addressBean.getCountry());
-            preparedStatement.setString(5, addressBean.getStreetName());
-            preparedStatement.setString(6, addressBean.getStreetNumber());
-            preparedStatement.setString(7, addressBean.getType());
+            preparedStatement.setInt(1, addressBean.getCustomerId());
+            preparedStatement.setString(2, addressBean.getName());
+            preparedStatement.setString(3, addressBean.getSurname());
+            preparedStatement.setString(4, addressBean.getPostcode());
+            preparedStatement.setString(5, addressBean.getCity());
+            preparedStatement.setString(6, addressBean.getProvince());
+            preparedStatement.setString(7, addressBean.getCountry());
+            preparedStatement.setString(8, addressBean.getStreetName());
+            preparedStatement.setString(9, addressBean.getStreetNumber());
+            preparedStatement.setString(10, addressBean.getNotes());
+            preparedStatement.setString(11, addressBean.getType());
 
             preparedStatement.executeUpdate();
             connection.commit();
