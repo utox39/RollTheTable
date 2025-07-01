@@ -61,43 +61,49 @@ document.addEventListener("DOMContentLoaded", () => {
         "billingAddressFormContainer",
       );
       if (formContainer) {
-        formContainer.style.display = "none";
+        toggleAddressForm(false, "billingAddressFormContainer");
         document.getElementById("showBillingAddressFormBtn").style.display =
           "inline-block";
       }
     });
 
-  document.addEventListener("submit", function (e) {
-    const form = e.target;
-    if (
-      form &&
-      (form.id === "submit-shipping-address" ||
-        form.id === "submit-billing-address")
-    ) {
-      e.preventDefault();
+  function sendAddressData(addressType) {
+    const data = {
+      type: document.getElementById(`${addressType}-address-type`).value,
+      name: document.getElementById(`${addressType}-name`).value,
+      surname: document.getElementById(`${addressType}-surname`).value,
+      streetName: document.getElementById(`${addressType}-street-name`).value,
+      streetNumber: document.getElementById(`${addressType}-street-number`)
+        .value,
+      postcode: document.getElementById(`${addressType}-postcode`).value,
+      city: document.getElementById(`${addressType}-city`).value,
+      province: document.getElementById(`${addressType}-province`).value,
+      country: document.getElementById(`${addressType}-country`).value,
+      notes:
+        addressType === "billing"
+          ? ""
+          : document.getElementById(`${addressType}-notes`).value,
+    };
 
-      const formData = new FormData(form);
-
-      const params = new URLSearchParams();
-      for (const [key, value] of formData.entries()) {
-        params.append(key, value.toString());
+    fetch("/RollTheTable/secure/customer/address", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.ok) {
+        location.reload();
       }
+    });
+  }
+  document
+    .getElementById("saveShippingAddress")
+    .addEventListener("click", function () {
+      sendAddressData("shipping");
+    });
 
-      fetch(form.action, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: params.toString(),
-      })
-        .then((response) => {
-          if (response.ok) {
-            location.reload();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  });
+  document
+    .getElementById("saveBillingAddress")
+    .addEventListener("click", function () {
+      sendAddressData("billing");
+    });
 }); // Close addEventListener "DOMContentLoaded"
