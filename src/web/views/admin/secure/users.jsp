@@ -1,12 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vic_lan
-  Date: 14/05/25
-  Time: 12:00
-  To change this template use File | Settings | File Templates.
---%>
-
-<%@ page import="model.bean.ProductBean" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.bean.CustomerBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
