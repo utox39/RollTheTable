@@ -1,5 +1,8 @@
 package model.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import util.ExpireDateDeserializer;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,6 +11,7 @@ public class PaymentMethodBean implements Serializable {
     private int customerId;
     private String cardNumber;
     private String owner;
+    @JsonDeserialize(using = ExpireDateDeserializer.class)
     private Date expireDate;
 
     public PaymentMethodBean() {}

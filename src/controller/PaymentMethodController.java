@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.bean.CustomerBean;
 import model.bean.PaymentMethodBean;
 import model.dao.PaymentMethodDAO;
@@ -10,10 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.YearMonth;
+import java.util.Map;
 
 @WebServlet("/secure/customer/payment-methods")
 public class PaymentMethodController extends HttpServlet {
@@ -30,21 +30,34 @@ public class PaymentMethodController extends HttpServlet {
         CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
         int customerId = user.getCustomerId();
 
-        String owner =  request.getParameter("owner");
-        String cardNumber = request.getParameter("card-number");
-        String expirationDate = request.getParameter("expiration-date");
-
-        String[] dateParts = expirationDate.split("/");
-        int month = Integer.parseInt(dateParts[0]);
-        int year = Integer.parseInt(dateParts[1]);
-        LocalDate localDate = YearMonth.of(year, month).atDay(1);
-        Date parsedDate = Date.valueOf(localDate);
+        final ObjectMapper mapper = new ObjectMapper();
 
         PaymentMethodBean paymentMethodBean = new PaymentMethodBean();
+
+        int statusCode = HttpServletResponse.SC_OK;
+        Object responseBody = Map.of("status", "success");
+
+        try {
+            paymentMethodBean = mapper.readValue(request.getReader(), PaymentMethodBean.class);
+        } catch (JsonProcessingException e) {
+            statusCode = HttpServletResponse.SC_BAD_REQUEST;
+            responseBody = Map.of(
+                    "status", "error",
+                    "message", "Invalid JSON format"
+            );
+
+            ServerLogger.severe(OrderController.class.getName(), "JSON error: " + e.getMessage());
+        } catch (Exception e) {
+            statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+            responseBody = Map.of(
+                    "status", "error",
+                    "message", "Internal server error"
+            );
+            ServerLogger.severe(OrderController.class.getName(), "Internal server error: " + e.getMessage());
+        }
+
+        //! NOTE: the customer ID must be set here, otherwise Jackson will overwrite it with 0
         paymentMethodBean.setCustomerId(customerId);
-        paymentMethodBean.setCardNumber(cardNumber);
-        paymentMethodBean.setOwner(owner);
-        paymentMethodBean.setExpireDate(parsedDate);
 
         PaymentMethodDAO paymentMethodDAO = new PaymentMethodDAO();
 
@@ -52,6 +65,14 @@ public class PaymentMethodController extends HttpServlet {
            paymentMethodDAO.doSave(paymentMethodBean);
         } catch (SQLException e) {
             ServerLogger.severe(PaymentMethodController.class.getName(), "PaymentMethodController doSave SQLException: " + e.getMessage());
+        }
+
+        response.setStatus(statusCode);
+        try {
+            mapper.writeValue(response.getWriter(), responseBody);
+        } catch (IOException e) {
+            ServerLogger.severe(OrderController.class.getName(), "JSON error: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }

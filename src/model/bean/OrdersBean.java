@@ -1,12 +1,13 @@
 package model.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class OrdersBean {
+public class OrdersBean implements Serializable {
 
-    public class PurchaseInfo {
+    public class PurchaseInfo implements Serializable {
         private int quantity;
         private double priceAtPurchase;
 

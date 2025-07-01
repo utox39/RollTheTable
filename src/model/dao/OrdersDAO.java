@@ -5,10 +5,7 @@ import model.OrdersModel;
 import model.bean.OrdersBean;
 import model.bean.ProductBean;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,27 +76,31 @@ public class OrdersDAO implements OrdersModel {
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
 
-        String insertPurchaseQuery = "INSERT INTO purchase (order_id, customer_id, payment_method_id, shipping_address_id, billing_address_id, shipping_price) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+        String insertPurchaseQuery = "INSERT INTO purchase (customer_id, payment_method_id, shipping_address_id, billing_address_id, shipping_price) "
+                + "VALUES (?, ?, ?, ?, ?)";
 
         String insertProductsQuery = "INSERT INTO purchase_items (order_id, product_id, quantity, price_at_purchase) "
                 + "VALUES (?, ?, ?, ?)";
 
         try {
             connection = DatabaseConnectionPool.getConnection();
-            ps1 = connection.prepareStatement(insertPurchaseQuery);
+            ps1 = connection.prepareStatement(insertPurchaseQuery, Statement.RETURN_GENERATED_KEYS);
             ps2 = connection.prepareStatement(insertProductsQuery);
 
-            int orderId = ordersBean.getOrderId();
-
-            ps1.setInt(1, orderId);
-            ps1.setInt(2, ordersBean.getCustomerId());
-            ps1.setInt(3, ordersBean.getPaymentMethodId());
-            ps1.setInt(4, ordersBean.getShippingAddressId());
-            ps1.setDouble(5, ordersBean.getBillingAddressId());
-            ps1.setDouble(6, ordersBean.getShippingPrice());
+            ps1.setInt(1, ordersBean.getCustomerId());
+            ps1.setInt(2, ordersBean.getPaymentMethodId());
+            ps1.setInt(3, ordersBean.getShippingAddressId());
+            ps1.setDouble(4, ordersBean.getBillingAddressId());
+            ps1.setDouble(5, ordersBean.getShippingPrice());
             ps1.executeUpdate();
-            connection.commit();
+
+            ResultSet generatedKeys = ps1.getGeneratedKeys();
+            int orderId;
+            if (generatedKeys.next()) {
+                orderId = generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Order creation failed, no ID generated.");
+            }
 
             Map<ProductBean, OrdersBean.PurchaseInfo> products = ordersBean.getProducts();
             for (Map.Entry<ProductBean, OrdersBean.PurchaseInfo> product : products.entrySet()) {
@@ -111,8 +112,8 @@ public class OrdersDAO implements OrdersModel {
                 ps2.addBatch();
                 ps2.clearParameters();
             }
-
             ps2.executeBatch();
+
             connection.commit();
         } finally {
             if (ps1 != null) {
