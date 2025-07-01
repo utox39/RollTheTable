@@ -22,130 +22,90 @@
 <div id="checkout" class="container mt-5">
     <div class="main-header text-center">
         <h1>Che il divertimento abbia inizio!</h1>
+        <br>
     </div>
 
-    <%--!    SHIPPING ADDRESS    --%>
-    <% AddressBean selectedAddress = null; %>
-    <% List<AddressBean> addressBeanList = (List<AddressBean>) session.getAttribute("addresses"); %>
-    <% if (addressBeanList == null || addressBeanList.isEmpty()) {%>
-        <div class="alert alert-warning">
-            Nessun indirizzo di spedizione disponibile.
-            <button class="btn btn-sm btn-primary ms-2" id="showShippingAddressFormBtn" type="button">
-                Aggiungi un indirizzo di spedizione
-            </button>
-        </div>
-    <% } else {
-        int firstShippingAddressIndex = 0;
+    <%
+        List<AddressBean> addressBeanList = (List<AddressBean>) session.getAttribute("addresses");
 
-        while((firstShippingAddressIndex < addressBeanList.size()) && (!addressBeanList.get(firstShippingAddressIndex).getType().equals("shipping"))) {
-           firstShippingAddressIndex++;
-        }
-
-        selectedAddress = addressBeanList.get(firstShippingAddressIndex); // Show the first one
+        long billingAddressCount = addressBeanList.stream().filter(a -> a.getType().equals("billing")).count();
+        long shippingAddressCounter = addressBeanList.stream().filter(a -> a.getType().equals("shipping")).count();
     %>
+    <% if ((shippingAddressCounter == 0) || (billingAddressCount == 0)) {%>
+    <div class="row">
+        <% if (shippingAddressCounter == 0) { %>
+        <div class="col-md-6 mb-3">
+            <div class="alert alert-warning">
+                Nessun indirizzo di spedizione disponibile.
+                <button class="btn btn-sm btn-primary ms-2" id="showShippingAddressFormBtn" type="button">
+                    Aggiungi un indirizzo di spedizione
+                </button>
+            </div>
+        </div>
+        <% } %>
+
+        <% if (billingAddressCount == 0) {%>
+        <div class="col-md-6 mb-3">
+            <div class="alert alert-warning">
+                Nessun indirizzo di fatturazione disponibile.
+                <button class="btn btn-sm btn-primary ms-2" id="showBillingAddressFormBtn" type="button">
+                    Aggiungi un indirizzo di fatturazione
+                </button>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <% } else {%>
     <div class="mb-4">
-        <label class="form-label text-white fw-semibold">
-            Seleziona l'indirizzo di spedizione:
-            <button class="btn btn-danger btn-primary ms-2" id="showShippingAddressFormBtn" type="button">
-                Aggiungi un indirizzo di spedizione
-            </button>
-        </label>
-        <div class="dropdown">
-            <button
-                    class="btn btn-secondary dropdown-toggle w-100 text-start"
-                    type="button"
-                    id="shippingAddressDropdown"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                <%= selectedAddress.getName() %> <%= selectedAddress.getSurname() %>,
-                <%= selectedAddress.getStreetName() %> <%= selectedAddress.getStreetNumber() %>,
-                <%= selectedAddress.getPostcode() %> <%= selectedAddress.getCity() %> (<%= selectedAddress.getProvince() %>),
-                <%= selectedAddress.getCountry() %>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark w-100" aria-labelledby="addressDropdown">
-                <% for (AddressBean address : addressBeanList) {
-                        if (address.getType().equals("shipping")) {
-                %>
-                        <li>
-                            <a class="dropdown-item" href="#"
-                               onclick="document.getElementById('addressDropdown').innerHTML='<% AddressBean selectedShippingAddress = address; %> <%= selectedAddress.getName() %> <%= selectedAddress.getSurname() %>, <%= address.getStreetName() %> <%= address.getStreetNumber() %>, <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>), <%= address.getCountry() %>';">
-                                <div>
-                                    <strong><%= address.getType() != null ? address.getType() : "Indirizzo" %></strong><br>
-                                    <%= address.getName() %> <%= address.getSurname() %><br>
-                                    <%= address.getStreetName() %> <%= address.getStreetNumber() %><br>
-                                    <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>)<br>
-                                    <%= address.getCountry() %>
-                                </div>
-                            </a>
-                        </li>
-                <%  }
-                } %>
-            </ul>
+        <div class="row">
+            <%--! SHIPPING ADDRESS --%>
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-white fw-semibold" for="shippingAddress">
+                    Seleziona l'indirizzo di spedizione:
+                    <button class="btn btn-danger btn-primary ms-2" id="showShippingAddressFormBtn" type="button">
+                        Aggiungi un indirizzo di spedizione
+                    </button>
+                </label>
+                <select name="shippingAddress" id="shippingAddress" class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
+                    <%
+                        for (AddressBean address : addressBeanList) {
+                            if (address.getType().equals("shipping")) {
+                    %>
+                    <option value="<%= address.getAddressId() %>">
+                        <%= address.getName() %> <%= address.getSurname() %>,
+                        <%= address.getStreetName() %> <%= address.getStreetNumber() %>,
+                        <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>),
+                        <%= address.getCountry() %>
+                    </option>
+                    <%      }
+                        }%>
+                </select>
+            </div>
+
+            <%--! BILLING ADDRESS --%>
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-white fw-semibold" for="billingAddress">
+                    Seleziona l'indirizzo di fatturazione:
+                    <button class="btn btn-danger btn-primary ms-2" id="showBillingAddressFormBtn" type="button">
+                        Aggiungi un indirizzo di fatturazione
+                    </button>
+                </label>
+                <select name="billingAddress" id="billingAddress" class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
+                    <%
+                        for (AddressBean address : addressBeanList) {
+                            if (address.getType().equals("billing")) {
+                    %>
+                    <option value="<%= address.getAddressId() %>">
+                        <%= address.getName() %> <%= address.getSurname() %>,
+                        <%= address.getStreetName() %> <%= address.getStreetNumber() %>,
+                        <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>),
+                        <%= address.getCountry() %>
+                    </option>
+                    <%      }
+                        }%>
+                </select>
+            </div>
         </div>
-        <br>
-
-        <%--!    BILLING ADDRESS    --%>
-        <%
-            int firstBillingAddressIndex = 0;
-
-            while((firstBillingAddressIndex < addressBeanList.size()) && (!addressBeanList.get(firstBillingAddressIndex).getType().equals("billing"))) {
-                firstBillingAddressIndex++;
-            }
-
-            if (firstBillingAddressIndex < addressBeanList.size()) {
-                selectedAddress = addressBeanList.get(firstBillingAddressIndex); // Show the first one
-            }
-        %>
-
-        <%
-            if (firstBillingAddressIndex == addressBeanList.size()) {
-        %>
-        <div class="alert alert-warning">
-            Nessun indirizzo di fatturazione disponibile.
-            <button class="btn btn-sm btn-primary ms-2" id="showBillingAddressFormBtn" type="button">
-                Aggiungi un indirizzo di fatturazione
-            </button>
-        </div>
-        <%  } else {%>
-        <label class="form-label text-white fw-semibold">
-            Seleziona l'indirizzo di fatturazione:
-            <button class="btn btn-danger btn-primary ms-2" id="showBillingAddressFormBtn" type="button">
-                Aggiungi un indirizzo di fatturazione
-            </button>
-        </label>
-        <div class="dropdown">
-            <button
-                    class="btn btn-secondary dropdown-toggle w-100 text-start"
-                    type="button"
-                    id="billingAddressDropdown"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                <%= selectedAddress.getName() %> <%= selectedAddress.getSurname() %>,
-                <%= selectedAddress.getStreetName() %> <%= selectedAddress.getStreetNumber() %>,
-                <%= selectedAddress.getPostcode() %> <%= selectedAddress.getCity() %> (<%= selectedAddress.getProvince() %>),
-                <%= selectedAddress.getCountry() %>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark w-100" aria-labelledby="addressDropdown">
-                <% for (AddressBean address : addressBeanList) {
-                    if (address.getType().equals("billing")) {
-                %>
-                <li>
-                    <a class="dropdown-item" href="#"
-                       onclick="document.getElementById('addressDropdown').innerHTML='<% AddressBean selectedBillingAddress = address; %> <%= selectedAddress.getName() %> <%= selectedAddress.getSurname() %>, <%= address.getStreetName() %> <%= address.getStreetNumber() %>, <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>), <%= address.getCountry() %>';">
-                        <div>
-                            <strong><%= address.getType() != null ? address.getType() : "Indirizzo" %></strong><br>
-                            <%= address.getName() %> <%= address.getSurname() %><br>
-                            <%= address.getStreetName() %> <%= address.getStreetNumber() %><br>
-                            <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>)<br>
-                            <%= address.getCountry() %>
-                        </div>
-                    </a>
-                </li>
-                <%  }
-                } %>
-            </ul>
-        </div>
-        <% }%>
     </div>
     <% } %>
 
@@ -248,9 +208,7 @@
         </div>
     </div>
 
-    <%-- TODO: add payment method selector/form --%>
     <%--!    PAYMENT METHOD    --%>
-    <% PaymentMethodBean selectedPaymentMethod = null; %>
     <% List<PaymentMethodBean> paymentMethodList = (List<PaymentMethodBean>) session.getAttribute("paymentMethods"); %>
     <% if (paymentMethodList == null || paymentMethodList.isEmpty()) {%>
     <div class="alert alert-warning">
@@ -259,38 +217,26 @@
             Aggiungi un metodo di pagamento
         </button>
     </div>
-    <% } else {
-        selectedPaymentMethod = paymentMethodList.get(0); // Show the first one
-    %>
-
+    <% } else {%>
     <div class="mb-4">
-        <label class="form-label text-white fw-semibold">
-            Seleziona il metodo di pagamento:
-            <button class="btn btn-danger btn-primary ms-2" id="showPaymentMethodFormBtn" type="button">
-                Aggiungi un metodo di pagamento
-            </button>
-        </label>
-        <div class="dropdown">
-            <button
-                    class="btn btn-secondary dropdown-toggle w-100 text-start"
-                    type="button"
-                    id="paymentMethodDropdown"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                <%= selectedPaymentMethod.getOwner() %>, <%= selectedPaymentMethod.getCardNumber() %>, <%= selectedPaymentMethod.getExpireDate() %>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-dark w-100" aria-labelledby="paymentMethodDropdown">
-                <% for (PaymentMethodBean paymentMethod : paymentMethodList) {%>
-                <li>
-                    <a class="dropdown-item" href="#"
-                       onclick="document.getElementById('addressDropdown').innerHTML='<% selectedPaymentMethod = paymentMethod; %> <%= selectedPaymentMethod.getOwner() %> <%= selectedPaymentMethod.getCardNumber() %>, <%= selectedPaymentMethod.getExpireDate() %>">
-                        <div>
-                            <%= paymentMethod.getOwner() %>, <%= paymentMethod.getCardNumber() %>, <%= selectedPaymentMethod.getExpireDate() %>
-                        </div>
-                    </a>
-                </li>
-                <% } %>
-            </ul>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label text-white fw-semibold" for="paymentMethod">
+                    Seleziona il metodo di pagamento:
+                    <button class="btn btn-danger btn-primary ms-2" id="showPaymentMethodFormBtn" type="button">
+                        Aggiungi un metodo di pagamento
+                    </button>
+                </label>
+                <select name="paymentMethod" id="paymentMethod" class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
+                    <%
+                        for (PaymentMethodBean paymentMethod : paymentMethodList) {
+                    %>
+                    <option value="<%= paymentMethod.getPaymentMethodId() %>">
+                        <%= paymentMethod.getOwner() %>, <%= paymentMethod.getCardNumber() %>, <%= paymentMethod.getExpireDate() %>
+                    </option>
+                    <%  } %>
+                </select>
+            </div>
         </div>
         <br>
     </div>
