@@ -316,12 +316,55 @@
         <%}%>
     </div >
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="text-white m-0">Totale: <%= total %> &euro;</h4>
-        <a href="#" class="btn btn-success">
-            Acquista ora
-        </a>
-    </div>
+    <% request.setAttribute("orderDetails", orderBean); %>
+
+    <%-- NOTE: if the `total` is >= 30 the shipping is free --%>
+    <h4>Spedizione: </h4>
+    <form method="post" action="${pageContext.request.contextPath}/secure/order-summary" id="submit-order">
+        <% if (total.compareTo(BigDecimal.valueOf(30)) <= 0) { %>
+        <br>
+        <h5>Seleziona il tipo di spedizione: </h5>
+        <div class="mb-3">
+            <label for="standard-shipping" class="form-label">
+                <input type="radio" name="shipping-option" id="standard-shipping" value="3.50" checked>
+                Spedizione standard (3,50 &euro;)
+            </label>
+            <br>
+
+            <label for="express-shipping" class="form-label">
+                <input type="radio" name="shipping-option" id="express-shipping" value="5.00">
+                Spedizione espressa (5,00 &euro;)
+            </label>
+        </div>
+        <%} else {%>
+        <br>
+        <span>Pssst...sembrerebbe che il dungeon master abbia deciso di premiarti perch&eacute; il tuo ordine supera le 30 monete,</span>
+        <span>quindi la spedizione standard &egrave; GRATIS</span>
+        <br><br>
+
+        <h5>Seleziona il tipo di spedizione: </h5>
+        <div class="mb-3">
+            <label for="standard-shipping" class="form-label">
+                <input type="radio" name="shipping-option" id="standard-shipping" value="0.00" checked>
+                Spedizione standard (0,00 &euro;)
+            </label>
+            <br>
+
+            <label for="express-shipping" class="form-label">
+                <input type="radio" name="shipping-option" id="express-shipping" value="5.00">
+                Spedizione espressa (5,00 &euro;)
+            </label>
+        </div>
+        <%}%>
+
+        <br>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-white m-0">Totale: <%= total %> &euro; (escluso costo di spedizione)</h4>
+
+            <button type="submit" class="btn btn-success">Acquista ora</button>
+        </div>
+    </form>
+
 </div>
 
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
