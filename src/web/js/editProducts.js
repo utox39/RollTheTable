@@ -7,7 +7,7 @@ const numericFields = [
   "minimum_age",
 ];
 
-submitButton = document.getElementById("submitButton");
+const submitButton = document.getElementById("submitButton");
 
 numericFields.forEach((fieldId) => {
   const input = document.getElementById(fieldId);
