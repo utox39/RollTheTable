@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (formContainer) {
         togglePaymentMethodForm(false);
-        document.getElementById("showShippingAddressFormBtn").style.display =
+        document.getElementById("showPaymentMethodFormBtn").style.display =
           "inline-block";
       }
     });
