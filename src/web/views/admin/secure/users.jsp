@@ -47,9 +47,6 @@
     %>
     <div class="col-md-4 mb-4 d-flex">
       <div class="card w-100" style="width: 18rem;">
-          <img src="${pageContext.request.contextPath}/assets/images/logo.JPG" class="card-img-top" alt="">
-        </a>
-
         <div class="card-body">
           <h5 class="card-title"><%= customer.getName() %>
           </h5>
