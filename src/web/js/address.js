@@ -1,6 +1,22 @@
 // noinspection t
 
 document.addEventListener("DOMContentLoaded", () => {
+  function toggleAddressForm(show, formContainerId) {
+    const formContainer = document.getElementById(formContainerId);
+    const inputs = formContainer.querySelectorAll("input, textarea");
+
+    if (show) {
+      formContainer.style.display = "block";
+      inputs.forEach((i) => (i.disabled = false));
+    } else {
+      formContainer.style.display = "none";
+      inputs.forEach((i) => (i.disabled = true));
+    }
+  }
+
+  toggleAddressForm(false, "shippingAddressFormContainer");
+  toggleAddressForm(false, "billingAddressFormContainer");
+
   document
     .getElementById("showShippingAddressFormBtn")
     ?.addEventListener("click", function () {
@@ -8,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "shippingAddressFormContainer",
       );
       if (formContainer) {
-        formContainer.style.display = "block";
+        toggleAddressForm(true, "shippingAddressFormContainer");
         this.style.display = "none";
       }
     });
@@ -20,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "shippingAddressFormContainer",
       );
       if (formContainer) {
-        formContainer.style.display = "none";
+        toggleAddressForm(false, "shippingAddressFormContainer");
         document.getElementById("showShippingAddressFormBtn").style.display =
           "inline-block";
       }
@@ -33,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "billingAddressFormContainer",
       );
       if (formContainer) {
-        formContainer.style.display = "block";
+        toggleAddressForm(true, "billingAddressFormContainer");
         this.style.display = "none";
       }
     });
