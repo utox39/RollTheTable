@@ -1,8 +1,11 @@
 <%--suppress t --%>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.bean.*" %>
+<%@ page import="model.bean.AddressBean" %>
+<%@ page import="model.bean.CartBean" %>
+<%@ page import="model.bean.PaymentMethodBean" %>
+<%@ page import="model.bean.ProductBean" %>
 <%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="it">
@@ -67,7 +70,8 @@
                             Aggiungi un indirizzo di spedizione
                         </button>
                     </label>
-                    <select name="shippingAddress" id="shippingAddress" class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
+                    <select name="shippingAddress" id="shippingAddress"
+                            class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
                         <%
                             for (AddressBean address : addressBeanList) {
                                 if (address.getType().equals("shipping")) {
@@ -78,8 +82,8 @@
                             <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>),
                             <%= address.getCountry() %>
                         </option>
-                        <%      }
-                            }%>
+                        <% }
+                        }%>
                     </select>
                 </div>
 
@@ -91,7 +95,8 @@
                             Aggiungi un indirizzo di fatturazione
                         </button>
                     </label>
-                    <select name="billingAddress" id="billingAddress" class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
+                    <select name="billingAddress" id="billingAddress"
+                            class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
                         <%
                             for (AddressBean address : addressBeanList) {
                                 if (address.getType().equals("billing")) {
@@ -102,8 +107,8 @@
                             <%= address.getPostcode() %> <%= address.getCity() %> (<%= address.getProvince() %>),
                             <%= address.getCountry() %>
                         </option>
-                        <%      }
-                            }%>
+                        <% }
+                        }%>
                     </select>
                 </div>
             </div>
@@ -114,50 +119,53 @@
         <div id="shippingAddressFormContainer" class="card mt-3 bg-dark text-white" style="display: none;">
             <div class="card-body">
                 <h5 class="card-title">Nuovo indirizzo</h5>
-    <%--            <form method="post" action="${pageContext.request.contextPath}/secure/customer/address" id="submit-shipping-address">--%>
-                    <input type="hidden" id="shipping-address-type" name="shipping-address-type" value="shipping">
+                <%--            <form method="post" action="${pageContext.request.contextPath}/secure/customer/address" id="submit-shipping-address">--%>
+                <input type="hidden" id="shipping-address-type" name="shipping-address-type" value="shipping">
 
-                    <br>
+                <br>
 
-                    <div class="mb-3">
-                        <label for="shipping-name" class="form-label">Nome</label>
-                        <input type="text" name="shipping-name" id="shipping-name" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-surname" class="form-label">Cognome</label>
-                        <input type="text" name="shipping-surname" id="shipping-surname" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-street-name" class="form-label">Via</label>
-                        <input type="text" name="shipping-street-name" id="shipping-street-name" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-street-number" class="form-label">Numero Civico</label>
-                        <input type="text" name="shipping-street-number" id="shipping-street-number" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-postcode" class="form-label">CAP</label>
-                        <input type="text" name="shipping-postcode" id="shipping-postcode" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-city" class="form-label">Città</label>
-                        <input type="text" name="shipping-city" id="shipping-city" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-province" class="form-label">Provincia</label>
-                        <input type="text" name="shipping-province" id="shipping-province" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-country" class="form-label">Paese</label>
-                        <input type="text" name="shipping-country" id="shipping-country" class="form-control" value="Italia" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="shipping-notes" class="form-label">Note</label>
-                        <textarea class="form-control" id="shipping-notes" name="shipping-notes" rows="3"></textarea>
-                    </div>
-                    <button type="button" class="btn btn-success" id="saveShippingAddress">Salva indirizzo</button>
-                    <button type="button" class="btn btn-danger" id="hideShippingAddressFormContainer">Annulla</button>
-    <%--            </form>--%>
+                <div class="mb-3">
+                    <label for="shipping-name" class="form-label">Nome</label>
+                    <input type="text" name="shipping-name" id="shipping-name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-surname" class="form-label">Cognome</label>
+                    <input type="text" name="shipping-surname" id="shipping-surname" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-street-name" class="form-label">Via</label>
+                    <input type="text" name="shipping-street-name" id="shipping-street-name" class="form-control"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-street-number" class="form-label">Numero Civico</label>
+                    <input type="text" name="shipping-street-number" id="shipping-street-number" class="form-control"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-postcode" class="form-label">CAP</label>
+                    <input type="text" name="shipping-postcode" id="shipping-postcode" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-city" class="form-label">Città</label>
+                    <input type="text" name="shipping-city" id="shipping-city" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-province" class="form-label">Provincia</label>
+                    <input type="text" name="shipping-province" id="shipping-province" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-country" class="form-label">Paese</label>
+                    <input type="text" name="shipping-country" id="shipping-country" class="form-control" value="Italia"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label for="shipping-notes" class="form-label">Note</label>
+                    <textarea class="form-control" id="shipping-notes" name="shipping-notes" rows="3"></textarea>
+                </div>
+                <button type="button" class="btn btn-success" id="saveShippingAddress">Salva indirizzo</button>
+                <button type="button" class="btn btn-danger" id="hideShippingAddressFormContainer">Annulla</button>
+                <%--            </form>--%>
             </div>
         </div>
 
@@ -165,47 +173,50 @@
         <div id="billingAddressFormContainer" class="card mt-3 bg-dark text-white" style="display: none;">
             <div class="card-body">
                 <h5 class="card-title">Nuovo indirizzo</h5>
-    <%--            <form method="post" action="${pageContext.request.contextPath}/secure/customer/address" id="submit-billing-address">--%>
-                    <input type="hidden" id="billing-address-type" name="billing-address-type" value="billing">
+                <%--            <form method="post" action="${pageContext.request.contextPath}/secure/customer/address" id="submit-billing-address">--%>
+                <input type="hidden" id="billing-address-type" name="billing-address-type" value="billing">
 
-                    <br>
+                <br>
 
-                    <div class="mb-3">
-                        <label for="billing-name" class="form-label">Nome</label>
-                        <input type="text" name="billing-name" id="billing-name" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="billing-surname" class="form-label">Cognome</label>
-                        <input type="text" name="billing-surname" id="billing-surname" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="billing-street-name" class="form-label">Via</label>
-                        <input type="text" name="billing-street-name" id="billing-street-name" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="billing-street-number" class="form-label">Numero Civico</label>
-                        <input type="text" name="billing-street-number" id="billing-street-number" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="billing-postcode" class="form-label">CAP</label>
-                        <input type="text" name="billing-postcode" id="billing-postcode" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="billing-city" class="form-label">Città</label>
-                        <input type="text" name="billing-city" id="billing-city" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="billing-province" class="form-label">Provincia</label>
-                        <input type="text" name="billing-province" id="billing-province" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="billing-country" class="form-label">Paese</label>
-                        <input type="text" name="billing-country" id="billing-country" class="form-control" value="Italia" required>
-                    </div>
+                <div class="mb-3">
+                    <label for="billing-name" class="form-label">Nome</label>
+                    <input type="text" name="billing-name" id="billing-name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="billing-surname" class="form-label">Cognome</label>
+                    <input type="text" name="billing-surname" id="billing-surname" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="billing-street-name" class="form-label">Via</label>
+                    <input type="text" name="billing-street-name" id="billing-street-name" class="form-control"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label for="billing-street-number" class="form-label">Numero Civico</label>
+                    <input type="text" name="billing-street-number" id="billing-street-number" class="form-control"
+                           required>
+                </div>
+                <div class="mb-3">
+                    <label for="billing-postcode" class="form-label">CAP</label>
+                    <input type="text" name="billing-postcode" id="billing-postcode" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="billing-city" class="form-label">Città</label>
+                    <input type="text" name="billing-city" id="billing-city" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="billing-province" class="form-label">Provincia</label>
+                    <input type="text" name="billing-province" id="billing-province" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="billing-country" class="form-label">Paese</label>
+                    <input type="text" name="billing-country" id="billing-country" class="form-control" value="Italia"
+                           required>
+                </div>
 
-                    <button type="button" class="btn btn-success" id="saveBillingAddress">Salva indirizzo</button>
-                    <button type="button" class="btn btn-danger" id="hideBillingAddressFormContainer">Annulla</button>
-    <%--            </form>--%>
+                <button type="button" class="btn btn-success" id="saveBillingAddress">Salva indirizzo</button>
+                <button type="button" class="btn btn-danger" id="hideBillingAddressFormContainer">Annulla</button>
+                <%--            </form>--%>
             </div>
         </div>
 
@@ -228,14 +239,19 @@
                             Aggiungi un metodo di pagamento
                         </button>
                     </label>
-                    <select name="paymentMethod" id="paymentMethod" class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
+                    <select name="paymentMethod" id="paymentMethod"
+                            class="form-select form-select-lg mb-3 bg-dark text-light border-secondary">
                         <%
                             for (PaymentMethodBean paymentMethod : paymentMethodList) {
                         %>
                         <option value="<%= paymentMethod.getPaymentMethodId() %>">
-                            <%= paymentMethod.getOwner() %>, <%= paymentMethod.getCardNumber() %>, <%= paymentMethod.getExpireDate() %>
+                            <%
+                                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/yyyy");
+                                String formattedDate = sdf.format(paymentMethod.getExpireDate());
+                            %>
+                            <%= paymentMethod.getOwner() %>, <%= paymentMethod.getCardNumber() %>, <%= formattedDate %>
                         </option>
-                        <%  } %>
+                        <% } %>
                     </select>
                 </div>
             </div>
@@ -247,33 +263,33 @@
         <div id="paymentMethodFormContainer" class="card mt-3 bg-dark text-white" style="display: none;">
             <div class="card-body">
                 <h5 class="card-title">Nuovo metodo di pagamento</h5>
-    <%--            <form method="post" action="${pageContext.request.contextPath}/secure/customer/payment-methods" id="submit-payment-method">--%>
-                    <br>
+                <%--            <form method="post" action="${pageContext.request.contextPath}/secure/customer/payment-methods" id="submit-payment-method">--%>
+                <br>
 
-                    <div class="mb-3">
-                        <label for="owner" class="form-label">Titolare della carta</label>
-                        <input type="text" name="owner" id="owner" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="card-number" class="form-label">Numero della carta</label>
-                        <input type="text" name="card-number" id="card-number" class="form-control" required>
-                    </div>
+                <div class="mb-3">
+                    <label for="owner" class="form-label">Titolare della carta</label>
+                    <input type="text" name="owner" id="owner" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="card-number" class="form-label">Numero della carta</label>
+                    <input type="text" name="card-number" id="card-number" class="form-control" maxlength="19" oninput="this.value = this.value.replace(/[^0-9]/g, '')"required>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="expiration-date" class="form-label">Data di scadenza</label>
-                        <input type="text"
-                               name="expiration-date"
-                               id="expiration-date"
-                               class="form-control"
-                               placeholder="MM/YYYY"
-                               pattern="(0[1-9]|1[0-2])\/[0-9]{4}"
-                               title="Inserisci una data nel formato MM/YYYY"
-                               required>
-                    </div>
+                <div class="mb-3">
+                    <label for="expiration-date" class="form-label">Data di scadenza</label>
+                    <input type="text"
+                           name="expiration-date"
+                           id="expiration-date"
+                           class="form-control"
+                           placeholder="MM/YYYY"
+                           pattern="(0[1-9]|1[0-2])\/[0-9]{4}"
+                           title="Inserisci una data nel formato MM/YYYY"
+                           required>
+                </div>
 
-                    <button type="button" class="btn btn-success" id="savePaymentMethod">Salva metodo di pagamento</button>
-                    <button type="button" class="btn btn-danger" id="hidePaymentMethodFormContainer">Annulla</button>
-    <%--            </form>--%>
+                <button type="button" class="btn btn-success" id="savePaymentMethod">Salva metodo di pagamento</button>
+                <button type="button" class="btn btn-danger" id="hidePaymentMethodFormContainer">Annulla</button>
+                <%--            </form>--%>
             </div>
         </div>
 
@@ -283,7 +299,7 @@
         <h4>Articoli ordine:</h4>
         <% CartBean cart = (CartBean) session.getAttribute("cart"); %>
         <div class="list-group-item py-3 px-4">
-            <% for (Map.Entry<ProductBean, Integer>productEntry : cart.getCart().entrySet()) {%>
+            <% for (Map.Entry<ProductBean, Integer> productEntry : cart.getCart().entrySet()) {%>
             <div class="row align-items-center">
                 <!-- Product's image -->
                 <div class="col-md-2 col-3">
@@ -293,7 +309,8 @@
                 </div>
 
                 <div class="col-md-7 col-9">
-                    <h5 class="mb-1 fw-semibold"><%= productEntry.getKey().getName() %></h5>
+                    <h5 class="mb-1 fw-semibold"><%= productEntry.getKey().getName() %>
+                    </h5>
                     <div class="mt-2">
                         <a href="${pageContext.request.contextPath}/cart?op=remove&productId=<%= productEntry.getKey().getProductId() %>"
                            class="text-decoration-none me-3 text-danger">Rimuovi</a>
@@ -302,7 +319,8 @@
 
                 <div class="col-md-3 text-end">
                     <h5 class="fw-bold"><%= productEntry.getKey().getSalePrice() %> &euro;</h5>
-                    <h5 class="fw-bold">Quantit&agrave;: <%= productEntry.getValue() %></h5>
+                    <h5 class="fw-bold">Quantit&agrave;: <%= productEntry.getValue() %>
+                    </h5>
                 </div>
 
                 <%
@@ -311,7 +329,7 @@
             </div>
             <br>
             <%}%>
-        </div >
+        </div>
 
         <%--! SHIPPING TYPE --%>
         <%-- NOTE: if the `total` is >= 30 the shipping is free --%>
@@ -365,5 +383,6 @@
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/address.js"></script>
 <script src="${pageContext.request.contextPath}/js/paymentMethod.js"></script>
+<script src="${pageContext.request.contextPath}/js/formValidation.js"></script>
 </body>
 </html>
