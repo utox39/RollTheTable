@@ -1,13 +1,13 @@
 <%--suppress t --%>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Date" %>
 <%@ page import="model.bean.*" %>
+<%@ page import="java.math.BigDecimal" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <title>RollTheTable-Purchase</title>
+    <title>RollTheTable - Checkout</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
@@ -332,7 +332,8 @@
 
     <%
         OrdersBean orderBean = new OrdersBean();
-        double total = 0;
+
+        BigDecimal total = BigDecimal.valueOf(0.0);
     %>
     <h4>Articoli ordine:</h4>
     <% CartBean cart = (CartBean) session.getAttribute("cart"); %>
@@ -360,7 +361,7 @@
             </div>
 
             <%
-                total += productEntry.getKey().getSalePrice() * productEntry.getValue();
+                total = total.add(BigDecimal.valueOf(productEntry.getKey().getSalePrice() * productEntry.getValue()));
 
                 orderBean.addProducts(productEntry.getKey(), productEntry.getValue(), productEntry.getKey().getSalePrice());
             %>
