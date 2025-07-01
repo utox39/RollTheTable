@@ -17,7 +17,7 @@ numericFields.forEach((fieldId) => {
   messageContainer.classList.add("alert-danger");
   messageContainer.setAttribute("role", "alert");
 
-  input.addEventListener("change", () => {
+  input.addEventListener("input", () => {
     const number = Number(input.value);
 
     if (number < 0) {
