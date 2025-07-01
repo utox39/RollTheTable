@@ -37,39 +37,29 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (formContainer) {
-        formContainer.style.display = "none";
+        togglePaymentMethodForm(false);
         document.getElementById("showShippingAddressFormBtn").style.display =
           "inline-block";
       }
     });
 
-  document.addEventListener("submit", function (e) {
-    const form = e.target;
-    if (form && form.id === "submit-payment-method") {
-      e.preventDefault();
+  document
+    .getElementById("savePaymentMethod")
+    .addEventListener("click", function () {
+      const data = {
+        owner: document.getElementById("owner").value,
+        cardNumber: document.getElementById("card-number").value,
+        expireDate: document.getElementById("expiration-date").value,
+      };
 
-      const formData = new FormData(form);
-
-      const params = new URLSearchParams();
-      for (const [key, value] of formData.entries()) {
-        params.append(key, value.toString());
-      }
-
-      fetch(form.action, {
+      fetch("/RollTheTable/secure/customer/payment-methods", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: params.toString(),
-      })
-        .then((response) => {
-          if (response.ok) {
-            location.reload();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  });
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then((response) => {
+        if (response.ok) {
+          location.reload();
+        }
+      });
+    });
 }); // Close addEventListener "DOMContentLoaded"
