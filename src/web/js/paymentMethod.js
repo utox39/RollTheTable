@@ -1,4 +1,21 @@
+// noinspection t
+
 document.addEventListener("DOMContentLoaded", () => {
+  function togglePaymentMethodForm(show) {
+    const formContainer = document.getElementById("paymentMethodFormContainer");
+    const inputs = formContainer.querySelectorAll("input, textarea");
+
+    if (show) {
+      formContainer.style.display = "block";
+      inputs.forEach((i) => (i.disabled = false));
+    } else {
+      formContainer.style.display = "none";
+      inputs.forEach((i) => (i.disabled = true));
+    }
+  }
+
+  togglePaymentMethodForm(false);
+
   document
     .getElementById("showPaymentMethodFormBtn")
     ?.addEventListener("click", function () {
@@ -7,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       if (formContainer) {
-        formContainer.style.display = "block";
+        togglePaymentMethodForm(true);
         this.style.display = "none";
       }
     });
