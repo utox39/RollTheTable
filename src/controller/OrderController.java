@@ -13,21 +13,35 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Map;
 
 @WebServlet("/secure/order-summary")
 public class OrderController extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
         CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
-        OrdersBean orderBean = (OrdersBean) session.getAttribute("orderDetails");
+        CartBean cartBean = (CartBean) session.getAttribute("cart");
+
+        OrdersBean orderBean = new OrdersBean();
+
+        for (Map.Entry<ProductBean, Integer>productEntry : cartBean.getCart().entrySet()) {
+            orderBean.addProducts(productEntry.getKey(), productEntry.getValue(), productEntry.getKey().getSalePrice());
+        }
 
         orderBean.setCustomerId(user.getCustomerId());
+        orderBean.setPaymentMethodId(Integer.parseInt(request.getParameter("paymentMethod")));
+        orderBean.setShippingAddressId(Integer.parseInt(request.getParameter("shippingAddress")));
+        orderBean.setBillingAddressId(Integer.parseInt(request.getParameter("billingAddress")));
         orderBean.setPurchaseDate(new Date());
-
-        orderBean.setShippingPrice(Double.parseDouble(request.getParameter("shippingPrice")));
+        orderBean.setShippingPrice(Double.parseDouble(request.getParameter("shipping-option")));
 
         PaymentMethodBean paymentMethodBean = new PaymentMethodBean();
         AddressBean shippingAddressBean = new AddressBean();
