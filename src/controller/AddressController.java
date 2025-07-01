@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.bean.AddressBean;
 import model.bean.CustomerBean;
 import model.dao.AddressDAO;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 @WebServlet("/secure/customer/address")
 public class AddressController extends HttpServlet {
@@ -27,29 +30,31 @@ public class AddressController extends HttpServlet {
         CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
         int customerId = user.getCustomerId();
 
-        String addressType = request.getParameter("address-type");
-        String name = request.getParameter("name");
-        String surname = request.getParameter("surname");
-        String streetName = request.getParameter("street-name");
-        String streetNumber = request.getParameter("street-number");
-        String postcode = request.getParameter("postcode");
-        String city = request.getParameter("city");
-        String province = request.getParameter("province");
-        String country = request.getParameter("country");
-        String notes = request.getParameter("notes");
+        final ObjectMapper mapper = new ObjectMapper();
 
         AddressBean addressBean = new AddressBean();
+
+        int statusCode = HttpServletResponse.SC_OK;
+        Object responseBody = Map.of("status", "success");
+
+        try {
+            addressBean = mapper.readValue(request.getInputStream(), AddressBean.class);
+        } catch (JsonProcessingException e) {
+            statusCode = HttpServletResponse.SC_BAD_REQUEST;
+            responseBody = Map.of(
+                    "status", "error",
+                    "message", "Invalid JSON format"
+            );
+        } catch (Exception e) {
+            statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+            responseBody = Map.of(
+                    "status", "error",
+                    "message", "Internal server error"
+            );
+        }
+
+        //! NOTE: the customer ID must be set here, otherwise Jackson will overwrite it with 0
         addressBean.setCustomerId(customerId);
-        addressBean.setType(addressType);
-        addressBean.setName(name);
-        addressBean.setSurname(surname);
-        addressBean.setStreetName(streetName);
-        addressBean.setStreetNumber(streetNumber);
-        addressBean.setPostcode(postcode);
-        addressBean.setCity(city);
-        addressBean.setProvince(province);
-        addressBean.setCountry(country);
-        addressBean.setNotes(notes);
 
         AddressDAO addressDAO = new AddressDAO();
 
@@ -57,6 +62,15 @@ public class AddressController extends HttpServlet {
            addressDAO.doSave(addressBean);
         } catch (SQLException e) {
             ServerLogger.severe(AddressController.class.getName(), "AddressController doSave SQLException: " + e.getMessage());
+            statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+        }
+
+        response.setStatus(statusCode);
+        try {
+            mapper.writeValue(response.getWriter(), responseBody);
+        } catch (IOException e) {
+            ServerLogger.severe(OrderController.class.getName(), "JSON error: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }
