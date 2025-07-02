@@ -99,7 +99,7 @@
 
     <!-- Invoice Download -->
     <div class="text-center mb-4">
-        <a href="${pageContext.request.contextPath}/downloadInvoice?orderId=<%= ordersBean.getOrderId() %>"
+        <a href="${pageContext.request.contextPath}/generate-invoice" target="_blank"
            class="btn btn-outline-secondary btn-lg">
             📄 Scarica la Fattura
         </a>
