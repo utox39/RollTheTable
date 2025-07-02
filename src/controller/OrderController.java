@@ -32,6 +32,8 @@ public class OrderController extends HttpServlet {
 
         OrdersBean orderBean = new OrdersBean();
 
+        int orderId = 0;
+
         for (Map.Entry<ProductBean, Integer>productEntry : cartBean.getCart().entrySet()) {
             orderBean.addProducts(productEntry.getKey(), productEntry.getValue(), productEntry.getKey().getSalePrice());
         }
@@ -52,10 +54,12 @@ public class OrderController extends HttpServlet {
             shippingAddressBean = new AddressDAO().doRetrieveById(orderBean.getShippingAddressId());
             billingAddressBean = new AddressDAO().doRetrieveById(orderBean.getBillingAddressId());
 
-            new OrdersDAO().doSave(orderBean);
+            orderId = new OrdersDAO().doSave(orderBean);
         } catch (SQLException e) {
             ServerLogger.severe(OrderController.class.getName(), "SQLException: " + e.getMessage());
         }
+
+        orderBean.setOrderId(orderId);
 
         session.setAttribute("paymentMethod", paymentMethodBean);
         session.setAttribute("shippingAddress", shippingAddressBean);
