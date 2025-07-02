@@ -13,7 +13,7 @@ public class InvoiceDAO {
 
     private static final String SELECT_ALL_SQL = "SELECT * FROM invoice ORDER BY invoice_id DESC";
 
-    private static final String DELETE_BY_ID_SQL = "DELETE FROM invoice WHERE invoice_id = ?";
+//    private static final String DELETE_BY_ID_SQL = "DELETE FROM invoice WHERE invoice_id = ?";
 
     public int doSave(InvoiceBean invoice) throws SQLException {
         Connection connection = null;
@@ -85,13 +85,14 @@ public class InvoiceDAO {
         return invoices;
     }
 
-    public void doDeleteInvoice(int invoiceId) throws SQLException {
-        Connection conn = DatabaseConnectionPool.getConnection();
-        PreparedStatement ps = conn.prepareStatement(DELETE_BY_ID_SQL);
-
-        ps.setInt(1, invoiceId);
-        ps.executeUpdate();
-    }
+    // NOTE: invoices should not be deleted
+//    public void doDeleteInvoice(int invoiceId) throws SQLException {
+//        Connection conn = DatabaseConnectionPool.getConnection();
+//        PreparedStatement ps = conn.prepareStatement(DELETE_BY_ID_SQL);
+//
+//        ps.setInt(1, invoiceId);
+//        ps.executeUpdate();
+//    }
 
     private InvoiceBean extractInvoiceFromResultSet(ResultSet rs) throws SQLException {
         InvoiceBean invoice = new InvoiceBean();
