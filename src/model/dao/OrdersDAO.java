@@ -71,10 +71,12 @@ public class OrdersDAO implements OrdersModel {
         return ordersBean;
     }
 
-    public void doSave(OrdersBean ordersBean) throws SQLException {
+    public int doSave(OrdersBean ordersBean) throws SQLException {
         Connection connection = null;
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
+
+        int orderId;
 
         String insertPurchaseQuery = "INSERT INTO purchase (customer_id, payment_method_id, shipping_address_id, billing_address_id, shipping_price) "
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -95,7 +97,6 @@ public class OrdersDAO implements OrdersModel {
             ps1.executeUpdate();
 
             ResultSet generatedKeys = ps1.getGeneratedKeys();
-            int orderId;
             if (generatedKeys.next()) {
                 orderId = generatedKeys.getInt(1);
             } else {
@@ -126,6 +127,8 @@ public class OrdersDAO implements OrdersModel {
 
             DatabaseConnectionPool.releaseConnection(connection);
         }
+
+        return orderId;
     }
 
     public List<OrdersBean> doRetrieveAll() throws SQLException {
