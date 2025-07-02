@@ -1,92 +1,113 @@
 // noinspection t
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    // TODO: add a check to verify that every field of the active "form" is not empty
-
-    function showError(htmlElement, errorMessage) {
-        const errorMessageContainer = document.createElement("div");
-        errorMessageContainer.classList.add("alert");
-        errorMessageContainer.classList.add("alert-danger");
-        errorMessageContainer.setAttribute("role", "alert");
-
-        errorMessageContainer.innerHTML = errorMessage;
-
-        htmlElement.parentNode.appendChild(errorMessageContainer);
+    // Reusable function to show an error below a field
+    function showError(field, message) {
+        clearErrors(field);
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "alert alert-danger";
+        errorDiv.setAttribute("role", "alert");
+        errorDiv.textContent = message;
+        field.parentNode.appendChild(errorDiv);
     }
 
-    function validateTextField(id, fieldName, sendButtonHtmlElement, maxLength = 100) {
+    // Remove existing errors near a field
+    function clearErrors(field) {
+        const errors = field.parentNode.querySelectorAll(".alert.alert-danger");
+        errors.forEach(e => e.remove());
+    }
+
+    // Validates a text field for non-empty and max length
+    function validateTextField(id, fieldName, button, maxLength = 100) {
         const field = document.getElementById(id);
         if (!field) return;
-        field.addEventListener("input", (e) => {
+
+        field.addEventListener("input", () => {
             const value = field.value.trim();
-            if ((value === "") || (value.length === 0)) {
+            clearErrors(field);
+
+            if (!value) {
                 showError(field, `${fieldName} è obbligatorio.`);
-                sendButtonHtmlElement.disabled = true;
+                button.disabled = true;
             } else if (value.length > maxLength) {
                 showError(field, `${fieldName} non può superare ${maxLength} caratteri.`);
-                sendButtonHtmlElement.disabled = true;
+                button.disabled = true;
             } else {
-                const existingErrors = field.parentNode.querySelectorAll(".alert.alert-danger");
-                existingErrors.forEach(e => e.remove());
-                sendButtonHtmlElement.disabled = false;
+                button.disabled = false;
             }
         });
     }
 
-    //! SHIPPING ADDRESS
+    // Group field validation setup
+    function setupFormValidation(prefix, button) {
+        validateTextField(`${prefix}-name`, `Nome (${prefix})`, button);
+        validateTextField(`${prefix}-surname`, `Cognome (${prefix})`, button);
+        validateTextField(`${prefix}-street-name`, `Via (${prefix})`, button);
+        validateTextField(`${prefix}-street-number`, `Numero civico (${prefix})`, button, 10);
+        validateTextField(`${prefix}-postcode`, `CAP (${prefix})`, button, 10);
+        validateTextField(`${prefix}-city`, `Città (${prefix})`, button);
+        validateTextField(`${prefix}-province`, `Provincia (${prefix})`, button);
+        validateTextField(`${prefix}-country`, `Paese (${prefix})`, button);
+    }
+
+    // Shipping address validation
     const saveShippingAddressBtn = document.getElementById("saveShippingAddress");
-    validateTextField("shipping-name", "Nome (spedizione)", saveShippingAddressBtn);
-    validateTextField("shipping-surname", "Cognome (spedizione)", saveShippingAddressBtn);
-    validateTextField("shipping-street-name", "Via (spedizione)", saveShippingAddressBtn);
-    validateTextField(
-        "shipping-street-number",
-        "Numero civico (spedizione)",
-        saveShippingAddressBtn,
-        10,
-    );
-    validateTextField("shipping-postcode", "CAP (spedizione)", saveShippingAddressBtn, 10);
-    validateTextField("shipping-city", "Città (spedizione)", saveShippingAddressBtn);
-    validateTextField("shipping-province", "Provincia (spedizione)", saveShippingAddressBtn);
-    validateTextField("shipping-country", "Paese (spedizione)", saveShippingAddressBtn);
+    setupFormValidation("shipping", saveShippingAddressBtn);
 
-    //! BILLING ADDRESS
+    // Billing address validation
     const saveBillingAddressBtn = document.getElementById("saveBillingAddress");
-    validateTextField("billing-name", "Nome (fatturazione)", saveBillingAddressBtn);
-    validateTextField("billing-surname", "Cognome (fatturazione)", saveBillingAddressBtn);
-    validateTextField("billing-street-name", "Via (fatturazione)", saveBillingAddressBtn);
-    validateTextField(
-        "billing-street-number",
-        "Numero civico (fatturazione)",
-        saveBillingAddressBtn,
-        10,
-    );
-    validateTextField("billing-postcode", "CAP (fatturazione)", saveBillingAddressBtn, 10,);
-    validateTextField("billing-city", "Città (fatturazione)", saveBillingAddressBtn);
-    validateTextField("billing-province", "Provincia (fatturazione)", saveBillingAddressBtn);
-    validateTextField("billing-country", "Paese (fatturazione)", saveBillingAddressBtn);
+    setupFormValidation("billing", saveBillingAddressBtn);
 
-    //! PAYMENT METHOD
+    // Payment method validation
     const savePaymentMethodBtn = document.getElementById("savePaymentMethod");
     validateTextField("owner", "Titolare della carta", savePaymentMethodBtn);
-    const cardNumberField = document.getElementById("card-number");
-    const expDateField = document.getElementById("expiration-date");
-    if (cardNumberField) {
-        cardNumberField.addEventListener("change", () => {
-            const value = cardNumberField.value.trim();
 
+    const cardNumberField = document.getElementById("card-number");
+    if (cardNumberField) {
+        cardNumberField.addEventListener("input", () => {
+            const value = cardNumberField.value.trim();
+            clearErrors(cardNumberField);
+
+            // Only allow digits
             if (!/^\d{13,19}$/.test(value)) {
-                showError(cardNumberField, "Il numero della carta deve contenere min: 13 e max: 19 cifre.");
+                showError(cardNumberField, "Il numero della carta deve contenere solo cifre (min: 13, max: 19).");
+                savePaymentMethodBtn.disabled = true;
+            } else {
+                savePaymentMethodBtn.disabled = false;
             }
-        })
+        });
     }
+
+    const expDateField = document.getElementById("expiration-date");
     if (expDateField) {
+        // Auto-format input to MM/YYYY
+        expDateField.addEventListener("input", () => {
+            expDateField.value = expDateField.value.replace(/[^0-9\/]/g, '');
+        });
+
         expDateField.addEventListener("change", () => {
             const value = expDateField.value.trim();
+            clearErrors(expDateField);
 
-            if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(value)) {
-                showError(expDateField, "La data di scadenza deve essere nel formato MM/YYYY.")
+            const match = /^(0[1-9]|1[0-2])\/(\d{4})$/.exec(value);
+            if (!match) {
+                showError(expDateField, "La data di scadenza deve essere nel formato MM/YYYY.");
+                savePaymentMethodBtn.disabled = true;
+                return;
             }
-        })
+
+            const month = parseInt(match[1], 10);
+            const year = parseInt(match[2], 10);
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear();
+
+            if (year < currentYear || (year === currentYear && month < currentMonth)) {
+                showError(expDateField, "La data di scadenza non può essere nel passato.");
+                savePaymentMethodBtn.disabled = true;
+            } else {
+                savePaymentMethodBtn.disabled = false;
+            }
+        });
     }
 });

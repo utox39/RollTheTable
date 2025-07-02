@@ -3,6 +3,8 @@
 <%@ page import="model.bean.CartBean" %>
 <%@ page import="model.bean.PaymentMethodBean" %>
 <%@ page import="model.bean.ProductBean" %>
+<%@ page import="java.lang.Integer" %>
+<%@ page import="java.lang.String" %>
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
@@ -135,6 +137,9 @@
                 <div class="mb-3">
                     <label for="shipping-street-name" class="form-label">Via</label>
                     <input type="text" name="shipping-street-name" id="shipping-street-name" class="form-control"
+                           pattern="\d+[a-zA-Z]?"
+                           inputmode="numeric"
+                           oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, '')"
                            required>
                 </div>
                 <div class="mb-3">
@@ -144,7 +149,12 @@
                 </div>
                 <div class="mb-3">
                     <label for="shipping-postcode" class="form-label">CAP</label>
-                    <input type="text" name="shipping-postcode" id="shipping-postcode" class="form-control" required>
+                    <input type="text" name="shipping-postcode" id="shipping-postcode" inputmode="numeric"
+                           class="form-control"
+                           pattern="\d{5}"
+                           maxlength="5"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                           title="Inserisci un CAP valido (5 cifre)"  required>
                 </div>
                 <div class="mb-3">
                     <label for="shipping-city" class="form-label">Città</label>
@@ -198,7 +208,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="billing-postcode" class="form-label">CAP</label>
-                    <input type="text" name="billing-postcode" id="billing-postcode" class="form-control" required>
+                    <input type="text" name="billing-postcode" id="billing-postcode" class="form-control" inputmode="numeric"
+                           pattern="\d{5}"
+                           maxlength="5"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                           title="Inserisci un CAP valido (5 cifre)" required>
                 </div>
                 <div class="mb-3">
                     <label for="billing-city" class="form-label">Città</label>
@@ -272,7 +286,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="card-number" class="form-label">Numero della carta</label>
-                    <input type="text" name="card-number" id="card-number" class="form-control" maxlength="19" oninput="this.value = this.value.replace(/[^0-9]/g, '')"required>
+                    <input type="text" name="card-number" id="card-number" class="form-control" maxlength="19"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
 
                 <div class="mb-3">
