@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS invoice (
     notes VARCHAR(120),
     taxable DECIMAL(10, 2) NOT NULL,
     tax DECIMAL(10, 2) NOT NULL,
-    invoice_pdf_path VARCHAR(255) NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE SET NULL,
     FOREIGN KEY (purchase_id) REFERENCES purchase(order_id) ON DELETE SET NULL
 );
