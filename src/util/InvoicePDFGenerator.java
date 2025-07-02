@@ -3,105 +3,94 @@ package util;
 import model.bean.InvoiceBean;
 import model.bean.OrdersBean;
 import model.bean.ProductBean;
-
 import org.apache.pdfbox.pdmodel.*;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.Map;
 
 public class InvoicePDFGenerator {
 
-    public static File generateInvoicePDF(InvoiceBean invoice, OrdersBean order, String outputDir) throws IOException {
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage(PDRectangle.A4);
-        document.addPage(page);
+    public static ByteArrayOutputStream generateInvoicePDF(InvoiceBean invoice, OrdersBean order) throws IOException {
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage(PDRectangle.A4);
+            document.addPage(page);
 
-        PDPageContentStream content = new PDPageContentStream(document, page);
-        content.setFont(PDType1Font.HELVETICA_BOLD, 12);
+            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 14);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(50, 750);
+                contentStream.showText("Fattura n°" + invoice.getPurchaseId());
+                contentStream.endText();
 
-        // Header
-        content.beginText();
-        content.newLineAtOffset(50, 750);
-        content.showText("Fattura Differita");
-        content.endText();
+                contentStream.setFont(PDType1Font.HELVETICA, 10);
+                float y = 730;
 
-        // Invoice details
-        content.setFont(PDType1Font.HELVETICA, 10);
-        writeText(content, "Cliente ID: " + invoice.getCustomerId(), 50, 730);
-        writeText(content, "Ordine n°: " + invoice.getPurchaseId(), 50, 715);
-        writeText(content, "Data Documento: " + new SimpleDateFormat("dd/MM/yyyy").format(order.getPurchaseDate()), 50, 700);
-        writeText(content, "Numero Documento: F-" + invoice.getInvoiceId(), 50, 685);
-        writeText(content, "Note: " + (invoice.getNotes() != null ? invoice.getNotes() : "-"), 50, 670);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(50, y);
+                contentStream.showText("Cliente ID: " + invoice.getCustomerId());
+                contentStream.endText();
 
-        // Table headers
-        float startY = 640;
-        writeTableHeader(content, startY);
+                y -= 20;
+                contentStream.beginText();
+                contentStream.newLineAtOffset(50, y);
+                contentStream.showText("Data acquisto: " + order.getPurchaseDate());
+                contentStream.endText();
 
-        // Table content
-        float rowY = startY - 20;
-        for (Map.Entry<ProductBean, OrdersBean.PurchaseInfo> entry : order.getProducts().entrySet()) {
-            ProductBean product = entry.getKey();
-            OrdersBean.PurchaseInfo info = entry.getValue();
+                // Table Header
+                y -= 40;
+                writeRow(contentStream, y, "Codice", "Descrizione", "Qtà", "Prezzo", "Totale");
 
-            String[] row = {
-                    String.valueOf(product.getProductId()),
-                    product.getName(),
-                    String.valueOf(info.getQuantity()),
-                    "pz",
-                    String.format("%.2f", info.getPriceAtPurchase()),
-                    String.format("%.0f%%", invoice.getIva())
-            };
+                // Table rows
+                for (Map.Entry<ProductBean, OrdersBean.PurchaseInfo> entry : order.getProducts().entrySet()) {
+                    ProductBean product = entry.getKey();
+                    OrdersBean.PurchaseInfo info = entry.getValue();
+                    y -= 15;
 
-            writeTableRow(content, row, rowY);
-            rowY -= 15;
+                    String total = BigDecimal.valueOf(info.getPriceAtPurchase())
+                            .multiply(BigDecimal.valueOf(info.getQuantity()))
+                            .setScale(2, BigDecimal.ROUND_HALF_UP)
+                            .toPlainString();
+
+                    writeRow(contentStream, y,
+                            product.getProductId(),
+                            product.getName(),
+                            String.valueOf(info.getQuantity()),
+                            String.format("€%.2f", info.getPriceAtPurchase()),
+                            "€" + total);
+                }
+
+                // Totals
+                y -= 40;
+                writeText(contentStream, "Totale imponibile: €" + invoice.getTaxable(), 400, y);
+                y -= 15;
+                writeText(contentStream, "IVA (" + invoice.getIva() + "%): €" + invoice.getTax(), 400, y);
+                y -= 15;
+                writeText(contentStream, "Totale Fattura: €" +
+                        invoice.getTaxable().add(invoice.getTax()), 400, y);
+            }
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            document.save(outputStream);
+            return outputStream;
         }
-
-        // Totals
-        writeText(content, "Totale imponibile: € " + invoice.getTaxable().setScale(2, RoundingMode.HALF_UP), 400, 200);
-        writeText(content, "IVA " + invoice.getIva() + "%: € " + invoice.getTax().setScale(2, RoundingMode.HALF_UP), 400, 185);
-        writeText(content, "Totale Fattura: € " + invoice.getTaxable().add(invoice.getTax()).setScale(2, RoundingMode.HALF_UP), 400, 170);
-
-        content.close();
-
-        // Save to file
-        Path outputPath = Path.of(outputDir, "invoice_" + invoice.getInvoiceId() + ".pdf");
-        Files.createDirectories(outputPath.getParent());
-        document.save(outputPath.toFile());
-        document.close();
-
-        return outputPath.toFile();
     }
 
-    private static void writeText(PDPageContentStream content, String text, float x, float y) throws IOException {
-        content.beginText();
-        content.setFont(PDType1Font.HELVETICA, 10);
-        content.newLineAtOffset(x, y);
-        content.showText(text);
-        content.endText();
+    private static void writeText(PDPageContentStream cs, String text, float x, float y) throws IOException {
+        cs.beginText();
+        cs.setFont(PDType1Font.HELVETICA, 10);
+        cs.newLineAtOffset(x, y);
+        cs.showText(text);
+        cs.endText();
     }
 
-    private static void writeTableHeader(PDPageContentStream content, float y) throws IOException {
-        writeText(content, "Codice", 50, y);
-        writeText(content, "Descrizione", 120, y);
-        writeText(content, "Qtà", 300, y);
-        writeText(content, "UM", 340, y);
-        writeText(content, "Prezzo", 380, y);
-        writeText(content, "IVA", 450, y);
-    }
-
-    private static void writeTableRow(PDPageContentStream content, String[] row, float y) throws IOException {
-        writeText(content, row[0], 50, y);
-        writeText(content, row[1], 120, y);
-        writeText(content, row[2], 300, y);
-        writeText(content, row[3], 340, y);
-        writeText(content, row[4], 380, y);
-        writeText(content, row[5], 450, y);
+    private static void writeRow(PDPageContentStream cs, float y, String... columns) throws IOException {
+        float[] xOffsets = {50, 120, 300, 380, 450};
+        for (int i = 0; i < columns.length; i++) {
+            writeText(cs, columns[i], xOffsets[i], y);
+        }
     }
 }
