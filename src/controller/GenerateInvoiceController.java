@@ -1,7 +1,7 @@
 import model.bean.*;
-import model.dao.CustomerDAO;
 import model.dao.InvoiceDAO;
 import util.InvoicePDFGenerator;
+import util.ServerLogger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,34 +14,34 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Map;
 
+// TODO: change route to /secure/generate-invoice (?)
 @WebServlet("/generate-invoice")
 public class GenerateInvoiceController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Session not found.");
+            return;
+        }
+
+        OrdersBean order = (OrdersBean) session.getAttribute("orderDetails");
+        PaymentMethodBean paymentMethod = (PaymentMethodBean) session.getAttribute("paymentMethod");
+        AddressBean shippingAddress = (AddressBean) session.getAttribute("shippingAddress");
+        AddressBean billingAddress = (AddressBean) session.getAttribute("billingAddress");
+        CustomerBean customer = (CustomerBean) session.getAttribute("loggedUser");
+
+        if (order == null || customer == null || paymentMethod == null || shippingAddress == null || billingAddress == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing session attributes for invoice generation.");
+            return;
+        }
+
+        InvoiceBean invoice = new InvoiceBean();
+
+        int invoiceId = 0;
+
         try {
-            HttpSession session = request.getSession(false);
-            if (session == null) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Session not found.");
-                return;
-            }
-
-            OrdersBean order = (OrdersBean) session.getAttribute("orderDetails");
-            PaymentMethodBean paymentMethod = (PaymentMethodBean) session.getAttribute("paymentMethod");
-            AddressBean shippingAddress = (AddressBean) session.getAttribute("shippingAddress");
-            AddressBean billingAddress = (AddressBean) session.getAttribute("billingAddress");
-            CustomerBean customer = null;
-
-            customer = new CustomerDAO().doRetriveById(order.getCustomerId());
-
-
-
-            if (order == null || customer == null || paymentMethod == null || shippingAddress == null || billingAddress == null) {
-                System.out.println("order:" + order + ", customer:" + customer + ", paymentMethod:" + paymentMethod + ", shippingAddress:" + shippingAddress + ", billingAddress:" + billingAddress);
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing session attributes for invoice generation.");
-                return;
-            }
-
             // === Calculate invoice amounts ===
             final BigDecimal ivaRate = new BigDecimal("22");
             BigDecimal taxableTotal = BigDecimal.ZERO;
@@ -56,7 +56,6 @@ public class GenerateInvoiceController extends HttpServlet {
             BigDecimal totalWithIva = taxableTotal.add(taxAmount);
 
             // === Populate invoice bean ===
-            InvoiceBean invoice = new InvoiceBean();
             invoice.setCustomerId(customer.getCustomerId());
             invoice.setPurchaseId(order.getOrderId());
             invoice.setTaxable(taxableTotal);
@@ -64,25 +63,21 @@ public class GenerateInvoiceController extends HttpServlet {
             invoice.setIva(ivaRate);
             invoice.setNotes("Fattura generata automaticamente");
 
-
-
-            // === Generate PDF ===
-            byte[] pdfBytes = InvoicePDFGenerator.generateInvoicePDF(invoice, order).toByteArray();
-
-            // === Return PDF response ===
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=Fattura_" + invoice.getInvoiceId() + ".pdf");
-            response.setContentLength(pdfBytes.length);
-            response.getOutputStream().write(pdfBytes);
-            response.getOutputStream().flush();
-
-
             // === Save invoice ===
             InvoiceDAO invoiceDAO = new InvoiceDAO();
-            invoiceDAO.doSave(invoice); // assumes it sets the invoice ID (e.g. auto-incremented)
-
+            invoiceId = invoiceDAO.doSave(invoice); // assumes it sets the invoice ID (e.g. auto-incremented)
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            ServerLogger.severe(GenerateInvoiceController.class.getName(), "SQLException: " + e.getMessage());
         }
+
+        // === Generate PDF ===
+        byte[] pdfBytes = InvoicePDFGenerator.generateInvoicePDF(invoice, order).toByteArray();
+
+        // === Return PDF response ===
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=Fattura_" + invoiceId + ".pdf");
+        response.setContentLength(pdfBytes.length);
+        response.getOutputStream().write(pdfBytes);
+        response.getOutputStream().flush();
     }
 }
