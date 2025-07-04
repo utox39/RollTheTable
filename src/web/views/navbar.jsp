@@ -1,4 +1,5 @@
 <%@ page import="model.bean.CustomerBean" %>
+<link rel="stylesheet" href="/style/navbar.css">
 <nav class="navbar bg-dark navbar-expand-lg position-relative" data-bs-theme="dark">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="${pageContext.request.contextPath}/">RollTheTable</a>
@@ -60,3 +61,4 @@
 		</div>
 	</div>
 </nav>
+<script src="${pageContext.request.contextPath}/js/search_bar.js"></script>

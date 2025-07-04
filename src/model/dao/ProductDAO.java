@@ -58,6 +58,40 @@ public class ProductDAO implements ProductModel {
         return productBean;
     }
 
+    public static synchronized List<ProductBean> searchByName(String query) throws SQLException {
+        List<ProductBean> results = new ArrayList<>();
+        Connection con = DatabaseConnectionPool.getConnection();
+        PreparedStatement ps = null;
+        try  {
+            ps = con.prepareStatement("SELECT * FROM product WHERE name LIKE ?");
+            ps.setString(1, "%" + query + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ProductBean p = new ProductBean();
+                p.setProductId(String.valueOf(rs.getInt("product_id")));
+                p.setName(rs.getString("name"));
+                p.setPurchasePrice(rs.getDouble("purchase_price"));
+                p.setBarcode(rs.getString("barcode"));
+                p.setSalePrice(rs.getDouble("sale_price"));
+                p.setDescription(rs.getString("description"));
+                p.setStockQuantity(rs.getInt("stock_quantity"));
+                p.setDiscount(rs.getDouble("discount"));
+                p.setMinimumAge(rs.getInt("minimum_age"));
+                p.setVendor(rs.getString("vendor"));
+                p.setIva(rs.getDouble("iva"));
+                p.setImagesPath(rs.getString("images_path"));
+                results.add(p);
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            DatabaseConnectionPool.releaseConnection(con);
+        }
+        return results;
+    }
+
     @Override
     public synchronized List<ProductBean> doRetriveAll() throws SQLException {
         Connection connection = null;
