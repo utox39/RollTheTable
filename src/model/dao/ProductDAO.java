@@ -17,10 +17,8 @@ public class ProductDAO implements ProductModel {
         Connection con = DatabaseConnectionPool.getConnection();
         PreparedStatement ps = null;
         try {
-            ps = con.prepareStatement("SELECT product_id, name FROM product WHERE ((name LIKE ?)) OR ((vendor LIKE ?)) OR ((category LIKE ?))");
+            ps = con.prepareStatement("SELECT product_id, name FROM product WHERE ((name LIKE ?))");
             ps.setString(1, "%" + query + "%");
-            ps.setString(2, "%" + query + "%");
-            ps.setInt(3, Integer.parseInt(query));
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
