@@ -24,11 +24,7 @@ public class SearchController extends HttpServlet {
                 return;
             }
 
-
             results = new ProductDAO().searchProduct(query);
-
-            System.out.println("RESULTS:" + results);
-
 
             // You can filter the result to include only needed fields if necessary
             response.setContentType("application/json");
