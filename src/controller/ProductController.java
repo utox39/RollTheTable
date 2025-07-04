@@ -23,7 +23,7 @@ public class ProductController extends HttpServlet {
             ProductBean productBean = productDAO.doRetrieveById(request.getParameter("productId"));
             request.setAttribute(productAttr, productBean);
         } catch (SQLException e) {
-            ServerLogger.severe(CatalogController.class.getName(), "doRetriveByKey SQLException: " + e.getMessage());
+            ServerLogger.severe(CatalogController.class.getName(), "doRetrieveByKey SQLException: " + e.getMessage());
             request.setAttribute(productAttr, null);
         }
 
