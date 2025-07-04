@@ -25,7 +25,7 @@ public class SearchController extends HttpServlet {
             }
 
 
-            results = ProductDAO.searchByName(query);
+            results = new ProductDAO().searchProduct(query);
 
             System.out.println("RESULTS:" + results);
 

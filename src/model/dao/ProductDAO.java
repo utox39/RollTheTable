@@ -12,13 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements ProductModel {
-    public static synchronized List<ProductBean> searchByName(String query) throws SQLException {
+    public synchronized List<ProductBean> searchProduct(String query) throws SQLException {
         List<ProductBean> results = new ArrayList<>();
-        Connection con = DatabaseConnectionPool.getConnection();
+        Connection connection = null;
         PreparedStatement ps = null;
+
+        String researchQuery = "SELECT product_id, name FROM product WHERE " +
+                "((name LIKE ?)) OR ((vendor LIKE ?)) OR ((category LIKE ?))";
+
         try {
-            ps = con.prepareStatement("SELECT product_id, name FROM product WHERE ((name LIKE ?))");
+            connection = DatabaseConnectionPool.getConnection();
+            ps = connection.prepareStatement(researchQuery);
             ps.setString(1, "%" + query + "%");
+            ps.setString(2, "%" + query + "%");
+            ps.setString(3, "%" + query + "%");
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -31,7 +39,8 @@ public class ProductDAO implements ProductModel {
             if (ps != null) {
                 ps.close();
             }
-            DatabaseConnectionPool.releaseConnection(con);
+
+            DatabaseConnectionPool.releaseConnection(connection);
         }
         return results;
     }
