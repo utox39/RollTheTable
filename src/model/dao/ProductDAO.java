@@ -2,7 +2,6 @@ package model.dao;
 
 import db.DatabaseConnectionPool;
 import model.ProductModel;
-import model.bean.AddressBean;
 import model.bean.ProductBean;
 
 import java.sql.Connection;
@@ -13,6 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements ProductModel {
+    public static synchronized List<ProductBean> searchByName(String query) throws SQLException {
+        List<ProductBean> results = new ArrayList<>();
+        Connection con = DatabaseConnectionPool.getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement("SELECT product_id, name FROM product WHERE ((name LIKE ?)) OR ((vendor LIKE ?)) OR ((category LIKE ?))");
+            ps.setString(1, "%" + query + "%");
+            ps.setString(2, "%" + query + "%");
+            ps.setInt(3, Integer.parseInt(query));
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ProductBean p = new ProductBean();
+                p.setProductId(String.valueOf(rs.getInt("product_id")));
+                p.setName(rs.getString("name"));
+                results.add(p);
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+            DatabaseConnectionPool.releaseConnection(con);
+        }
+        return results;
+    }
+
     @Override
     public synchronized ProductBean doRetrieveById(String id) throws SQLException {
         Connection connection = null;
@@ -58,45 +83,11 @@ public class ProductDAO implements ProductModel {
         return productBean;
     }
 
-    public static synchronized List<ProductBean> searchByName(String query) throws SQLException {
-        List<ProductBean> results = new ArrayList<>();
-        Connection con = DatabaseConnectionPool.getConnection();
-        PreparedStatement ps = null;
-        try  {
-            ps = con.prepareStatement("SELECT * FROM product WHERE name LIKE ?");
-            ps.setString(1, "%" + query + "%");
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                ProductBean p = new ProductBean();
-                p.setProductId(String.valueOf(rs.getInt("product_id")));
-                p.setName(rs.getString("name"));
-                p.setPurchasePrice(rs.getDouble("purchase_price"));
-                p.setBarcode(rs.getString("barcode"));
-                p.setSalePrice(rs.getDouble("sale_price"));
-                p.setDescription(rs.getString("description"));
-                p.setStockQuantity(rs.getInt("stock_quantity"));
-                p.setDiscount(rs.getDouble("discount"));
-                p.setMinimumAge(rs.getInt("minimum_age"));
-                p.setVendor(rs.getString("vendor"));
-                p.setIva(rs.getDouble("iva"));
-                p.setImagesPath(rs.getString("images_path"));
-                results.add(p);
-            }
-        } finally {
-            if (ps != null) {
-                ps.close();
-            }
-            DatabaseConnectionPool.releaseConnection(con);
-        }
-        return results;
-    }
-
     @Override
     public synchronized List<ProductBean> doRetriveAll() throws SQLException {
         Connection connection = null;
 
-        List <ProductBean> products = null;
+        List<ProductBean> products = null;
 
         PreparedStatement preparedStatement = null;
         String sql = "SELECT product_id, name, category, purchase_price, barcode, sale_price, description, " +
@@ -225,7 +216,7 @@ public class ProductDAO implements ProductModel {
 
         String sql = "DELETE FROM product WHERE product_id = ?";
 
-        try{
+        try {
             connection = DatabaseConnectionPool.getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
