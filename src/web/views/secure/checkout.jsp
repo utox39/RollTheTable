@@ -24,7 +24,7 @@
 <body>
 <jsp:include page="/views/navbar.jsp" flush="true"/>
 
-<div id="checkout" class="container mt-5">
+<div id="checkout" class="container mt-5 main-content">
     <div class="main-header text-center">
         <h1>Che il divertimento abbia inizio!</h1>
         <br>
@@ -394,6 +394,9 @@
     </form>
 
 </div>
+
+<hr>
+<jsp:include page="../../views/footer.jsp" flush="true"/>
 
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/address.js"></script>
