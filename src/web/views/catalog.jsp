@@ -17,7 +17,7 @@
 </head>
 <body>
 <jsp:include page="../views/navbar.jsp" flush="true"/>
-<div id="products" class="container mt-5">
+<div id="products" class="container mt-5 main-content">
     <div class="main-header text-center">
         <h1>🎲 RollTheTable - Prodotti</h1>
         <p class="text-secondary">This is what happens when you lose!</p>
@@ -55,6 +55,9 @@
         %>
     </div>
 </div>
+
+<hr>
+<jsp:include page="../views/footer.jsp" flush="true"/>
 
 <!-- Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

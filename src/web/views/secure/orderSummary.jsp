@@ -25,7 +25,7 @@
           href="${pageContext.request.contextPath}/style/main.css">
 </head>
 <body>
-<main class="container py-5">
+<main class="container py-5 main-content">
     <div class="text-center mb-5">
         <h1 class="display-5 fw-bold">Grazie per il tuo acquisto!</h1>
         <p class="lead">Ecco il riepilogo del tuo ordine.</p>
@@ -110,6 +110,9 @@
         <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-danger btn-primary ms-2">Torna alla Home</a>
     </div>
 </main>
+
+<hr>
+<jsp:include page="../../views/footer.jsp" flush="true"/>
 
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>

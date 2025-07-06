@@ -16,7 +16,7 @@
 	<body>
 		<jsp:include page="navbar.jsp" flush="true" />
 
-		<div id="cart" class="container mt-5">
+		<div id="cart" class="container mt-5 main-content">
 		<%
 			CartBean cart = (CartBean) session.getAttribute("cart");
 
@@ -57,6 +57,9 @@
 				</div>
 		<%	} %>
 		</div>
+
+		<hr>
+		<jsp:include page="../views/footer.jsp" flush="true"/>
 
 		<!-- Bootstrap JS -->
 		<script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

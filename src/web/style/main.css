@@ -1,5 +1,19 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #1c1c1e;
     color: #e5e5e5;
     font-family: 'Segoe UI', sans-serif;
+}
+
+.main-content {
+    flex: 1;
+    margin-bottom: 10rem; /* adds spacing with footer  */
 }

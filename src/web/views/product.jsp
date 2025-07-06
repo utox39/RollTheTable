@@ -17,7 +17,7 @@
 </head>
 <body>
 <jsp:include page="../views/navbar.jsp" flush="true"/>
-<div class="container mt-5" id="product">
+<div class="container mt-5 main-content" id="product">
     <% ProductBean productBean = (ProductBean) request.getAttribute("product");%>
 
     <% if (productBean != null) {%>
@@ -41,6 +41,9 @@
     <div class="text-danger">Errore nel caricamento del prodotto.</div>
     <% } %>
 </div>
+
+<hr>
+<jsp:include page="../views/footer.jsp" flush="true"/>
 
 <!-- Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
