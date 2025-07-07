@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
@@ -34,8 +36,21 @@ public class OrderController extends HttpServlet {
 
         int orderId = 0;
 
+        double productPrice;
+
         for (Map.Entry<ProductBean, Integer>productEntry : cartBean.getCart().entrySet()) {
-            orderBean.addProducts(productEntry.getKey(), productEntry.getValue(), productEntry.getKey().getSalePrice());
+            productPrice = productEntry.getKey().getSalePrice();
+
+            if (productEntry.getKey().getDiscount() > 0) {
+                BigDecimal salePrice = BigDecimal.valueOf(productEntry.getKey().getSalePrice());
+                BigDecimal discountPercentage = BigDecimal.valueOf(productEntry.getKey().getDiscount())
+                        .divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
+                BigDecimal discountValue = salePrice.multiply(discountPercentage);
+                BigDecimal discountedPrice = salePrice.subtract(discountValue).setScale(2, RoundingMode.HALF_UP);
+                productPrice = discountedPrice.doubleValue();
+            }
+
+            orderBean.addProducts(productEntry.getKey(), productEntry.getValue(), productPrice);
         }
 
         orderBean.setCustomerId(user.getCustomerId());
