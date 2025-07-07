@@ -138,9 +138,9 @@
                 <div class="mb-3">
                     <label for="shipping-street-name" class="form-label">Via</label>
                     <input type="text" name="shipping-street-name" id="shipping-street-name" class="form-control"
-                           pattern="\d+[a-zA-Z]?"
-                           inputmode="numeric"
-                           oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, '')"
+<%--                           pattern="\d+[a-zA-Z]?"--%>
+<%--                           inputmode="numeric"--%>
+<%--                           oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, '')"--%>
                            required>
                 </div>
                 <div class="mb-3">
