@@ -81,7 +81,7 @@ public class CartDAO {
         String cartContainsQuery = "SELECT product_id, quantity FROM cart_contains WHERE cart_id = ?";
         PreparedStatement stmt1 = null;
         PreparedStatement stmt2 = null;
-        CartBean cart;
+        CartBean cart = null;
         Connection connection = null;
 
         try {
@@ -94,7 +94,8 @@ public class CartDAO {
 
             // assume that only one cart exists for a customer
             ResultSet res = stmt1.executeQuery();
-            res.next();
+            if (!res.next()) return null;
+
             cartId = res.getInt("cart_id");
 
             stmt2 = connection.prepareStatement(cartContainsQuery);
