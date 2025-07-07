@@ -8,6 +8,7 @@
 <%@ page import="java.math.BigDecimal" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.math.RoundingMode" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="it">
@@ -333,13 +334,42 @@
                 </div>
 
                 <div class="col-md-3 text-end">
-                    <h5 class="fw-bold"><%= productEntry.getKey().getSalePrice() %> &euro;</h5>
+                    <h5 class="fw-bold">
+                        <% double productPrice = 0.0; %>
+                        <% if (productEntry.getKey().getDiscount() > 0) { %>
+                        <span class="badge bg-danger me-2 small rounded-pill">
+                            - <%= productEntry.getKey().getDiscount() %> &percnt;
+                        </span>
+
+                        <%
+                            BigDecimal salePrice = BigDecimal.valueOf(productEntry.getKey().getSalePrice());
+                            BigDecimal discountPercentage = BigDecimal.valueOf(productEntry.getKey().getDiscount())
+                                    .divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
+                            BigDecimal discountValue = salePrice.multiply(discountPercentage);
+                            BigDecimal discountedPrice = salePrice.subtract(discountValue).setScale(2, RoundingMode.HALF_UP);
+                            productPrice = discountedPrice.doubleValue();
+                        %>
+
+                        <span class="fw-bold me-2">
+                            <%= discountedPrice %> &euro;
+                        </span>
+
+                        <span class="text-decoration-line-through">
+                            <%= productEntry.getKey().getSalePrice() %> &euro;
+                        </span>
+                        <% } else { %>
+                        <span class="fw-bold">
+                            <% productPrice = productEntry.getKey().getSalePrice(); %>
+                            <%= productPrice %> &euro;
+                        </span>
+                        <% } %>
+                    </h5>
                     <h5 class="fw-bold">Quantit&agrave;: <%= productEntry.getValue() %>
                     </h5>
                 </div>
 
                 <%
-                    total = total.add(BigDecimal.valueOf(productEntry.getKey().getSalePrice() * productEntry.getValue()));
+                    total = total.add(BigDecimal.valueOf(productPrice * productEntry.getValue()));
                 %>
             </div>
             <br>

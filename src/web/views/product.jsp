@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.bean.ProductBean" %>
+<%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.math.RoundingMode" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +34,33 @@
             </h1>
             <p class="lead"><%= productBean.getDescription() %>
             </p>
-            <h3 class="text-success mt-3"><%= productBean.getSalePrice() %> &euro;</h3>
+            <% if (productBean.getDiscount() > 0) { %>
+            <h3 class="mt-3 d-flex align-items-center">
+                <span class="badge bg-danger me-2 small rounded-pill">
+                    - <%= productBean.getDiscount() %> &percnt;
+                </span>
+
+                <%
+                    BigDecimal salePrice = BigDecimal.valueOf(productBean.getSalePrice());
+                    BigDecimal discountPercentage = BigDecimal.valueOf(productBean.getDiscount())
+                            .divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
+                    BigDecimal discountValue = salePrice.multiply(discountPercentage);
+                    BigDecimal discountedPrice = salePrice.subtract(discountValue).setScale(2, RoundingMode.HALF_UP);
+                %>
+
+                <span class="fw-bold me-2">
+                    <%= discountedPrice %> &euro;
+                </span>
+
+                <span class="text-decoration-line-through">
+                    <%= productBean.getSalePrice() %> &euro;
+                </span>
+            </h3>
+            <% } else { %>
+            <h3 class="mt-3 fw-bold"><%= productBean.getSalePrice() %> &euro;</h3>
+            <% } %>
+
+            <br>
             <a href="${pageContext.request.contextPath}/cart?op=add&productId=<%= productBean.getProductId() %>"
                class="btn btn-primary">Add to cart</a>
         </div>
