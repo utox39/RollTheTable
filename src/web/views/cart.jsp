@@ -14,6 +14,7 @@
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
 		<!-- Custom CSS -->
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/cart.css">
 	</head>
 	<body>
 		<jsp:include page="navbar.jsp" flush="true" />
@@ -46,7 +47,7 @@
 							<div class="mt-2">
 <%--								<a href="${pageContext.request.contextPath}/cart?op=remove&productId=<%= productEntry.getKey().getProductId() %>"--%>
 <%--								   class="text-decoration-none me-3 text-danger">Rimuovi</a>--%>
-								<button type="button" class="btn btn-link text-decoration-none me-3 text-danger p-0" onclick="removeFromTheCart(<%= productEntry.getKey().getProductId() %>)">
+								<button type="button" class="remove-from-cart btn btn-link text-decoration-none me-3 text-danger p-0" onclick="removeFromTheCart(<%= productEntry.getKey().getProductId() %>)">
 									Rimuovi
 								</button>
 							</div>
