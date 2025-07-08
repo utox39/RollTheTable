@@ -1,6 +1,7 @@
 package model.dao;
 
 import db.DatabaseConnectionPool;
+import model.CartModel;
 import model.bean.CartBean;
 import model.bean.CustomerBean;
 import model.bean.ProductBean;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 
-public class CartDAO {
+public class CartDAO implements CartModel {
 
     public synchronized void addToCart(CustomerBean customer, CartBean cart) throws SQLException {
         String cartQuery = "insert into cart(customer_id) values(?) on duplicate key update customer_id = customer_id";
