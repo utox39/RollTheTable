@@ -9,7 +9,7 @@ import java.io.IOException;
 public class CustomerController extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect("./views/secure/customerProfile.jsp");
+        req.getRequestDispatcher("/views/secure/customerProfile.jsp").forward(req, resp);
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

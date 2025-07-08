@@ -10,12 +10,12 @@
   <title>Profilo Utente</title>
 
   <!-- Bootstrap -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/web/bootstrap-5.3.3-dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/web/style/main.css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/web/style/customerProfile.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/style/customerProfile.css" />
 </head>
 <body>
-<jsp:include page="/web/views/navbar.jsp" />
+<jsp:include page="/views/navbar.jsp" />
 
 <div class="container mt-5 main-content">
   <h2 class="mb-4 text-center">Profilo Utente</h2>
@@ -87,7 +87,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="${pageContext.request.contextPath}/web/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
-<script src="${pageContext.request.contextPath}/web/js/customerProfile.js"></script>
+<script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/customerProfile.js"></script>
 </body>
 </html>
