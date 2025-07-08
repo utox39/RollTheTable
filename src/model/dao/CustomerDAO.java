@@ -106,6 +106,35 @@ public class CustomerDAO implements CustomerModel {
             DatabaseConnectionPool.releaseConnection(connection);
         }
     }
+
+    public synchronized void doUpdate(CustomerBean customerBean) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String sql = "UPDATE customer SET `name` = ?, surname = ?, username = ?, email = ?, phone = ?, psw_hash = ? " +
+                "WHERE customer_id = ?";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, customerBean.getName());
+            preparedStatement.setString(2, customerBean.getSurname());
+            preparedStatement.setString(3, customerBean.getUsername());
+            preparedStatement.setString(4, customerBean.getEmail());
+            preparedStatement.setString(5, customerBean.getPhone());
+            preparedStatement.setString(6, customerBean.getPswHash());
+            preparedStatement.setInt(7, customerBean.getCustomerId()); // Assuming customerId is used for updating
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+    }
     public synchronized CustomerBean authenticate(String login, String pswHash) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
