@@ -4,7 +4,7 @@ function doCartOperation(op, productId) {
         method: "GET",
     }).then((response) => {
         if (response.ok) {
-            if (op === "remove") {
+            if (op !== "add") {
                 location.reload();
             }
         }
@@ -17,4 +17,12 @@ function addToTheCart(productId) {
 
 function removeFromTheCart(productId) {
     doCartOperation("remove", productId);
+}
+
+function decreaseQuantity(productId) {
+    doCartOperation("decrease", productId);
+}
+
+function increaseQuantity(productId) {
+    doCartOperation("increase", productId);
 }
