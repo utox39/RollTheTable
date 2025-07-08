@@ -72,6 +72,19 @@ public class CartBean implements Serializable {
         }
     }
 
+    public void decreaseQuantity(ProductBean product) {
+        for (Map.Entry<ProductBean, Integer>productEntry : this.cart.entrySet()) {
+            if (productEntry.getKey().getProductId().equals(product.getProductId())) {
+                if ((productEntry.getValue() - 1) == 0) {
+                    this.cart.remove(product);
+                } else {
+                    productEntry.setValue(productEntry.getValue() - 1);
+                }
+
+                break;
+            }
+        }
+    }
 
     @Override
     public String toString() {

@@ -150,4 +150,26 @@ public class CartDAO {
             DatabaseConnectionPool.releaseConnection(connection);
         }
     }
+
+    public synchronized void doUpdateQuantity(CartBean cart, ProductBean product, int quantity) throws SQLException {
+        String updateQuantityQuery = "UPDATE cart_contains SET quantity = ? WHERE cart_id = ? AND product_id = ?";
+        PreparedStatement stmt = null;
+        Connection connection = null;
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            stmt = connection.prepareStatement(updateQuantityQuery);
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, cart.getCartId());
+            stmt.setInt(3, Integer.parseInt(product.getProductId()));
+            stmt.executeUpdate();
+            connection.commit();
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+    }
 }

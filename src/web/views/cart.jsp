@@ -81,7 +81,21 @@
 								</span>
 								<% } %>
 							</h5>
-							<h5 class="fw-bold">Quantit&agrave;: <%= productEntry.getValue() %></h5>
+							<div class="d-flex align-items-center justify-content-end">
+								<button type="button"
+										class="btn btn-outline-secondary btn-sm me-2"
+										onclick="decreaseQuantity(<%= productEntry.getKey().getProductId() %>)">
+									&minus;
+								</button>
+
+								<h5 class="fw-bold"><%= productEntry.getValue() %></h5>
+
+								<button type="button"
+										class="btn btn-outline-secondary btn-sm ms-2"
+										onclick="increaseQuantity(<%= productEntry.getKey().getProductId() %>)">
+									&plus;
+								</button>
+							</div>
 						</div>
 					</div>
 					<br>

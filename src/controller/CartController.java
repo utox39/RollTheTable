@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 @WebServlet("/cart")
 public class CartController extends HttpServlet {
@@ -33,7 +34,7 @@ public class CartController extends HttpServlet {
                 logged = true;
             }
 
-            if (op != null && op.equals("add")) {
+            if (op != null && (op.equals("add") || op.equals("increase") )) {
                 productBean = new ProductDAO().doRetrieveById(productId);
 
                 if (session.getAttribute("cart") == null) {
@@ -48,8 +49,6 @@ public class CartController extends HttpServlet {
                 if (logged) {
                     new CartDAO().addToCart(user, cartBean);
                 }
-
-                response.sendRedirect(request.getHeader("Referer"));
             } else if (op != null && op.equals("remove")) {
                 productBean = new ProductDAO().doRetrieveById(productId);
                 cartBean = (CartBean) session.getAttribute("cart");
@@ -58,8 +57,6 @@ public class CartController extends HttpServlet {
                 if (logged) {
                     new CartDAO().removeFromCart(cartBean, productBean);
                 }
-
-                response.sendRedirect(request.getHeader("Referer"));
             } else if (op != null && op.equals("get")) {
                 if (logged) {
                     cartBean = new CartDAO().retrieveCart(user);
@@ -67,6 +64,32 @@ public class CartController extends HttpServlet {
                 }
 
                 request.getRequestDispatcher("/views/cart.jsp").forward(request, response);
+            } else if (op != null && op.equals("decrease")) {
+                productBean = new ProductDAO().doRetrieveById(productId);
+                cartBean = (CartBean) session.getAttribute("cart");
+                int actualQuantity = cartBean.getCart().entrySet()
+                        .stream()
+                        .filter(entry -> entry.getKey().getProductId().equals(productBean.getProductId()))
+                        .map(Map.Entry::getValue)
+                        .findFirst().orElse(0);
+
+                int newQuantity = 0;
+                if ((actualQuantity - 1) == 0) {
+                    cartBean.remove(productBean);
+                } else {
+                    cartBean.decreaseQuantity(productBean);
+                    newQuantity = actualQuantity - 1;
+                }
+
+                if (logged) {
+                    CartDAO cartDAO = new CartDAO();
+                    if ((actualQuantity - 1) == 0) {
+                        cartDAO.removeFromCart(cartBean, productBean);
+                    } else {
+                        cartDAO.doUpdateQuantity(cartBean, productBean, newQuantity);
+                    }
+                    session.setAttribute("cart", cartBean);
+                }
             }
         } catch (SQLException e) {
             ServerLogger.severe(CartController.class.getName(), "CartController SQLException: " + e.getMessage());
