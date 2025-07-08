@@ -2,11 +2,16 @@
 <%@ page import="model.bean.CustomerBean" %>
 <%
   CustomerBean customer = (CustomerBean) session.getAttribute("loggedUser");
+  if (customer == null) {
+    response.sendRedirect(request.getContextPath() + "/login.jsp");
+    return;
+  }
 %>
 <!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profilo Utente</title>
 
   <!-- Bootstrap -->
@@ -20,9 +25,10 @@
 <div class="container mt-5 main-content">
   <h2 class="mb-4 text-center">Profilo Utente</h2>
 
-  <form id="profileForm" method="post" action="UpdateCustomerServlet" novalidate>
+  <form id="profileForm" method="post" action="${pageContext.request.contextPath}/secure/customer" novalidate>
+    <input type="hidden" id="customerId" name="customerId" value="<%= customer.getCustomerId() %>" />
+    <input type="hidden" id="username" name="username" value="<%= customer.getUsername() %>" />
 
-    <!-- Nome -->
     <div class="mb-4">
       <label for="name" class="form-label">Nome</label>
       <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
@@ -34,7 +40,6 @@
       </div>
     </div>
 
-    <!-- Cognome -->
     <div class="mb-4">
       <label for="surname" class="form-label">Cognome</label>
       <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
@@ -46,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Email -->
     <div class="mb-4">
       <label for="email" class="form-label">Email</label>
       <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
@@ -61,7 +65,6 @@
       </div>
     </div>
 
-    <!-- Telefono -->
     <div class="mb-4">
       <label for="phone" class="form-label">Telefono</label>
       <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
@@ -86,7 +89,6 @@
   </form>
 </div>
 
-<!-- Scripts -->
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/customerProfile.js"></script>
 </body>
