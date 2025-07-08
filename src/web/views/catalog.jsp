@@ -72,7 +72,10 @@
                         <%= product.getSalePrice() %> &euro;
                         <% } %>
                     </p>
-                    <a href="${pageContext.request.contextPath}/cart?op=add&productId=<%= product.getProductId() %>" class="btn btn-primary">Add to cart</a>
+<%--                    <a href="${pageContext.request.contextPath}/cart?op=add&productId=<%= product.getProductId() %>" class="btn btn-primary" id="addToCart">Add to cart</a>--%>
+                    <button type="button" id="addToCart" class="btn btn-primary" onclick="addToTheCart(<%= product.getProductId() %>)">
+                        Aggiungi al carrello
+                    </button>
                 </div>
             </div>
         </div>
@@ -86,6 +89,7 @@
 <hr>
 <jsp:include page="../views/footer.jsp" flush="true"/>
 
+<script src="${pageContext.request.contextPath}/js/cartOperations.js"></script>
 <!-- Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
