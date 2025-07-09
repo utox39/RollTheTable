@@ -1,118 +1,155 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="model.bean.OrdersBean" %>
-<%@ page import="model.bean.ProductBean" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.text.DecimalFormat" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" import="model.dao.ProductDAO,model.bean.ProductBean,java.util.List" %>
 <%
-    OrdersBean ordersBean = (OrdersBean) session.getAttribute("orderDetails");
-    DecimalFormat df = new DecimalFormat("0.00");
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-    double subtotal = 0;
-%>
+    List<ProductBean> newArrivals = (List<ProductBean>) request.getAttribute("latestProducts");
+    List<ProductBean> specialOffers = (List<ProductBean>) request.getAttribute("discountedProducts");
+    List<ProductBean> popularProducts = (List<ProductBean>) request.getAttribute("popularProducts");
+    List<ProductBean> acclaimedProducts = (List<ProductBean>) request.getAttribute("acclaimedProducts");
 
+    if (newArrivals == null) newArrivals = new java.util.ArrayList<>();
+    if (specialOffers == null) specialOffers = new java.util.ArrayList<>();
+    if (popularProducts == null) popularProducts = new java.util.ArrayList<>();
+    if (acclaimedProducts == null) acclaimedProducts = new java.util.ArrayList<>();
+%>
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <title>RollTheTable - Riepilogo</title>
+    <title>RollTheTable</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css"
-          href="${pageContext.request.contextPath}/style/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/homepage.css"/>
 </head>
 <body>
-<main class="container py-5 main-content">
-    <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold">Grazie per il tuo acquisto!</h1>
-        <p class="lead">Ecco il riepilogo del tuo ordine.</p>
-    </div>
+<jsp:include page="/views/navbar.jsp" flush="true"/>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-danger text-white">
-            <h5 class="mb-0 bg-danger">Dettagli Ordine</h5>
-        </div>
-        <div class="card-body">
-            <table class="table table-bordered align-middle">
-                <thead class="table-light">
-                <tr>
-                    <th>Prodotto</th>
-                    <th>Quantità</th>
-                    <th>Prezzo Unitario</th>
-                    <th>Totale</th>
-                </tr>
-                </thead>
-                <tbody>
+<main class="container my-5">
+
+    <header class="text-center mb-5">
+        <h1 class="display-4 text-danger">🎲 RollTheTable</h1>
+        <p class="lead text-danger">Esplora il mondo dei giochi da tavolo!</p>
+    </header>
+
+    <!-- NUOVI ARRIVI -->
+    <section class="product-carousel mb-5 p-4">
+        <h2 class="section-title text-center text-danger">Nuovi Arrivi</h2>
+        <div id="newArrivalsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-inner">
+
                 <%
-                    if (ordersBean != null && ordersBean.getProducts() != null) {
-                        for (Map.Entry<ProductBean, OrdersBean.PurchaseInfo> entry : ordersBean.getProducts().entrySet()) {
-                            ProductBean product = entry.getKey();
-                            OrdersBean.PurchaseInfo info = entry.getValue();
-                            int qty = info.getQuantity();
-                            double unitPrice = info.getPriceAtPurchase();
-                            double totalPrice = qty * unitPrice;
-                            subtotal += totalPrice;
+                    boolean first = true;
+                    for(ProductBean product : newArrivals) {
                 %>
-                <tr>
-                    <td><%= product.getName() %></td>
-                    <td><%= qty %></td>
-                    <td>€ <%= df.format(unitPrice) %></td>
-                    <td>€ <%= df.format(totalPrice) %></td>
-                </tr>
+                <div class="carousel-item <%= first ? "active" : "" %>">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm">
+                                <img src="${pageContext.request.contextPath}/assets/images/logo.JPG"
+                                     class="card-img-top"
+                                     alt="<%= product.getName() %>">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title"><%= product.getName() %></h5>
+                                    <p class="card-text flex-grow-1 text-muted">
+                                        <%= product.getDescription() %>
+                                    </p>
+                                    <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>" class="btn btn-danger mt-2">Scopri di più</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <%
-                        }
+                        first = false;
                     }
                 %>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="3" class="text-end fw-bold">Subtotale:</td>
-                    <td>€ <%= df.format(subtotal) %></td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="text-end fw-bold">Spedizione:</td>
-                    <td>€ <%= df.format(ordersBean.getShippingPrice()) %></td>
-                </tr>
-                <tr class="table-success">
-                    <td colspan="3" class="text-end fw-bold">Totale Ordine:</td>
-                    <td class="fw-bold">€ <%= df.format(subtotal + ordersBean.getShippingPrice()) %></td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
 
-    <!-- Order Info -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <p><strong>ID Ordine:</strong> <%= ordersBean.getOrderId() %></p>
-            <p><strong>Data Acquisto:</strong> <%= sdf.format(ordersBean.getPurchaseDate()) %></p>
-        </div>
-        <div class="col-md-6">
-            <!-- <p><strong>Indirizzo Spedizione ID:</strong> <%= ordersBean.getShippingAddressId() %></p>
-            <p><strong>Metodo di Pagamento ID:</strong> <%= ordersBean.getPaymentMethodId() %></p> -->
-        </div>
-    </div>
+            </div>
 
-    <!-- Invoice Download -->
-    <div class="text-center mb-4">
-        <a href="${pageContext.request.contextPath}/generate-invoice" target="_blank"
-           class="btn btn-outline-secondary btn-lg">
-            📄 Scarica la Fattura
-        </a>
-    </div>
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#newArrivalsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#newArrivalsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
 
-    <!-- Back Home -->
-    <div class="text-center">
-        <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-danger btn-primary ms-2">Torna alla Home</a>
-    </div>
+        </div>
+    </section>
+
+    <!-- OFFERTE SPECIALI -->
+    <section class="product-grid mb-5">
+        <h2 class="section-title text-center text-danger">Offerte Speciali</h2>
+        <div class="row g-4">
+            <%
+                for(ProductBean product : specialOffers) {
+            %>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card h-100 text-center">
+                    <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>">
+                        <img src="${pageContext.request.contextPath}/assets/images/logo.JPG" class="card-img-top img-fluid" alt="<%= product.getName() %>">
+                        <div class="card-body">
+                            <h6 class="card-title mb-1"><%= product.getName() %></h6>
+                            <p class="fw-bold text-danger mb-0">Sconto: <%= product.getDiscount() %>%</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- PIÙ POPOLARI -->
+    <% if (!popularProducts.isEmpty()) { %>
+    <section class="product-grid mb-5">
+        <h2 class="section-title text-center text-danger">Più Popolari</h2>
+        <div class="row g-4">
+            <%
+                for(ProductBean product : popularProducts) {
+            %>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card h-100 text-center">
+                    <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>">
+                        <img src="${pageContext.request.contextPath}/assets/images/logo.JPG" class="card-img-top img-fluid" alt="<%= product.getName() %>">
+                        <div class="card-body">
+                            <h6 class="card-title mb-0"><%= product.getName() %></h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </section>
+    <% } %>
+
+    <!-- PRODOTTI ACCLAMATI -->
+    <% if (!acclaimedProducts.isEmpty()) { %>
+    <section class="product-grid mb-5">
+        <h2 class="section-title text-center text-danger">Prodotti Acclamati</h2>
+        <div class="row g-4">
+            <%
+                for(ProductBean product : acclaimedProducts) {
+            %>
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card h-100 text-center">
+                    <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>">
+                        <img src="${pageContext.request.contextPath}/assets/images/logo.JPG" class="card-img-top img-fluid" alt="<%= product.getName() %>">
+                        <div class="card-body">
+                            <h6 class="card-title mb-0"><%= product.getName() %></h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </section>
+    <% } %>
+
 </main>
 
 <hr>
-<jsp:include page="../../views/footer.jsp" flush="true"/>
+<jsp:include page="/views/footer.jsp" flush="true"/>
 
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
