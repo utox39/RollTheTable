@@ -1,5 +1,6 @@
 import model.bean.*;
 import model.dao.AddressDAO;
+import model.dao.CartDAO;
 import model.dao.OrdersDAO;
 import model.dao.PaymentMethodDAO;
 import util.ServerLogger;
@@ -70,6 +71,9 @@ public class OrderController extends HttpServlet {
             billingAddressBean = new AddressDAO().doRetrieveById(orderBean.getBillingAddressId());
 
             orderId = new OrdersDAO().doSave(orderBean);
+
+            // clear the cart in the database
+            new CartDAO().clearCart(cartBean.getCartId());
         } catch (SQLException e) {
             ServerLogger.severe(OrderController.class.getName(), "SQLException: " + e.getMessage());
         }
@@ -81,6 +85,9 @@ public class OrderController extends HttpServlet {
         session.setAttribute("billingAddress", billingAddressBean);
 
         session.setAttribute("orderDetails", orderBean);
+
+        // clear the cart in the session
+        session.setAttribute("cart", null);
 
         request.getRequestDispatcher("/views/secure/orderSummary.jsp").forward(request, response);
     }

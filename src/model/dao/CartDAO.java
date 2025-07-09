@@ -173,4 +173,25 @@ public class CartDAO implements CartModel {
             DatabaseConnectionPool.releaseConnection(connection);
         }
     }
+
+    public synchronized void clearCart(int cartId) throws SQLException {
+        Connection connection = DatabaseConnectionPool.getConnection();
+        PreparedStatement stmt = null;
+
+        String clearCartQuery = "DELETE FROM cart_contains WHERE cart_id = ?";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            stmt = connection.prepareStatement(clearCartQuery);
+            stmt.setInt(1, cartId);
+            stmt.executeUpdate();
+            connection.commit();
+        }  finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+    }
 }
