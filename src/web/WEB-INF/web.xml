@@ -7,6 +7,10 @@
         <location>/views/fallback.jsp</location>
     </error-page>
 
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
+
     <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>filter.AdminFilter</filter-class>
