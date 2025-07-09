@@ -214,7 +214,7 @@ public class OrdersDAO implements OrdersModel {
             ps1 = connection.prepareStatement(getOrderQuery);
             ps2 = connection.prepareStatement(getOrderProductsQuery);
 
-            ps2.setInt(1, id);
+            ps1.setInt(1, id);
             ResultSet rs1 = ps1.executeQuery();
             while (rs1.next()) {
                 ordersBean = new OrdersBean();
@@ -226,6 +226,8 @@ public class OrdersDAO implements OrdersModel {
                 ordersBean.setBillingAddressId(rs1.getInt("billing_address_id"));
                 ordersBean.setPurchaseDate(rs1.getDate("purchase_date"));
                 ordersBean.setShippingPrice(rs1.getDouble("shipping_price"));
+
+                System.out.println(ordersBean.getOrderId());
 
                 ps2.setInt(1, rs1.getInt("order_id"));
                 ResultSet rs2 = ps2.executeQuery();
