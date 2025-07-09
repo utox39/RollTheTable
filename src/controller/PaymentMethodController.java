@@ -46,7 +46,8 @@ public class PaymentMethodController extends HttpServlet {
                     "message", "Invalid JSON format"
             );
 
-            ServerLogger.severe(OrderController.class.getName(), "JSON error: " + e.getMessage());
+            ServerLogger.severe(PaymentMethodController.class.getName(), "JSON error: " + e.getMessage());
+
         } catch (Exception e) {
             statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
             responseBody = Map.of(
@@ -59,20 +60,20 @@ public class PaymentMethodController extends HttpServlet {
         //! NOTE: the customer ID must be set here, otherwise Jackson will overwrite it with 0
         paymentMethodBean.setCustomerId(customerId);
 
-        PaymentMethodDAO paymentMethodDAO = new PaymentMethodDAO();
-
-        try {
-           paymentMethodDAO.doSave(paymentMethodBean);
-        } catch (SQLException e) {
-            ServerLogger.severe(PaymentMethodController.class.getName(), "PaymentMethodController doSave SQLException: " + e.getMessage());
-        }
-
         response.setStatus(statusCode);
         try {
             mapper.writeValue(response.getWriter(), responseBody);
         } catch (IOException e) {
             ServerLogger.severe(OrderController.class.getName(), "JSON error: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+
+        PaymentMethodDAO paymentMethodDAO = new PaymentMethodDAO();
+        try {
+            paymentMethodDAO.doSave(paymentMethodBean);
+        } catch (SQLException e) {
+            ServerLogger.severe(PaymentMethodController.class.getName(), "doSave SQLException: " + e.getMessage());
         }
     }
 }
