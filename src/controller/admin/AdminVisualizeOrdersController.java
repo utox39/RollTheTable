@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 
 @WebServlet("/admin/secure/orders")
@@ -16,9 +17,35 @@ public class AdminVisualizeOrdersController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ordersAttr = "orders";
         request.removeAttribute(ordersAttr);
+
+        String startDateStr = request.getParameter("startDate");
+        String endDateStr = request.getParameter("endDate");
+
+        Date startDate = null;
+        Date endDate = null;
+
+        boolean retrieveByDate = false;
+
+        if (startDateStr != null && !startDateStr.isEmpty()) {
+            startDate = Date.valueOf(startDateStr);
+            retrieveByDate = true;
+        }
+
+        if (retrieveByDate && (endDateStr != null) && (!endDateStr.isEmpty())) {
+            endDate = Date.valueOf(endDateStr);
+        } else {
+            retrieveByDate = false;
+        }
+
         try {
             OrdersDAO ordersDAO = new OrdersDAO();
-            request.setAttribute(ordersAttr, ordersDAO.doRetrieveAll());
+
+            if (retrieveByDate) {
+                request.setAttribute(ordersAttr, ordersDAO.doRetrieveOrdersByDateRange(startDate, endDate));
+            } else {
+                request.setAttribute(ordersAttr, ordersDAO.doRetrieveAll());
+            }
+
         } catch (SQLException e) {
             ServerLogger.severe(AdminVisualizeOrdersController.class.getName(), "doRetrieveAll SQLException: " + e.getMessage());
             request.setAttribute(ordersAttr, null);
