@@ -20,7 +20,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Modifica prodotti</h5>
-                            <a href="${pageContext.request.contextPath}/views/admin/secure/products.jsp" class="btn btn-primary btn-danger">Modifica prodotti</a>
+                            <a href="${pageContext.request.contextPath}/views/admin/secure/products.jsp" class="btn btn-danger">Modifica prodotti</a>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Visualizza utenti</h5>
-                            <a href="${pageContext.request.contextPath}/admin/secure/users" class="btn btn-primary btn-danger">Visualizza utenti</a>
+                            <a href="${pageContext.request.contextPath}/admin/secure/users" class="btn btn-danger">Visualizza utenti</a>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Visualizza ordini</h5>
-                            <a href="${pageContext.request.contextPath}/admin/secure/orders" class="btn btn-primary btn-danger">Visualizza ordini</a>
+                            <a href="${pageContext.request.contextPath}/admin/secure/orders" class="btn btn-danger">Visualizza ordini</a>
                         </div>
                     </div>
                 </div>
