@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.bean.CustomerBean;
 import model.dao.CustomerDAO;
 import util.HashUtil;
@@ -11,11 +12,54 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 @WebServlet("/register")
 public class RegisterController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String checkEmail = request.getParameter("checkEmail");
+        if (checkEmail != null && !checkEmail.isEmpty()) {
+            int statusCode = HttpServletResponse.SC_OK;
+            Object responseBody = Map.of("status", "success");
+
+            final ObjectMapper mapper = new ObjectMapper();
+            CustomerDAO customerDAO = new CustomerDAO();
+
+            try {
+                if (customerDAO.doesEmailExists(checkEmail)) {
+                   responseBody = Map.of(
+                           "status", "success",
+                           "email", "true"
+                   );
+                } else {
+                    responseBody = Map.of(
+                            "status", "success",
+                            "email", "false"
+                    );
+                }
+            } catch (SQLException e) {
+                ServerLogger.severe(RegisterController.class.getName(), "doesEmailExists SQLException: " + e.getMessage());
+                statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+                responseBody = Map.of(
+                        "status", "error",
+                        "message", "Internal server error"
+                );
+            }
+
+            response.setStatus(statusCode);
+            response.setContentType("application/json");
+
+            try {
+                mapper.writeValue(response.getWriter(), responseBody);
+            } catch (IOException e) {
+                ServerLogger.severe(RegisterController.class.getName(), "JSON error: " + e.getMessage());
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+
+            return;
+        }
+
         request.getRequestDispatcher("/views/register.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
