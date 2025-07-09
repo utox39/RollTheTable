@@ -1,7 +1,7 @@
 <%@ page import="model.bean.AdminBean" %>
 <nav class="navbar bg-dark navbar-expand-lg position-relative" data-bs-theme="dark">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="${pageContext.request.contextPath}/">RollTheTable</a>
+		<a class="navbar-brand" href="${pageContext.request.contextPath}/admin/secure/panel">RollTheTable</a>
 		<button
 				class="navbar-toggler"
 				type="button"
