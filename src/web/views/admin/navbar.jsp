@@ -23,15 +23,15 @@
 				</li>
 			</ul>
 
-			<form class="d-flex position-absolute top-50 start-50 translate-middle" role="search" style="width: 50%;">
-				<input
-						class="form-control me-2"
-						type="search"
-						placeholder="Search"
-						aria-label="Search"
-				/>
-				<button class="btn btn-outline-success" type="submit">Search</button>
-			</form>
+<%--			<form class="d-flex position-absolute top-50 start-50 translate-middle" role="search" style="width: 50%;">--%>
+<%--				<input--%>
+<%--						class="form-control me-2"--%>
+<%--						type="search"--%>
+<%--						placeholder="Search"--%>
+<%--						aria-label="Search"--%>
+<%--				/>--%>
+<%--				<button class="btn btn-outline-success" type="submit">Search</button>--%>
+<%--			</form>--%>
 
 			<ul class="navbar-nav mb-2 mb-lg-0">
 				<li class="nav-item">
