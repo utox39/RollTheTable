@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrdersDAO implements OrdersModel {
-    public OrdersBean doRetriveById(int id) throws SQLException {
+    public synchronized OrdersBean doRetriveById(int id) throws SQLException {
         Connection connection = null;
         OrdersBean ordersBean;
 
@@ -71,7 +71,7 @@ public class OrdersDAO implements OrdersModel {
         return ordersBean;
     }
 
-    public int doSave(OrdersBean ordersBean) throws SQLException {
+    public synchronized int doSave(OrdersBean ordersBean) throws SQLException {
         Connection connection = null;
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
@@ -131,7 +131,7 @@ public class OrdersDAO implements OrdersModel {
         return orderId;
     }
 
-    public List<OrdersBean> doRetrieveAll() throws SQLException {
+    public synchronized List<OrdersBean> doRetrieveAll() throws SQLException {
         ArrayList<OrdersBean> ordersList = new ArrayList<>();
 
         Connection connection = null;
@@ -192,7 +192,7 @@ public class OrdersDAO implements OrdersModel {
 
         return ordersList;
     }
-    public List<OrdersBean> doRetrieveAllByCustomerId(int id) throws SQLException {
+    public synchronized List<OrdersBean> doRetrieveAllByCustomerId(int id) throws SQLException {
         ArrayList<OrdersBean> ordersList = new ArrayList<>();
 
         Connection connection = null;
