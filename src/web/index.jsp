@@ -22,12 +22,12 @@
 <body>
 <jsp:include page="views/navbar.jsp" flush="true"/>
 
-<main class="container my-5">
+<div id="index" class="container my-5 main-content">
 
-	<header class="text-center mb-5">
-		<h1 class="display-4">🎲 RollTheTable</h1>
-		<p class="lead text-secondary">Esplora il mondo dei giochi da tavolo!</p>
-	</header>
+	<div class="main-header text-center">
+		<h1>🎲 RollTheTable - Home</h1>
+		<p class="text-secondary">This is what happens when you lose!</p>
+	</div>
 
 	<!-- New Arrivals Section (Carousel) -->
 	<section class="product-carousel mb-5 p-4">
@@ -132,8 +132,9 @@
 		</div>
 	</section>
 
-</main>
+</div>
 
+<hr>
 <jsp:include page="views/footer.jsp" flush="true"/>
 
 <!-- Bootstrap JS Bundle -->
