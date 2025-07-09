@@ -41,7 +41,19 @@
                        value="<%= request.getParameter("endDate") != null ? request.getParameter("endDate") : "" %>">
             </div>
             <div class="col-md-4 align-self-end">
-                <button type="submit" class="btn btn-primary">Filtra</button>
+                <button type="submit" class="btn btn-primary">Filtra per date</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="container mb-4">
+        <form class="row g-3" method="get" action="${pageContext.request.contextPath}/admin/secure/orders">
+            <div class="col-md-4">
+                <label for="customerId" class="form-label">ID Cliente</label>
+                <input type="number" class="form-control" id="customerId" name="customerId">
+            </div>
+            <div class="col-md-4 align-self-end">
+                <button type="submit" class="btn btn-primary">Filtra per cliente</button>
             </div>
         </form>
     </div>

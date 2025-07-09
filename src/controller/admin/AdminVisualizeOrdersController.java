@@ -21,12 +21,15 @@ public class AdminVisualizeOrdersController extends HttpServlet {
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
 
+        String customerId = request.getParameter("customerId");
+
+        boolean retrieveByDate = false;
+        boolean retrieveByCustomerId = customerId != null;
+
         Date startDate = null;
         Date endDate = null;
 
-        boolean retrieveByDate = false;
-
-        if (startDateStr != null && !startDateStr.isEmpty()) {
+        if ((!retrieveByCustomerId) && (startDateStr != null) && (!startDateStr.isEmpty())) {
             startDate = Date.valueOf(startDateStr);
             retrieveByDate = true;
         }
@@ -41,13 +44,18 @@ public class AdminVisualizeOrdersController extends HttpServlet {
             OrdersDAO ordersDAO = new OrdersDAO();
 
             if (retrieveByDate) {
+                System.out.println("retrieveByDate");
                 request.setAttribute(ordersAttr, ordersDAO.doRetrieveOrdersByDateRange(startDate, endDate));
+            } else if (retrieveByCustomerId) {
+                System.out.println("retrieveByCustomerId");
+                request.setAttribute(ordersAttr, ordersDAO.doRetrieveAllByCustomerId(Integer.parseInt(customerId)));
             } else {
+                System.out.println("retrieveAll");
                 request.setAttribute(ordersAttr, ordersDAO.doRetrieveAll());
             }
 
         } catch (SQLException e) {
-            ServerLogger.severe(AdminVisualizeOrdersController.class.getName(), "doRetrieveAll SQLException: " + e.getMessage());
+            ServerLogger.severe(AdminVisualizeOrdersController.class.getName(),"SQLException: " + e.getMessage());
             request.setAttribute(ordersAttr, null);
         }
         response.setContentType("text/html");
