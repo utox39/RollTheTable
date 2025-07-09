@@ -18,7 +18,7 @@ import java.util.Map;
 public class RegisterController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String checkEmail = request.getParameter("checkRegistration");
+        String checkEmail = request.getParameter("checkEmail");
         if (checkEmail != null && !checkEmail.isEmpty()) {
             int statusCode = HttpServletResponse.SC_OK;
             Object responseBody = Map.of("status", "success");
