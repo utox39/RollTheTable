@@ -44,13 +44,10 @@ public class AdminVisualizeOrdersController extends HttpServlet {
             OrdersDAO ordersDAO = new OrdersDAO();
 
             if (retrieveByDate) {
-                System.out.println("retrieveByDate");
                 request.setAttribute(ordersAttr, ordersDAO.doRetrieveOrdersByDateRange(startDate, endDate));
             } else if (retrieveByCustomerId) {
-                System.out.println("retrieveByCustomerId");
                 request.setAttribute(ordersAttr, ordersDAO.doRetrieveAllByCustomerId(Integer.parseInt(customerId)));
             } else {
-                System.out.println("retrieveAll");
                 request.setAttribute(ordersAttr, ordersDAO.doRetrieveAll());
             }
 
