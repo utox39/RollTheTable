@@ -167,4 +167,27 @@ public class CustomerDAO implements CustomerModel {
 
         return null;
     }
+
+    public synchronized boolean doesEmailExists(String email) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String checkEmailQuery = "SELECT 1 FROM customer WHERE email = ? LIMIT 1";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(checkEmailQuery);
+
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+    }
 }
