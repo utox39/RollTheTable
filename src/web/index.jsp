@@ -1,12 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" import="model.dao.ProductDAO,model.bean.ProductBean,java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="model.bean.ProductBean" %>
+<%@ page import="java.util.List" %>
 <%
-	ProductDAO productDAO = new ProductDAO();
-
 	// Retrieve products
-	List<ProductBean> newArrivals = productDAO.doRetriveAll();
-	List<ProductBean> specialOffers = productDAO.retrieveDiscount();
-	List<ProductBean> popularProducts = productDAO.doRetriveAll();
-	List<ProductBean> acclaimedProducts = productDAO.doRetriveAll();
+	List<ProductBean> newArrivals = (List<ProductBean>) request.getAttribute("latestProducts");
+	List<ProductBean> specialOffers = (List<ProductBean>) request.getAttribute("discountedProducts");
+	List<ProductBean> popularProducts = (List<ProductBean>) request.getAttribute("popularProducts");
+	List<ProductBean> acclaimedProducts = (List<ProductBean>) request.getAttribute("acclaimedProducts");
 %>
 <!DOCTYPE html>
 <html lang="it">
