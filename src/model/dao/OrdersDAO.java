@@ -255,4 +255,34 @@ public class OrdersDAO implements OrdersModel {
 
         return ordersList;
     }
+
+    public synchronized List<OrdersBean> doRetrieveOrdersByDateRange(Date startDate, Date endDate) throws SQLException {
+        ArrayList<OrdersBean> ordersList = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        String retrieveOrdersByDateRangeQuery = "SELECT order_id FROM purchase " +
+                "WHERE (purchase_date >= ?) AND (purchase_date < DATE_ADD(?, INTERVAL 1 DAY))";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            ps = connection.prepareStatement(retrieveOrdersByDateRangeQuery);
+            ps.setDate(1, startDate);
+            ps.setDate(2, endDate);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                OrdersBean ordersBean = doRetriveById(rs.getInt("order_id"));
+                ordersList.add(ordersBean);
+            }
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return ordersList;
+    }
 }
