@@ -1,10 +1,4 @@
-body {
-    background-color: #1c1c1e;
-    color: #ffffff;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-.main-content {
+.profile-content {
     max-width: 600px;
     margin: 0 auto;
 }
@@ -13,13 +7,10 @@ body {
     font-weight: bold;
 }
 
-
-
 .d-flex.align-items-center {
     gap: 0.5rem;
     flex-wrap: wrap;
 }
-
 
 .alert {
     font-size: 0.9rem;
