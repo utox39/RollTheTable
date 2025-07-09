@@ -61,8 +61,9 @@
             <% } %>
 
             <br>
-            <a href="${pageContext.request.contextPath}/cart?op=add&productId=<%= productBean.getProductId() %>"
-               class="btn btn-primary">Add to cart</a>
+            <button type="button" id="addToCart" class="btn btn-primary" onclick="addToTheCart(<%= productBean.getProductId() %>)">
+                Aggiungi al carrello
+            </button>
         </div>
     </div>
     <% } else { %>
@@ -73,6 +74,7 @@
 <hr>
 <jsp:include page="../views/footer.jsp" flush="true"/>
 
+<script src="${pageContext.request.contextPath}/js/cartOperations.js"></script>
 <!-- Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
