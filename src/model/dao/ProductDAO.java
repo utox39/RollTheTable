@@ -239,7 +239,7 @@ public class ProductDAO implements ProductModel {
         }
     }
 
-    public synchronized List<ProductBean> retrieveDiscount() throws SQLException {
+    public synchronized List<ProductBean> retrieveDiscountedProducts() throws SQLException {
         List<ProductBean> discountedProducts = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -282,6 +282,85 @@ public class ProductDAO implements ProductModel {
         }
 
         return discountedProducts;
+    }
+
+    public synchronized List<ProductBean> retrieveLatestProducts() throws SQLException {
+        List<ProductBean> latestProducts = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String retrieveLatestProductsQuery = "SELECT product_id, `name`, category, purchase_price, barcode, sale_price, description, " +
+                "stock_quantity, discount, minimum_age, vendor, iva, images_path, sale_status " +
+                "FROM product ORDER BY product_id DESC LIMIT 5";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(retrieveLatestProductsQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ProductBean productBean = new ProductBean();
+                productBean.setProductId(resultSet.getString("product_id"));
+                productBean.setName(resultSet.getString("name"));
+                productBean.setCategory(resultSet.getString("category"));
+                productBean.setPurchasePrice(resultSet.getDouble("purchase_price"));
+                productBean.setBarcode(resultSet.getString("barcode"));
+                productBean.setSalePrice(resultSet.getDouble("sale_price"));
+                productBean.setDescription(resultSet.getString("description"));
+                productBean.setStockQuantity(resultSet.getInt("stock_quantity"));
+                productBean.setDiscount(resultSet.getDouble("discount"));
+                productBean.setMinimumAge(resultSet.getInt("minimum_age"));
+                productBean.setVendor(resultSet.getString("vendor"));
+                productBean.setIva(resultSet.getDouble("iva"));
+                productBean.setImagesPath(resultSet.getString("images_path"));
+                productBean.setSalesStatus(ProductBean.SaleStatus.valueOf(
+                        resultSet.getString("sale_status").toUpperCase()
+                ));
+
+                latestProducts.add(productBean);
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return latestProducts;
+    }
+
+    public synchronized List<ProductBean> retrieveMostPurchasedProducts() throws SQLException {
+        List<ProductBean> mostPurchasedProducts = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String retrieveMostPurchasedProductsQuery = "SELECT product_id FROM purchase_items " +
+                "GROUP BY product_id " +
+                "ORDER BY SUM(quantity) DESC " +
+                "LIMIT 10";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(retrieveMostPurchasedProductsQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ProductBean productBean;
+                int productId = resultSet.getInt("product_id");
+
+                productBean = doRetrieveById(String.valueOf(productId));
+                mostPurchasedProducts.add(productBean);
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return mostPurchasedProducts;
     }
 
 }
