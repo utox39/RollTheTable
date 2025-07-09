@@ -27,7 +27,7 @@
 <body>
 <jsp:include page="views/navbar.jsp" flush="true"/>
 
-<main class="container my-5">
+<div id="index" class="container my-5 main-content">
 
     <header class="text-center mb-5">
         <h1 class="display-4">🎲 RollTheTable</h1>
@@ -168,7 +168,7 @@
     </section>
     <% } %>
 
-</main>
+</div>
 
 <hr>
 <%-- Added a horizontal rule for visual separation before the footer --%>
