@@ -47,7 +47,6 @@
 							</a>
 
 							<ul class="dropdown-menu dropdown-menu-end">
-								<li><a class="dropdown-item" href="#">Profilo</a></li>
 								<li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/logout">Logout</a></li>
 							</ul>
 						</li>
