@@ -5,9 +5,7 @@
         <title>Admin Panel - RollTheTable</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-        <!-- Custom CSS -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
     </head>
     <body>
@@ -22,8 +20,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Modifica prodotti</h5>
-                            <p class="card-text">...</p>
-                            <a href="${pageContext.request.contextPath}/views/admin/secure/products.jsp" class="btn btn-primary">Modifica prodotti</a>
+                            <a href="${pageContext.request.contextPath}/views/admin/secure/products.jsp" class="btn btn-primary btn-danger">Modifica prodotti</a>
                         </div>
                     </div>
                 </div>
@@ -36,8 +33,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Visualizza utenti</h5>
-                            <p class="card-text">...</p>
-                            <a href="${pageContext.request.contextPath}/admin/secure/users" class="btn btn-primary">Visualizza utenti</a>
+                            <a href="${pageContext.request.contextPath}/admin/secure/users" class="btn btn-primary btn-danger">Visualizza utenti</a>
                         </div>
                     </div>
                 </div>
@@ -50,8 +46,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Visualizza ordini</h5>
-                            <p class="card-text">...</p>
-                            <a href="${pageContext.request.contextPath}/admin/secure/orders" class="btn btn-primary">Visualizza ordini</a>
+                            <a href="${pageContext.request.contextPath}/admin/secure/orders" class="btn btn-primary btn-danger">Visualizza ordini</a>
                         </div>
                     </div>
                 </div>
