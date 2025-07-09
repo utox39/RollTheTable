@@ -7,10 +7,17 @@
 
         <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/adminPanel.css">
     </head>
     <body>
         <jsp:include page="/views/admin/navbar.jsp" flush="true"/>
-        <div class="container mt-5">
+        <div id="admin-panel" class="container mt-5">
+
+            <div class="main-header text-center">
+                <h1>🎲 RollTheTable - Benvenuto Dungeon Master</h1>
+                <p class="text-secondary">This is what happens when you lose!</p>
+            </div>
+
             <div class="row">
                 <div class="col-md-4 mb-4 d-flex">
                     <div class="card w-100" style="width: 18rem;">
