@@ -16,13 +16,14 @@
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css" />
+
   <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/style/customerProfile.css" />
 </head>
 <body>
 <jsp:include page="/views/navbar.jsp" />
 
-<div class="container mt-5 main-content">
+<div id="customerProfile" class="container mt-5 profile-content">
   <h2 class="mb-4 text-center">Profilo Utente</h2>
 
   <form id="profileForm" method="post" action="${pageContext.request.contextPath}/secure/customer" novalidate>
