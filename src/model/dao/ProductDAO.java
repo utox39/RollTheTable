@@ -330,4 +330,37 @@ public class ProductDAO implements ProductModel {
         return latestProducts;
     }
 
+    public synchronized List<ProductBean> retrieveMostPurchasedProducts() throws SQLException {
+        List<ProductBean> mostPurchasedProducts = new ArrayList<>();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        String retrieveMostPurchasedProductsQuery = "SELECT product_id FROM purchase_items " +
+                "GROUP BY product_id " +
+                "ORDER BY SUM(quantity) DESC " +
+                "LIMIT 10";
+
+        try {
+            connection = DatabaseConnectionPool.getConnection();
+            preparedStatement = connection.prepareStatement(retrieveMostPurchasedProductsQuery);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ProductBean productBean;
+                int productId = resultSet.getInt("product_id");
+
+                productBean = doRetrieveById(String.valueOf(productId));
+                mostPurchasedProducts.add(productBean);
+            }
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            DatabaseConnectionPool.releaseConnection(connection);
+        }
+
+        return mostPurchasedProducts;
+    }
+
 }
