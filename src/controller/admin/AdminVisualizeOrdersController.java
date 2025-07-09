@@ -24,7 +24,7 @@ public class AdminVisualizeOrdersController extends HttpServlet {
         String customerId = request.getParameter("customerId");
 
         boolean retrieveByDate = false;
-        boolean retrieveByCustomerId = customerId != null;
+        boolean retrieveByCustomerId = (customerId != null) && !customerId.isEmpty();
 
         Date startDate = null;
         Date endDate = null;
