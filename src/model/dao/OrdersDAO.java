@@ -227,8 +227,6 @@ public class OrdersDAO implements OrdersModel {
                 ordersBean.setPurchaseDate(rs1.getDate("purchase_date"));
                 ordersBean.setShippingPrice(rs1.getDouble("shipping_price"));
 
-                System.out.println(ordersBean.getOrderId());
-
                 ps2.setInt(1, rs1.getInt("order_id"));
                 ResultSet rs2 = ps2.executeQuery();
                 while (rs2.next()) {
