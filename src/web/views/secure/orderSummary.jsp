@@ -107,7 +107,7 @@
 
     <!-- Back Home -->
     <div class="text-center">
-        <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-danger btn-primary ms-2">Torna alla Home</a>
+        <a href="${pageContext.request.contextPath}/home" class="btn btn-danger btn-primary ms-2">Torna alla Home</a>
     </div>
 </main>
 
