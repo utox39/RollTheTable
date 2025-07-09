@@ -111,7 +111,7 @@ public class CustomerDAO implements CustomerModel {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
-        String sql = "UPDATE customer SET `name` = ?, surname = ?, username = ?, email = ?, phone = ?, psw_hash = ? " +
+        String sql = "UPDATE customer SET `name` = ?, surname = ?, username = ?, email = ?, phone = ? " +
                 "WHERE customer_id = ?";
 
         try {
@@ -123,8 +123,7 @@ public class CustomerDAO implements CustomerModel {
             preparedStatement.setString(3, customerBean.getUsername());
             preparedStatement.setString(4, customerBean.getEmail());
             preparedStatement.setString(5, customerBean.getPhone());
-            preparedStatement.setString(6, customerBean.getPswHash());
-            preparedStatement.setInt(7, customerBean.getCustomerId()); // Assuming customerId is used for updating
+            preparedStatement.setInt(6, customerBean.getCustomerId()); // Assuming customerId is used for updating
 
             preparedStatement.executeUpdate();
             connection.commit();
