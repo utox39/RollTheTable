@@ -20,7 +20,6 @@ public class CustomerController extends HttpServlet {
         CustomerBean customer = (CustomerBean) req.getSession().getAttribute("loggedUser");
         CustomerDAO customerDAO = new CustomerDAO();
 
-
         customer.setCustomerId(Integer.parseInt(req.getParameter("customerId")));
         customer.setUsername(req.getParameter("username"));
         customer.setName(req.getParameter("name"));
