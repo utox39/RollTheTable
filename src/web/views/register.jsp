@@ -56,7 +56,7 @@
                 <input type="password" class="form-control bg-dark text-white border-secondary" id="confirmPassword" name="confirmPassword" required>
             </div>
 
-            <button type="submit" class="btn btn-danger w-100">Registrati</button>
+            <button type="submit" id="register-button" class="btn btn-danger w-100">Registrati</button>
         </form>
 
         <% if (request.getAttribute("mismatchedPasswordsError") != null) { %>
@@ -77,6 +77,7 @@
     </div>
 </div>
 
+<script src="${pageContext.request.contextPath}/js/checkRegistration.js"></script>
 <!-- Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
