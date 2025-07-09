@@ -239,7 +239,7 @@ public class ProductDAO implements ProductModel {
         }
     }
 
-    public synchronized List<ProductBean> retrieveDiscount() throws SQLException {
+    public synchronized List<ProductBean> retrieveDiscountedProducts() throws SQLException {
         List<ProductBean> discountedProducts = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
