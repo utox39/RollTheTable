@@ -59,11 +59,11 @@
             <button type="submit" id="register-button" class="btn btn-danger w-100">Registrati</button>
         </form>
 
-        <% if (request.getAttribute("mismatchedPasswordsError") != null) { %>
-            <div class="alert alert-danger" role="alert">
-                <%= (String) request.getAttribute("mismatchedPasswordsError")%>
-            </div>
-        <% } %>
+<%--        <% if (request.getAttribute("mismatchedPasswordsError") != null) { %>--%>
+<%--            <div class="alert alert-danger" role="alert">--%>
+<%--                <%= (String) request.getAttribute("mismatchedPasswordsError")%>--%>
+<%--            </div>--%>
+<%--        <% } %>--%>
 
         <% if (request.getAttribute("registrationError") != null) { %>
             <div class="alert alert-danger" role="alert">

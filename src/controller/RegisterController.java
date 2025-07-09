@@ -69,14 +69,6 @@ public class RegisterController extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
-        String confirmPassword = request.getParameter("confirmPassword");
-
-        if (!password.equals(confirmPassword)) {
-            request.setAttribute("mismatchedPasswordsError", "");
-            request.setAttribute("mismatchedPasswordsError", "Le password non coincidono.");
-            request.getRequestDispatcher("views/register.jsp").forward(request, response);
-            return;
-        }
 
         CustomerDAO customerDAO = new CustomerDAO();
 
