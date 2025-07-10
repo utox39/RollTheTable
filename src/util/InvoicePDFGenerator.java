@@ -57,7 +57,7 @@ public class InvoicePDFGenerator {
 
                 // TABLE
                 float y = 600;
-                writeRow(contentStream, y, "Codice", "Descrizione", "Qtà", "Prezzo", "Totale");
+                writeRow(contentStream, y, "Codice", "Descrizione", "Qtà", "Prezzo unitario", "Totale");
 
                 y -= 15;
                 BigDecimal grandTotal = BigDecimal.ZERO;
