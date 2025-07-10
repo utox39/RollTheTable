@@ -336,7 +336,7 @@
 
                 <div class="col-md-3 text-end">
                     <h5 class="fw-bold">
-                        <% double productPrice = 0.0; %>
+                        <% BigDecimal productPrice = BigDecimal.valueOf(0.0); %>
                         <% if (productEntry.getKey().getDiscount() > 0) { %>
                         <span class="badge bg-danger me-2 small rounded-pill">
                             - <%= productEntry.getKey().getDiscount() %> &percnt;
@@ -348,7 +348,7 @@
                                     .divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
                             BigDecimal discountValue = salePrice.multiply(discountPercentage);
                             BigDecimal discountedPrice = salePrice.subtract(discountValue).setScale(2, RoundingMode.HALF_UP);
-                            productPrice = discountedPrice.doubleValue();
+                            productPrice = discountedPrice;
                         %>
 
                         <span class="fw-bold me-2">
@@ -360,7 +360,7 @@
                         </span>
                         <% } else { %>
                         <span class="fw-bold">
-                            <% productPrice = productEntry.getKey().getSalePrice(); %>
+                            <% productPrice = BigDecimal.valueOf(productEntry.getKey().getSalePrice()); %>
                             <%= productPrice %> &euro;
                         </span>
                         <% } %>
@@ -370,7 +370,8 @@
                 </div>
 
                 <%
-                    total = total.add(BigDecimal.valueOf(productPrice * productEntry.getValue()));
+                    long quantity = productEntry.getValue();
+                    total = total.add(productPrice.multiply(BigDecimal.valueOf(quantity)));
                 %>
             </div>
             <br>
