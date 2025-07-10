@@ -264,7 +264,8 @@
                                 java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/yyyy");
                                 String formattedDate = sdf.format(paymentMethod.getExpireDate());
                             %>
-                            <%= paymentMethod.getOwner() %>, <%= paymentMethod.getCardNumber() %>, <%= formattedDate %>
+                            <% String maskedCardNumber = "**** **** **** " + paymentMethod.getCardNumber().substring(paymentMethod.getCardNumber().length() - 4); %>
+                            <%= paymentMethod.getOwner() %>, <%= maskedCardNumber %>, <%= formattedDate %>
                         </option>
                         <% } %>
                     </select>
