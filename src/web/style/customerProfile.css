@@ -1,37 +1,37 @@
-.profile-content {
+#customerProfile.profile-content {
     max-width: 600px;
     margin: 0 auto;
 }
 
-.form-label {
+#customerProfile.form-label {
     font-weight: bold;
 }
 
-.d-flex.align-items-center {
+#customerProfile.d-flex.align-items-center {
     gap: 0.5rem;
     flex-wrap: wrap;
 }
 
-.alert {
+#customerProfile.alert {
     font-size: 0.9rem;
     padding: 0.25rem 0.5rem;
 }
 
-.form-value {
+#customerProfile.form-value {
     font-size: 1rem;
     line-height: 2.25rem;
 }
 
-input.form-control {
+#customerProfile>input.form-control {
     line-height: 2.25rem;
     height: auto;
     padding: 0.375rem 0.75rem;
 }
 
-.position-relative {
+#customerProfile.position-relative {
     min-height: 2.5rem; /* ensures the space stays consistent */
 }
 
-button.btn-sm {
+#customerProfile>button.btn-sm {
     white-space: nowrap;
 }
