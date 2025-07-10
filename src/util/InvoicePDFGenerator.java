@@ -86,13 +86,13 @@ public class InvoicePDFGenerator {
                 y -= 20;
                 BigDecimal ivaAmount = grandTotal.multiply(invoice.getIva())
                         .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-                BigDecimal totalWithIva = grandTotal.add(ivaAmount);
+                BigDecimal totalWithoutIva = grandTotal.subtract(ivaAmount);
 
-                writeText(contentStream, "Totale imponibile: € " + String.format("%.2f", grandTotal), 400, y);
+                writeText(contentStream, "Totale senza IVA: € " + String.format("%.2f", totalWithoutIva), 400, y);
                 y -= 15;
                 writeText(contentStream, "IVA (" + invoice.getIva() + "%): € " + String.format("%.2f", ivaAmount), 400, y);
                 y -= 15;
-                writeTextBold(contentStream, "Totale Fattura: € " + String.format("%.2f", totalWithIva), 400, y);
+                writeTextBold(contentStream, "Totale Fattura: € " + String.format("%.2f", grandTotal), 400, y);
             }
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
