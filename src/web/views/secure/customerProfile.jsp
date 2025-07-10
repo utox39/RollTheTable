@@ -1,5 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.bean.CustomerBean" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.bean.OrdersBean" %>
+<%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="model.bean.ProductBean" %>
 <%
   CustomerBean customer = (CustomerBean) session.getAttribute("loggedUser");
   if (customer == null) {
@@ -21,7 +26,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/style/customerProfile.css" />
 </head>
 <body>
-<jsp:include page="/views/navbar.jsp" />
+<jsp:include page="/views/navbar.jsp" flush="true" />
 
 <div id="customerProfile" class="container mt-5 profile-content">
   <h2 class="mb-4 text-center">Profilo Utente</h2>
@@ -88,6 +93,54 @@
 
     <button type="submit" class="btn btn-danger mt-4 d-none" id="saveBtn">Salva Modifiche</button>
   </form>
+
+  <%-- Orders list --%>
+  <h2 class="mb-4 text-center">I tuoi ordini</h2>
+  <% List<OrdersBean> orders = (List<OrdersBean>) request.getAttribute("ordersList"); %>
+  <% if ((orders == null) || orders.isEmpty()) {%>
+  <h3 class="text-center">Non ci sono ordini...</h3>
+  <% } else { %>
+  <div class="list-group-item py-3 px-4">
+    <% for(OrdersBean order : orders) { %>
+    <div class="row align-items-center">
+      <div class="w-100">
+        <h3 class="mb-1 fw-semibold">
+          Order id: <%= order.getOrderId() %>
+        </h3>
+        <h5 class="mb-1">
+          Data ordine: <%= order.getPurchaseDate() %>
+        </h5>
+
+        <%
+          BigDecimal total = BigDecimal.valueOf(0.0);
+        %>
+        <ul class="mt-2">
+          <% for (Map.Entry<ProductBean, OrdersBean.PurchaseInfo> productInfo : order.getProducts().entrySet()) { %>
+          <li>
+            <strong><%= productInfo.getKey().getName() %></strong>
+            <br>
+            Quantit&agrave;: <%= productInfo.getValue().getQuantity() %>,
+            Prezzo: <%= productInfo.getValue().getPriceAtPurchase() %> &euro;
+          </li>
+          <%
+            total = total.add(BigDecimal.valueOf(productInfo.getValue().getPriceAtPurchase()));
+          %>
+          <% } %>
+        </ul>
+
+        <h5 class="mb-1">
+          Costo spedizione: <%= order.getShippingPrice() %> &euro;
+        </h5>
+        <br>
+        <h5 class="mb-1">
+          Totale: <%= total.add(BigDecimal.valueOf(order.getShippingPrice())) %> &euro;
+        </h5>
+      </div>
+    </div>
+    <hr>
+    <% } %>
+  </div>
+  <% } %>
 </div>
 
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>

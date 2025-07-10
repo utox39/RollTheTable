@@ -1,18 +1,37 @@
 import model.bean.CustomerBean;
+import model.bean.OrdersBean;
 import model.dao.CustomerDAO;
+import model.dao.OrdersDAO;
+import util.ServerLogger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/secure/customer")
 public class CustomerController extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        CustomerBean customer = (CustomerBean) session.getAttribute("loggedUser");
+        int customerId = customer.getCustomerId();
+
+        List<OrdersBean> ordersList;
+
+        try {
+            ordersList = new OrdersDAO().doRetrieveAllByCustomerId(customerId);
+            req.setAttribute("ordersList", ordersList);
+        } catch (SQLException e) {
+            ServerLogger.severe(LoginController.class.getName(), " doRetrieveAllByCustomerId SQLException: " + e.getMessage());
+        }
+
         req.getRequestDispatcher("/views/secure/customerProfile.jsp").forward(req, resp);
     }
 
@@ -30,10 +49,10 @@ public class CustomerController extends HttpServlet {
         try {
             customerDAO.doUpdate(customer);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            ServerLogger.severe(CustomerController.class.getName(), "doUpdate SQLException: " + e.getMessage());
         }
 
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        req.getRequestDispatcher("/views/secure/customerProfile.jsp").forward(req, resp);
 
     }
 
