@@ -123,7 +123,9 @@
             Prezzo: <%= productInfo.getValue().getPriceAtPurchase() %> &euro;
           </li>
           <%
-            total = total.add(BigDecimal.valueOf(productInfo.getValue().getPriceAtPurchase()));
+            long quantity = productInfo.getValue().getQuantity();
+            BigDecimal productPriceAtPurchase = BigDecimal.valueOf(productInfo.getValue().getPriceAtPurchase());
+            total = total.add(productPriceAtPurchase.multiply(BigDecimal.valueOf(quantity)));
           %>
           <% } %>
         </ul>
