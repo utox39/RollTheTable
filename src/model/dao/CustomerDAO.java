@@ -15,7 +15,7 @@ public class CustomerDAO implements CustomerModel {
         List<CustomerBean> customers = null;
 
         PreparedStatement preparedStatement = null;
-        String sql = "SELECT `name`, surname, username, email, phone, psw_hash FROM customer";
+        String sql = "SELECT customer_id, `name`, surname, username, email, phone, psw_hash FROM customer";
 
         try {
             connection = DatabaseConnectionPool.getConnection();
@@ -24,14 +24,15 @@ public class CustomerDAO implements CustomerModel {
 
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 customerBean = new CustomerBean();
+                customerBean.setCustomerId(resultSet.getInt("customer_id"));
                 customerBean.setName(resultSet.getString("name"));
                 customerBean.setSurname(resultSet.getString("surname"));
                 customerBean.setUsername(resultSet.getString("username"));
                 customerBean.setEmail(resultSet.getString("email"));
                 customerBean.setPhone(resultSet.getString("phone"));
-                customerBean.setPswHash(resultSet.getString("psw_hash"));
+//                customerBean.setPswHash(resultSet.getString("psw_hash"));
                 customers.add(customerBean);
             }
         } finally {
