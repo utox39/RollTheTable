@@ -76,8 +76,8 @@
                     <td colspan="3" class="text-end fw-bold">Spedizione:</td>
                     <td>€ <%= df.format(ordersBean.getShippingPrice()) %></td>
                 </tr>
-                <tr class="table-success">
-                    <td colspan="3" class="text-end fw-bold">Totale Ordine:</td>
+                <tr class="text-white">
+                    <td colspan="3" class="text-end fw-bold ">Totale Ordine:</td>
                     <td class="fw-bold">€ <%= df.format(subtotal + ordersBean.getShippingPrice()) %></td>
                 </tr>
                 </tfoot>

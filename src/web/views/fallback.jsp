@@ -5,13 +5,11 @@
 		<title>Errore Critico</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<!-- Bootstrap CSS -->
 		<link
 			rel="stylesheet"
 			href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css"
 		/>
 
-		<!-- Custom CSS -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/style/fallback.css" />
 	</head>
 	<body class="bg-dark text-white d-flex align-items-center justify-content-center min-vh-100">
@@ -33,6 +31,7 @@
 			</h3>
 			<p>Messaggio: <%= request.getAttribute("javax.servlet.error.message") %></p>
 
+			<!-- TODO: remove this section before project presentation!!! -->
 			<% if (request.getAttribute("javax.servlet.error.exception_type") != null) { %>
 			<p>Tipo di errore: <%= request.getAttribute("javax.servlet.error.exception_type") %></p>
 			<% } %> <% Throwable throwable = (Throwable)
@@ -43,8 +42,8 @@
 			</div>
 			<% } %>
 
-			<a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-danger mt-4">
-				🔙 Torna alla Home
+			<a href="${pageContext.request.contextPath}/home" class="btn btn-danger mt-4">
+				 Torna alla Home!
 			</a>
 		</div>
 

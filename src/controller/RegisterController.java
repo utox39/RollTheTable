@@ -55,6 +55,7 @@ public class RegisterController extends HttpServlet {
             } catch (IOException e) {
                 ServerLogger.severe(RegisterController.class.getName(), "JSON error: " + e.getMessage());
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.sendRedirect("views/fallback.jsp");
             }
 
             return;
@@ -70,14 +71,19 @@ public class RegisterController extends HttpServlet {
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
 
+        if (name == null || surname == null || username == null || email == null || phone == null || password == null) {
+            response.sendRedirect("views/register.jsp");
+            return;
+        }
+
         CustomerDAO customerDAO = new CustomerDAO();
 
         CustomerBean customerBean = new CustomerBean();
-        customerBean.setName(name);
-        customerBean.setSurname(surname);
-        customerBean.setUsername(username);
-        customerBean.setEmail(email);
-        customerBean.setPhone(phone);
+        customerBean.setName(name.trim());
+        customerBean.setSurname(surname.trim());
+        customerBean.setUsername(username.trim());
+        customerBean.setEmail(email.trim());
+        customerBean.setPhone(phone.trim());
 
         String pswHash = HashUtil.hashToHexString(HashUtil.digest(password));
         customerBean.setPswHash(pswHash);

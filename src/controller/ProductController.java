@@ -25,6 +25,8 @@ public class ProductController extends HttpServlet {
         } catch (SQLException e) {
             ServerLogger.severe(CatalogController.class.getName(), "doRetrieveByKey SQLException: " + e.getMessage());
             request.setAttribute(productAttr, null);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("views/fallback.jsp");
         }
 
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/views/product.jsp");

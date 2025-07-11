@@ -90,6 +90,8 @@ public class CartController extends HttpServlet {
                     }
                     session.setAttribute("cart", cartBean);
                 }
+            }else {
+                response.sendRedirect("views/fallback.jsp");
             }
         } catch (SQLException e) {
             ServerLogger.severe(CartController.class.getName(), "CartController SQLException: " + e.getMessage());
