@@ -22,7 +22,7 @@ public class GenerateInvoiceController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Session not found.");
+            response.sendRedirect("views/login.jsp");
             return;
         }
 
@@ -68,6 +68,9 @@ public class GenerateInvoiceController extends HttpServlet {
             invoiceId = invoiceDAO.doSave(invoice); // assumes it sets the invoice ID (e.g. auto-incremented)
         } catch (SQLException e) {
             ServerLogger.severe(GenerateInvoiceController.class.getName(), "SQLException: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("views/fallback.jsp");
+            return;
         }
 
         // === Generate PDF ===

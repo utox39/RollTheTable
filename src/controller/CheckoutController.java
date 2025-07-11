@@ -25,6 +25,11 @@ public class CheckoutController extends HttpServlet {
 
         CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
 
+        if (user == null) {
+            response.sendRedirect("views/fallback.jsp");
+            return;
+        }
+
         CartBean cartBean = null;
         List<AddressBean> addressBeanList = null;
         List<PaymentMethodBean> paymentMethodBeanList = null;
@@ -36,6 +41,9 @@ public class CheckoutController extends HttpServlet {
             paymentMethodBeanList = new PaymentMethodDAO().doRetrieveAllByCustomerId(user.getCustomerId());
         } catch (SQLException e) {
             ServerLogger.severe(CheckoutController.class.getName(), "SQLException: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("/views/fallback.jsp");
+            return;
         }
         session.setAttribute("cart", cartBean);
         session.setAttribute("addresses", null);

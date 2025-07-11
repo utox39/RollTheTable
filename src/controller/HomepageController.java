@@ -46,6 +46,9 @@ public class HomepageController extends HttpServlet {
             request.setAttribute(discountedProductsAttr, null);
             request.setAttribute(popularProductsAttr, null);
             request.setAttribute(acclaimedProductsAttr, null);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("views/fallback.jsp");
+            return;
         }
 
         request.getRequestDispatcher("/index.jsp").forward(request, response);

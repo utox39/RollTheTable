@@ -20,7 +20,8 @@ public class SearchController extends HttpServlet {
             List<ProductBean> results = null;
 
             if (query == null || query.trim().isEmpty()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing 'query' parameter");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.sendRedirect("views/fallback.jsp");
                 return;
             }
 
@@ -34,6 +35,8 @@ public class SearchController extends HttpServlet {
             mapper.writeValue(response.getWriter(), results);
         } catch (SQLException e) {
             ServerLogger.severe(CatalogController.class.getName(), "searchByName SQLException: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendRedirect("views/fallback.jsp");
         }
     }
 }

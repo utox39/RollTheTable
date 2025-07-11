@@ -54,6 +54,7 @@ public class AdminVisualizeOrdersController extends HttpServlet {
         } catch (SQLException e) {
             ServerLogger.severe(AdminVisualizeOrdersController.class.getName(),"SQLException: " + e.getMessage());
             request.setAttribute(ordersAttr, null);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         response.setContentType("text/html");
         request.getRequestDispatcher("/views/admin/secure/orders.jsp").forward(request, response);

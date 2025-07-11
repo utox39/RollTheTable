@@ -28,6 +28,10 @@ public class PaymentMethodController extends HttpServlet {
         HttpSession session = request.getSession();
 
         CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
+        if (user == null) {
+            response.sendRedirect("views/login.jsp");
+            return;
+        }
         int customerId = user.getCustomerId();
 
         final ObjectMapper mapper = new ObjectMapper();
@@ -66,6 +70,7 @@ public class PaymentMethodController extends HttpServlet {
         } catch (IOException e) {
             ServerLogger.severe(OrderController.class.getName(), "JSON error: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("views/fallback.jsp");
             return;
         }
 
@@ -74,6 +79,8 @@ public class PaymentMethodController extends HttpServlet {
             paymentMethodDAO.doSave(paymentMethodBean);
         } catch (SQLException e) {
             ServerLogger.severe(PaymentMethodController.class.getName(), "doSave SQLException: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("views/fallback.jsp");
         }
     }
 }

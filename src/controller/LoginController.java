@@ -26,6 +26,11 @@ public class LoginController extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
+        if (login.trim().isEmpty() || password.trim().isEmpty()) {
+            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+            return;
+        }
+
         String pswHash = HashUtil.hashToHexString(HashUtil.digest(password));
         CustomerDAO customerDAO = new CustomerDAO();
 

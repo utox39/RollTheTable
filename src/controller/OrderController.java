@@ -33,6 +33,11 @@ public class OrderController extends HttpServlet {
         CustomerBean user = (CustomerBean) session.getAttribute("loggedUser");
         CartBean cartBean = (CartBean) session.getAttribute("cart");
 
+        if (user == null || cartBean == null) {
+            response.sendRedirect("views/login.jsp");
+            return;
+        }
+
         OrdersBean orderBean = new OrdersBean();
 
         int orderId = 0;
@@ -76,6 +81,9 @@ public class OrderController extends HttpServlet {
             new CartDAO().clearCart(cartBean.getCartId());
         } catch (SQLException e) {
             ServerLogger.severe(OrderController.class.getName(), "SQLException: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("views/fallback.jsp");
+            return;
         }
 
         orderBean.setOrderId(orderId);
