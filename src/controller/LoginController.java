@@ -1,4 +1,6 @@
+import model.bean.CartBean;
 import model.bean.CustomerBean;
+import model.dao.CartDAO;
 import model.dao.CustomerDAO;
 import util.HashUtil;
 import util.ServerLogger;
@@ -34,11 +36,21 @@ public class LoginController extends HttpServlet {
             if (customerBean != null) {
                 customerBean.setPswHash("");
                 HttpSession session = request.getSession();
+
+                CartBean cartBean = (CartBean) session.getAttribute("cart");
+
                 session.removeAttribute("loggedUser");
                 session.invalidate();
+
                 HttpSession newSession = request.getSession(true);
                 newSession.setAttribute("loggedUser", customerBean);
+
+                if (cartBean != null) {
+                    newSession.setAttribute("cart", cartBean);
+                    new CartDAO().addToCart(customerBean, cartBean);
+                }
             } else {
+                System.out.println("ahhhhh caiiinoo.");
                 request.setAttribute("loginError", "");
                 request.setAttribute("loginError", "Username o Password incorrette.");
                 request.getRequestDispatcher("/views/login.jsp").forward(request, response);
