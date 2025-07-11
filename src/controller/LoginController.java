@@ -50,7 +50,6 @@ public class LoginController extends HttpServlet {
                     new CartDAO().addToCart(customerBean, cartBean);
                 }
             } else {
-                System.out.println("ahhhhh caiiinoo.");
                 request.setAttribute("loginError", "");
                 request.setAttribute("loginError", "Username o Password incorrette.");
                 request.getRequestDispatcher("/views/login.jsp").forward(request, response);
