@@ -1,4 +1,4 @@
-package model;
+package model.idao;
 
 import model.bean.CartBean;
 import model.bean.CustomerBean;

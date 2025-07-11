@@ -1,7 +1,7 @@
 package model.dao;
 
 import db.DatabaseConnectionPool;
-import model.PaymentMethodModel;
+import model.idao.PaymentMethodModel;
 import model.bean.PaymentMethodBean;
 
 import java.sql.*;

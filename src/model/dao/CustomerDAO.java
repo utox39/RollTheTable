@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.DatabaseConnectionPool;
-import model.CustomerModel;
+import model.idao.CustomerModel;
 import model.bean.CustomerBean;
 
 public class CustomerDAO implements CustomerModel {

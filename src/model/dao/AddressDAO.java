@@ -1,7 +1,7 @@
 package model.dao;
 
 import db.DatabaseConnectionPool;
-import model.AddressModel;
+import model.idao.AddressModel;
 import model.bean.AddressBean;
 
 import java.sql.*;

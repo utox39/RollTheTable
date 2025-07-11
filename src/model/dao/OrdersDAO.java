@@ -1,7 +1,7 @@
 package model.dao;
 
 import db.DatabaseConnectionPool;
-import model.OrdersModel;
+import model.idao.OrdersModel;
 import model.bean.OrdersBean;
 import model.bean.ProductBean;
 

@@ -1,7 +1,7 @@
 package model.dao;
 
 import db.DatabaseConnectionPool;
-import model.AdminModel;
+import model.idao.AdminModel;
 import model.bean.AdminBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
