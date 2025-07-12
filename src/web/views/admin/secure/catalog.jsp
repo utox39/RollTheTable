@@ -45,7 +45,7 @@
                     <h5 class="card-title"><%= product.getName() %>
                     </h5>
                     <p class="card-text"><%= product.getSalePrice() %> &euro;</p>
-                    <a href="${pageContext.request.contextPath}/cart?op=add&productId=<%= product.getProductId() %>" class="btn btn-primary">Add to cart</a>
+<%--                    <a href="${pageContext.request.contextPath}/cart?op=add&productId=<%= product.getProductId() %>" class="btn btn-primary">Add to cart</a>--%>
                 </div>
             </div>
         </div>
