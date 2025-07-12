@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/style/navbar.css">
 <nav class="navbar bg-dark navbar-expand-lg position-relative" data-bs-theme="dark">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="${pageContext.request.contextPath}/">RollTheTable</a>
+		<a class="navbar-brand" href="${pageContext.request.contextPath}/home">RollTheTable</a>
 		<button
 				class="navbar-toggler"
 				type="button"
@@ -17,7 +17,7 @@
 		<div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarSupportedContent">
 			<ul class="navbar-nav mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link active" href="${pageContext.request.contextPath}/">Home</a>
+					<a class="nav-link active" href="${pageContext.request.contextPath}/home">Home</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link active" href="${pageContext.request.contextPath}/catalog">Prodotti</a>
