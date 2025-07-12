@@ -3,6 +3,9 @@
 <%@ page import="model.bean.ProductBean" %>
 <%@ page import="java.math.RoundingMode" %>
 <%@ page import="java.math.BigDecimal" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Comparator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +36,11 @@
 					</a>
 				</div>
 				<div class="list-group-item py-3 px-4">
-					<% for (Map.Entry<ProductBean, Integer>productEntry : cart.getCart().entrySet()) {%>
+					<%
+						List<Map.Entry<ProductBean, Integer>> sortedEntries = new ArrayList<>(cart.getCart().entrySet());
+						sortedEntries.sort(Comparator.comparing(e -> e.getKey().getName(), String.CASE_INSENSITIVE_ORDER));
+					%>
+					<% for (Map.Entry<ProductBean, Integer>productEntry : sortedEntries) {%>
 					<div class="row align-items-center">
 						<!-- Product's image -->
 						<div class="col-md-2 col-3">
