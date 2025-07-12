@@ -421,7 +421,11 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="text-white m-0">Totale: <%= total %> &euro; (escluso costo di spedizione)</h4>
 
+            <% if ((shippingAddressCounter == 0) || (billingAddressCount == 0) || (paymentMethodList == null || paymentMethodList.isEmpty())) { %>
+            <button disabled type="submit" class="btn btn-success">Acquista ora</button>
+            <% } else { %>
             <button type="submit" class="btn btn-success">Acquista ora</button>
+            <% } %>
         </div>
     </form>
 
