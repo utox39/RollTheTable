@@ -122,7 +122,6 @@
         <div id="shippingAddressFormContainer" class="card mt-3 bg-dark text-white" style="display: none;">
             <div class="card-body">
                 <h5 class="card-title">Nuovo indirizzo</h5>
-                <%--            <form method="post" action="${pageContext.request.contextPath}/secure/customer/address" id="submit-shipping-address">--%>
                 <input type="hidden" id="shipping-address-type" name="shipping-address-type" value="shipping">
 
                 <br>
@@ -137,11 +136,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="shipping-street-name" class="form-label">Via</label>
-                    <input type="text" name="shipping-street-name" id="shipping-street-name" class="form-control"
-<%--                           pattern="\d+[a-zA-Z]?"--%>
-<%--                           inputmode="numeric"--%>
-<%--                           oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, '')"--%>
-                           required>
+                    <input type="text" name="shipping-street-name" id="shipping-street-name" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label for="shipping-street-number" class="form-label">Numero Civico</label>
