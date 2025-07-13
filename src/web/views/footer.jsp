@@ -4,7 +4,7 @@
         <div class="footer-section">
             <h3>RollTheTable</h3>
             <p>
-                Indirizzo: Via Giovanni Paolo II,132, 84084 Fisciano (SA) – Italia<br>
+                Indirizzo: Via Giovanni Paolo II,132, 84084 Fisciano (SA) &hyphen; Italia<br>
                 P.IVA: P.IVA: 12345678901<br>
                 Telefono: +39 00 0000000<br>
                 Email: info@rollthetable.com
