@@ -32,7 +32,6 @@
         <p class="text-secondary">Aggiorna le informazioni del prodotto</p>
     </div>
 
-    <!-- Cambiato POST -> GET e aggiunto op=update nell'action -->
     <form action="${pageContext.request.contextPath}/admin/secure/manageProducts" method="get" class="mt-4">
         <input type="hidden" name="op" value="update">
         <input type="hidden" name="product_id" value="<%= product.getProductId() %>">
