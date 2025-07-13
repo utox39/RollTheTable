@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          import="model.bean.ProductBean,java.util.List" %>
 <%
-    // Retrieve products from request attributes
     List<ProductBean> newArrivals = (List<ProductBean>) request.getAttribute("latestProducts");
     List<ProductBean> specialOffers = (List<ProductBean>) request.getAttribute("discountedProducts");
     List<ProductBean> popularProducts = (List<ProductBean>) request.getAttribute("popularProducts");
