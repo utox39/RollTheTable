@@ -25,7 +25,7 @@
   </div>
 
   <div class="text-end mb-3">
-    <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=showAddForm" class="btn btn-success">➕ Aggiungi Prodotto</a>
+    <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=showAddForm" class="btn btn-success">Aggiungi Prodotto</a>
   </div>
 
   <h2 class="text-white">Lista dei Prodotti</h2>
@@ -50,9 +50,9 @@
           <p class="card-text">Descrizione: <%= product.getDescription() %></p>
 
           <div class="d-flex justify-content-between">
-            <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=edit&id=<%= product.getProductId() %>" class="btn btn-warning btn-sm">✏️ Modifica</a>
+            <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=edit&id=<%= product.getProductId() %>" class="btn btn-warning btn-sm">Modifica</a>
 
-            <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=del&id=<%= product.getProductId() %>" onclick="return confirm('vuoi davvero cancellare questo prodotto?');" class="btn btn-danger btn-sm">🗑️ Elimina</a>
+            <a href="${pageContext.request.contextPath}/admin/secure/manageProducts?op=del&id=<%= product.getProductId() %>" onclick="return confirm('Vuoi davvero cancellare questo prodotto?');" class="btn btn-danger btn-sm">Elimina</a>
           </div>
         </div>
       </div>
