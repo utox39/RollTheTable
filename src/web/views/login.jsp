@@ -8,7 +8,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
 
-    <!-- Stile personalizzato -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/login.css">
 </head>
 <body class="bg-dark d-flex align-items-center justify-content-center min-vh-100 text-white">
