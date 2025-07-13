@@ -21,7 +21,7 @@
 <div id="users" class="container mt-5">
   <div class="main-header text-center">
     <h1>🎲 RollTheTable - Utenti</h1>
-    <p class="text-secondary">This is what happens when you lose!</p>
+    <p class="text-secondary">Gestione utenti</p>
   </div>
 
   <h2 class="text-white">Lista degli utenti</h2>
