@@ -136,7 +136,7 @@
                     <a href="${pageContext.request.contextPath}/secure/generate-invoice?orderId=<%= order.getOrderId() %>"
                        target="_blank"
                        class="btn btn-outline-secondary btn-lg">
-                        📄 Scarica la Fattura
+                        Scarica la Fattura
                     </a>
                 </div>
             </div>
