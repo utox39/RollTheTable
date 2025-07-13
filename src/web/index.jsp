@@ -166,7 +166,7 @@
 <hr>
 <jsp:include page="views/footer.jsp" flush="true"/>
 
-<!-- Bootstrap JS Bundle -->
+<!-- Bootstrap JS -->
 <script src="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
