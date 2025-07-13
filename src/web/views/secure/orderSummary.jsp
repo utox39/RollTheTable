@@ -91,10 +91,6 @@
             <p><strong>ID Ordine:</strong> <%= ordersBean.getOrderId() %></p>
             <p><strong>Data Acquisto:</strong> <%= sdf.format(ordersBean.getPurchaseDate()) %></p>
         </div>
-        <div class="col-md-6">
-            <!-- <p><strong>Indirizzo Spedizione ID:</strong> <%= ordersBean.getShippingAddressId() %></p>
-            <p><strong>Metodo di Pagamento ID:</strong> <%= ordersBean.getPaymentMethodId() %></p> -->
-        </div>
     </div>
 
     <!-- Invoice Download -->
