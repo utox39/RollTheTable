@@ -1,7 +1,6 @@
-import model.bean.AddressBean;
-import model.bean.CartBean;
-import model.bean.CustomerBean;
-import model.bean.PaymentMethodBean;
+package control;
+
+import model.bean.*;
 import model.dao.AddressDAO;
 import model.dao.CartDAO;
 import model.dao.PaymentMethodDAO;

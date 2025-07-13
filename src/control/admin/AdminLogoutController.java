@@ -1,4 +1,4 @@
-package admin;
+package control.admin;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

@@ -1,4 +1,4 @@
-package admin;
+package control.admin;
 
 import model.dao.ProductDAO;
 import util.ServerLogger;

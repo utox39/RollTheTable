@@ -17,11 +17,12 @@ public class AdminVisualizeUsersController extends HttpServlet {
         try {
             request.setAttribute("customers", customerDAO.doRetrieveAll());
         } catch (SQLException e) {
-            ServerLogger.severe(AdminVisualizeUsersController.class.getName(), "doRetrieveAll SQLException:" + e.getMessage() );
+            ServerLogger.severe(AdminVisualizeUsersController.class.getName(), "doRetrieveAll SQLException:" + e.getMessage());
             request.setAttribute("customers", null);
         }
         request.getRequestDispatcher("/views/admin/secure/users.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
+    }
 }

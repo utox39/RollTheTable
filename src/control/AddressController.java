@@ -1,3 +1,5 @@
+package control;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.bean.AddressBean;
@@ -59,7 +61,7 @@ public class AddressController extends HttpServlet {
         AddressDAO addressDAO = new AddressDAO();
 
         try {
-           addressDAO.doSave(addressBean);
+            addressDAO.doSave(addressBean);
         } catch (SQLException e) {
             ServerLogger.severe(AddressController.class.getName(), "AddressController doSave SQLException: " + e.getMessage());
             statusCode = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

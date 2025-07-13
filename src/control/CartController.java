@@ -39,7 +39,7 @@ public class CartController extends HttpServlet {
                 logged = true;
             }
 
-            if (op != null && (op.equals("add") || op.equals("increase") )) {
+            if (op != null && (op.equals("add") || op.equals("increase"))) {
                 productBean = new ProductDAO().doRetrieveById(productId);
 
                 if (session.getAttribute("cart") == null) {
@@ -95,7 +95,7 @@ public class CartController extends HttpServlet {
                     }
                     session.setAttribute("cart", cartBean);
                 }
-            }else {
+            } else {
                 response.sendRedirect("views/fallback.jsp");
             }
         } catch (SQLException e) {
