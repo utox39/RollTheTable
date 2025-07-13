@@ -1,0 +1,11 @@
+#orders h1 {
+    color: #ee3e37;
+}
+
+#orders .main-header {
+    background-color: #1c1c1e;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+}
