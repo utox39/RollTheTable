@@ -9,7 +9,6 @@
   <link rel="stylesheet" type="text/css"
         href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/products.css">
 </head>
 <body>
 <jsp:include page="/views/admin/navbar.jsp" flush="true"/>
