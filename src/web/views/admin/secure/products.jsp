@@ -13,12 +13,12 @@
   <link rel="stylesheet" type="text/css"
         href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/products.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/adminProducts.css">
 </head>
 <body>
 <jsp:include page="/views/admin/navbar.jsp" flush="true"/>
 
-<div class="container mt-5">
+<div id="products" class="container mt-5">
   <div class="main-header text-center">
     <h1>🎲 RollTheTable - Prodotti</h1>
     <p class="text-secondary">Gestione dei prodotti in catalogo</p>
