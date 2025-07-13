@@ -97,8 +97,8 @@
     </div>
 
     <div class="text-end">
-      <button type="submit" class="btn btn-success" id="submitButton">💾 Aggiungi Prodotto</button>
-      <a href="${pageContext.request.contextPath}/admin/secure/manageProducts" class="btn btn-secondary">↩️ Annulla</a>
+      <button type="submit" class="btn btn-success" id="submitButton">Aggiungi Prodotto</button>
+      <a href="${pageContext.request.contextPath}/admin/secure/manageProducts" class="btn btn-secondary">Annulla</a>
     </div>
   </form>
 </div>
