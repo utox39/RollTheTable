@@ -31,8 +31,7 @@
   <h2 class="text-white">Lista dei Prodotti</h2>
   <div class="row">
     <%
-      List<ProductBean> products = new ProductDAO().doRetriveAll();
-
+      List<ProductBean> products = (List<ProductBean>) request.getAttribute("products");
       if (products == null || products.isEmpty()) {
     %>
     <div class="text-danger">Nessun prodotto disponibile.</div>
