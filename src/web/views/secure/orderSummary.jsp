@@ -97,7 +97,7 @@
     <div class="text-center mb-4">
         <a href="${pageContext.request.contextPath}/secure/generate-invoice" target="_blank"
            class="btn btn-outline-secondary btn-lg">
-            📄 Scarica la Fattura
+            Scarica la Fattura
         </a>
     </div>
 
