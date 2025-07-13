@@ -39,7 +39,7 @@ public class InvoicePDFGenerator {
                 writeText(contentStream, "Via Giovanni Paolo II,132", 50, 775);
                 writeText(contentStream, "84084 Fisciano (SA) – Italia", 50, 760);
                 writeText(contentStream, "P.IVA: 12345678901", 50, 745);
-                writeText(contentStream, "Tel: +39 00 0000000 – Email: info@RollTheTable.com", 50, 730);
+                writeText(contentStream, "Tel: +39 00 0000000 – Email: info@rollthetable.com", 50, 730);
 
                 contentStream.moveTo(50, 720);
                 contentStream.lineTo(550, 720);
