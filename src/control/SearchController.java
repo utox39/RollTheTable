@@ -1,3 +1,5 @@
+package control;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.bean.ProductBean;
 import model.dao.ProductDAO;

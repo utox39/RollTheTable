@@ -1,4 +1,4 @@
-package admin;
+package control.admin;
 
 import model.bean.ProductBean;
 import model.dao.ProductDAO;

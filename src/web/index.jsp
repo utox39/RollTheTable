@@ -42,7 +42,6 @@
 
                 <%
                     boolean first = true;
-                    // Loop through newArrivals to create carousel items
                     for (ProductBean product : newArrivals) {
                 %>
                 <div class="carousel-item <%= first ? "active" : "" %>">
@@ -93,12 +92,10 @@
         <h2 class="section-title text-center">Offerte Speciali</h2>
         <div class="row g-4">
             <%
-                // Loop through specialOffers to create product cards
                 for (ProductBean product : specialOffers) {
             %>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 text-center">
-                    <%-- Link to product detail page --%>
                     <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>">
                         <img src="${pageContext.request.contextPath}/assets/images/logo.JPG"
                              class="card-img-top img-fluid" alt="<%= product.getName() %>">
@@ -120,12 +117,10 @@
         <h2 class="section-title text-center">Più Popolari</h2>
         <div class="row g-4">
             <%
-                // Loop through popularProducts to create product cards
                 for (ProductBean product : popularProducts) {
             %>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 text-center">
-                    <%-- Link to product detail page --%>
                     <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>">
                         <img src="${pageContext.request.contextPath}/assets/images/logo.JPG"
                              class="card-img-top img-fluid" alt="<%= product.getName() %>">
@@ -147,12 +142,10 @@
         <h2 class="section-title text-center">Prodotti Acclamati</h2>
         <div class="row g-4">
             <%
-                // Loop through acclaimedProducts to create product cards
                 for (ProductBean product : acclaimedProducts) {
             %>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 text-center">
-                    <%-- Link to product detail page --%>
                     <a href="${pageContext.request.contextPath}/product?productId=<%= product.getProductId() %>">
                         <img src="${pageContext.request.contextPath}/assets/images/logo.JPG"
                              class="card-img-top img-fluid" alt="<%= product.getName() %>">
@@ -171,7 +164,6 @@
 </div>
 
 <hr>
-<%-- Added a horizontal rule for visual separation before the footer --%>
 <jsp:include page="views/footer.jsp" flush="true"/>
 
 <!-- Bootstrap JS Bundle -->

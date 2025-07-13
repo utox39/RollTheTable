@@ -1,5 +1,8 @@
+package control;
+
 import model.bean.*;
 import model.dao.InvoiceDAO;
+import model.dao.OrdersDAO;
 import util.InvoicePDFGenerator;
 import util.ServerLogger;
 
@@ -12,75 +15,86 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Map;
 
-// TODO: change route to /secure/generate-invoice (?)
-@WebServlet("/generate-invoice")
+@WebServlet("/secure/generate-invoice")
 public class GenerateInvoiceController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            response.sendRedirect("views/login.jsp");
-            return;
-        }
 
-        OrdersBean order = (OrdersBean) session.getAttribute("orderDetails");
-        PaymentMethodBean paymentMethod = (PaymentMethodBean) session.getAttribute("paymentMethod");
-        AddressBean shippingAddress = (AddressBean) session.getAttribute("shippingAddress");
-        AddressBean billingAddress = (AddressBean) session.getAttribute("billingAddress");
-        CustomerBean customer = (CustomerBean) session.getAttribute("loggedUser");
-
-        if (order == null || customer == null || paymentMethod == null || shippingAddress == null || billingAddress == null) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing session attributes for invoice generation.");
-            return;
-        }
-
-        InvoiceBean invoice = new InvoiceBean();
-
-        int invoiceId = 0;
+        String orderIdParam = request.getParameter("orderId");
+        InvoiceBean invoice = null;
+        OrdersBean order = null;
 
         try {
-            // === Calculate invoice amounts ===
-            final BigDecimal ivaRate = new BigDecimal("22");
-            BigDecimal taxableTotal = BigDecimal.ZERO;
+            if (orderIdParam != null && !orderIdParam.isEmpty()) {
+                // ✅ 1) Get invoice by purchase ID from DB if orderId is provided
+                int orderId = Integer.parseInt(orderIdParam);
+                InvoiceDAO invoiceDAO = new InvoiceDAO();
+                invoice = invoiceDAO.doRetrieveByPurchaseId(orderId);
 
-            for (Map.Entry<ProductBean, OrdersBean.PurchaseInfo> entry : order.getProducts().entrySet()) {
-                BigDecimal unitPrice = BigDecimal.valueOf(entry.getValue().getPriceAtPurchase());
-                int quantity = entry.getValue().getQuantity();
-                taxableTotal = taxableTotal.add(unitPrice.multiply(BigDecimal.valueOf(quantity)));
+                if (invoice == null) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "No invoice found for order ID: " + orderId);
+                    return;
+                }
+
+                // Retrieve the order details for PDF generation
+                OrdersDAO ordersDAO = new OrdersDAO();
+                order = ordersDAO.doRetriveById(orderId);
+
+                if (order == null) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "No order found for ID: " + orderId);
+                    return;
+                }
+
+            } else {
+                // ✅ 2) Fallback: Get invoice info from session if no orderId parameter
+                HttpSession session = request.getSession(false);
+                if (session == null) {
+                    response.sendRedirect("views/login.jsp");
+                    return;
+                }
+
+                order = (OrdersBean) session.getAttribute("orderDetails");
+                invoice = (InvoiceBean) session.getAttribute("invoice"); // you might store invoice in session too
+
+                if (order == null) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing order in session.");
+                    return;
+                }
+
+                if (invoice == null) {
+                    // If the invoice isn’t stored in session, try to fetch it by order ID
+                    InvoiceDAO invoiceDAO = new InvoiceDAO();
+                    invoice = invoiceDAO.doRetrieveByPurchaseId(order.getOrderId());
+
+                    if (invoice == null) {
+                        response.sendError(HttpServletResponse.SC_NOT_FOUND, "No invoice found for this session order.");
+                        return;
+                    }
+                }
             }
 
-            BigDecimal taxAmount = taxableTotal.multiply(ivaRate).divide(new BigDecimal("100"));
-            BigDecimal totalWithIva = taxableTotal.add(taxAmount);
+            // ✅ 3) Generate PDF from invoice + order
+            byte[] pdfBytes = InvoicePDFGenerator.generateInvoicePDF(invoice, order).toByteArray();
 
-            // === Populate invoice bean ===
-            invoice.setCustomerId(customer.getCustomerId());
-            invoice.setPurchaseId(order.getOrderId());
-            invoice.setTaxable(taxableTotal);
-            invoice.setTax(taxAmount);
-            invoice.setIva(ivaRate);
-            invoice.setNotes("Fattura generata automaticamente");
+            // ✅ 4) Return PDF to user
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=Fattura_" + invoice.getInvoiceId() + ".pdf");
+            response.setContentLength(pdfBytes.length);
+            response.getOutputStream().write(pdfBytes);
+            response.getOutputStream().flush();
 
-            // === Save invoice ===
-            InvoiceDAO invoiceDAO = new InvoiceDAO();
-            invoiceId = invoiceDAO.doSave(invoice); // assumes it sets the invoice ID (e.g. auto-incremented)
+        } catch (NumberFormatException e) {
+            ServerLogger.severe(GenerateInvoiceController.class.getName(), "Invalid orderId parameter: " + e.getMessage());
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid orderId format.");
         } catch (SQLException e) {
-            ServerLogger.severe(GenerateInvoiceController.class.getName(), "SQLException: " + e.getMessage());
+            ServerLogger.severe(GenerateInvoiceController.class.getName(), "Database error: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.sendRedirect("views/fallback.jsp");
-            return;
         }
-
-        // === Generate PDF ===
-        byte[] pdfBytes = InvoicePDFGenerator.generateInvoicePDF(invoice, order).toByteArray();
-
-        // === Return PDF response ===
-        response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=Fattura_" + invoiceId + ".pdf");
-        response.setContentLength(pdfBytes.length);
-        response.getOutputStream().write(pdfBytes);
-        response.getOutputStream().flush();
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 }

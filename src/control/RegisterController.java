@@ -1,3 +1,5 @@
+package control;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.bean.CustomerBean;
 import model.dao.CustomerDAO;
@@ -28,10 +30,10 @@ public class RegisterController extends HttpServlet {
 
             try {
                 if (customerDAO.doesEmailExists(checkEmail)) {
-                   responseBody = Map.of(
-                           "status", "success",
-                           "email", "true"
-                   );
+                    responseBody = Map.of(
+                            "status", "success",
+                            "email", "true"
+                    );
                 } else {
                     responseBody = Map.of(
                             "status", "success",
@@ -63,6 +65,7 @@ public class RegisterController extends HttpServlet {
 
         request.getRequestDispatcher("/views/register.jsp").forward(request, response);
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");

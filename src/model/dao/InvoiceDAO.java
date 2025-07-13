@@ -94,6 +94,26 @@ public class InvoiceDAO {
 //        ps.executeUpdate();
 //    }
 
+    public InvoiceBean doRetrieveByPurchaseId(int purchaseId) throws SQLException {
+        String sql = "SELECT * FROM invoice WHERE purchase_id = ?";
+        Connection conn = DatabaseConnectionPool.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, purchaseId);
+
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return extractInvoiceFromResultSet(rs);
+            }
+        } finally {
+            ps.close();
+            DatabaseConnectionPool.releaseConnection(conn);
+        }
+
+        return null; // no invoice found for this purchase
+    }
+
+
     private InvoiceBean extractInvoiceFromResultSet(ResultSet rs) throws SQLException {
         InvoiceBean invoice = new InvoiceBean();
         invoice.setInvoiceId(rs.getInt("invoice_id"));

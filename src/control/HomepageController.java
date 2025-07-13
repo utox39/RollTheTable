@@ -1,3 +1,5 @@
+package control;
+
 import model.bean.ProductBean;
 import model.dao.ProductDAO;
 import util.ServerLogger;

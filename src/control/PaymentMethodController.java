@@ -1,10 +1,11 @@
+package control;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.bean.CustomerBean;
 import model.bean.PaymentMethodBean;
 import model.dao.PaymentMethodDAO;
 import util.ServerLogger;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
