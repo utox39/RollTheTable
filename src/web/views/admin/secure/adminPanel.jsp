@@ -27,7 +27,7 @@
 
                         <div class="card-body">
                             <h5 class="card-title">Modifica prodotti</h5>
-                            <a href="${pageContext.request.contextPath}/views/admin/secure/products.jsp" class="btn btn-danger">Modifica prodotti</a>
+                            <a href="${pageContext.request.contextPath}/admin/secure/manageProducts" class="btn btn-danger">Modifica prodotti</a>
                         </div>
                     </div>
                 </div>
