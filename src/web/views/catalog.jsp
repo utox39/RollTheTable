@@ -72,7 +72,6 @@
                         <%= product.getSalePrice() %> &euro;
                         <% } %>
                     </p>
-<%--                    <a href="${pageContext.request.contextPath}/cart?op=add&productId=<%= product.getProductId() %>" class="btn btn-primary" id="addToCart">Add to cart</a>--%>
                     <button type="button" id="addToCart" class="btn btn-primary" onclick="addToTheCart(<%= product.getProductId() %>)">
                         Aggiungi al carrello
                     </button>
