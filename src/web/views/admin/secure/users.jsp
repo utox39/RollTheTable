@@ -1,7 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.bean.CustomerBean" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- TODO: add delete user button-->
 
 <!DOCTYPE html>
 <html lang="en">
