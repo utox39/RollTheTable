@@ -31,16 +31,15 @@
 			</h3>
 			<p>Messaggio: <%= request.getAttribute("javax.servlet.error.message") %></p>
 
-			<!-- TODO: remove this section before project presentation!!! -->
-			<% if (request.getAttribute("javax.servlet.error.exception_type") != null) { %>
-			<p>Tipo di errore: <%= request.getAttribute("javax.servlet.error.exception_type") %></p>
-			<% } %> <% Throwable throwable = (Throwable)
-			request.getAttribute("javax.servlet.error.exception"); if (throwable != null) { %>
-			<div class="alert alert-danger text-start mt-3">
-				<strong>Dettagli tecnici:</strong>
-				<pre class="mb-0"><%= throwable.getMessage() %></pre>
-			</div>
-			<% } %>
+<%--			<% if (request.getAttribute("javax.servlet.error.exception_type") != null) { %>--%>
+<%--			<p>Tipo di errore: <%= request.getAttribute("javax.servlet.error.exception_type") %></p>--%>
+<%--			<% } %> <% Throwable throwable = (Throwable)--%>
+<%--			request.getAttribute("javax.servlet.error.exception"); if (throwable != null) { %>--%>
+<%--			<div class="alert alert-danger text-start mt-3">--%>
+<%--				<strong>Dettagli tecnici:</strong>--%>
+<%--				<pre class="mb-0"><%= throwable.getMessage() %></pre>--%>
+<%--			</div>--%>
+<%--			<% } %>--%>
 
 			<a href="${pageContext.request.contextPath}/home" class="btn btn-danger mt-4">
 				 Torna alla Home!
