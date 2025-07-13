@@ -41,9 +41,18 @@
 <%--			</div>--%>
 <%--			<% } %>--%>
 
-			<a href="${pageContext.request.contextPath}/home" class="btn btn-danger mt-4">
+			<%
+				Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
+				if ((isAdmin != null) && (isAdmin)) {
+			%>
+			<a href="${pageContext.request.contextPath}/admin/secure/panel" class="btn btn-danger mt-4">
 				 Torna alla Home!
 			</a>
+			<% } else { %>
+			<a href="${pageContext.request.contextPath}/home" class="btn btn-danger mt-4">
+				Torna alla Home!
+			</a>
+			<% } %>
 		</div>
 
 		<!-- Bootstrap JS -->
