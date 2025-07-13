@@ -18,7 +18,7 @@
 </head>
 <body>
 <jsp:include page="/views/admin/navbar.jsp" flush="true"/>
-<div id="products" class="container mt-5">
+<div id="users" class="container mt-5">
   <div class="main-header text-center">
     <h1>🎲 RollTheTable - Utenti</h1>
     <p class="text-secondary">This is what happens when you lose!</p>
