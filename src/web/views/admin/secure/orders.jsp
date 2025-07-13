@@ -15,11 +15,17 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/adminOrders.css">
 </head>
 <body>
 <jsp:include page="/views/admin/navbar.jsp" flush="true" />
 
-<div id="cart" class="container mt-5">
+<div id="orders" class="container mt-5">
+    <div class="main-header text-center">
+        <h1>🎲 RollTheTable - Ordini</h1>
+        <p class="text-secondary">Gestione ordini</p>
+    </div>
+
     <%
         ArrayList<OrdersBean> orders = (ArrayList<OrdersBean>) request.getAttribute("orders");
 
@@ -41,7 +47,7 @@
                        value="<%= request.getParameter("endDate") != null ? request.getParameter("endDate") : "" %>">
             </div>
             <div class="col-md-4 align-self-end">
-                <button type="submit" class="btn btn-primary">Filtra per date</button>
+                <button type="submit" class="btn btn-danger">Filtra per date</button>
             </div>
         </form>
     </div>
@@ -53,7 +59,7 @@
                 <input type="number" class="form-control" id="customerId" name="customerId">
             </div>
             <div class="col-md-4 align-self-end">
-                <button type="submit" class="btn btn-primary">Filtra per cliente</button>
+                <button type="submit" class="btn btn-danger">Filtra per cliente</button>
             </div>
         </form>
     </div>
