@@ -18,6 +18,7 @@ function clearErrors(field) {
 
 function checkEmail() {
     const emailInput = document.getElementById("email");
+    const usernameInput = document.getElementById("username");
     const registerButton = document.getElementById("register-button");
     emailInput.addEventListener("change", function () {
         const emailInputValue = emailInput.value.trim();
@@ -27,17 +28,43 @@ function checkEmail() {
         if (emailInputValue === "") return;
 
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", `/RollTheTable/register?checkEmail=${encodeURIComponent(emailInputValue)}`, true);
+        xhr.open("GET", `/RollTheTable/register?checkCredential=${encodeURIComponent(emailInputValue)}`, true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
 
                 // if true the email is already in the database
-                if (response.email === "true") {
+                if (response.credential === "true") {
                     showError(emailInput, "L'Email è già in uso")
                     registerButton.disabled = true;
-                } else if (response.email === "false") {
+                } else if (response.credential === "false") {
+                    registerButton.disabled = false;
+                }
+            }
+        };
+        xhr.send();
+    });
+
+    usernameInput.addEventListener("change", function () {
+        const usernameInputValue = usernameInput.value.trim();
+
+        clearErrors(usernameInput);
+
+        if (usernameInputValue === "") return;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/RollTheTable/register?checkCredential=${encodeURIComponent(usernameInputValue)}`, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+
+                // if true the email is already in the database
+                if (response.credential === "true") {
+                    showError(usernameInput, "Questo username è già in uso")
+                    registerButton.disabled = true;
+                } else if (response.credential === "false") {
                     registerButton.disabled = false;
                 }
             }
