@@ -16,7 +16,7 @@ function clearErrors(field) {
     errors.forEach(e => e.remove());
 }
 
-function checkEmail() {
+function checkCredential() {
     const emailInput = document.getElementById("email");
     const usernameInput = document.getElementById("username");
     const registerButton = document.getElementById("register-button");
@@ -103,6 +103,6 @@ function checkPassword() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    checkEmail();
+    checkCredential();
     checkPassword();
 });
