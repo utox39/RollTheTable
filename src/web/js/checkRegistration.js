@@ -51,6 +51,16 @@ function checkPassword() {
     const confirmPasswordInput = document.getElementById("confirmPassword");
     const registerButton = document.getElementById("register-button");
 
+    passwordInput.addEventListener("input", function () {
+        clearErrors(passwordInput);
+
+        if (passwordInput.value.toString().length < 8) {
+            showError(passwordInput, "La password deve avere un minimo di 8 caratteri");
+            registerButton.disabled = true;
+        } else {
+            registerButton.disabled = false;
+        }
+    })
     confirmPasswordInput.addEventListener("input", function () {
         clearErrors(confirmPasswordInput);
 
