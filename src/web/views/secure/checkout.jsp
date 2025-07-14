@@ -24,13 +24,20 @@
 </head>
 <body>
 <jsp:include page="/views/navbar.jsp" flush="true"/>
+<%
+    CartBean cart = (CartBean) session.getAttribute("cart");
+    if ((cart == null) || cart.getCart().isEmpty()) {
+%>
 
+<div id="checkout" class="container mt-5 main-content">
+    <h3 class="text-center">Ops...sembrerebbe che hai usato un incantesimo per far sparire tutti i prodotti nel carrello</h3>
+</div>
+<% } else { %>
 <div id="checkout" class="container mt-5 main-content">
     <div class="main-header text-center">
         <h1>Che il divertimento abbia inizio!</h1>
         <br>
     </div>
-
     <form method="post" action="${pageContext.request.contextPath}/secure/order-summary" id="submit-order">
         <%
             List<AddressBean> addressBeanList = (List<AddressBean>) session.getAttribute("addresses");
@@ -309,7 +316,7 @@
             BigDecimal total = BigDecimal.valueOf(0.0);
         %>
         <h4>Articoli ordine:</h4>
-        <% CartBean cart = (CartBean) session.getAttribute("cart"); %>
+<%--        <% CartBean cart = (CartBean) session.getAttribute("cart"); %>--%>
         <div class="list-group-item py-3 px-4">
             <% for (Map.Entry<ProductBean, Integer> productEntry : cart.getCart().entrySet()) {%>
             <div class="row align-items-center">
@@ -426,7 +433,7 @@
     </form>
 
 </div>
-
+<% } %>
 <hr>
 <jsp:include page="../../views/footer.jsp" flush="true"/>
 
