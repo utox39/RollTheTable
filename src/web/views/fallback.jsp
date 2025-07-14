@@ -11,6 +11,7 @@
 		/>
 
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/style/fallback.css" />
+		<link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
 	</head>
 	<body class="bg-dark text-white d-flex align-items-center justify-content-center min-vh-100">
 		<div

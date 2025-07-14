@@ -22,7 +22,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/homepage.css"/>
+    <link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
 </head>
+
 <body>
 <jsp:include page="views/navbar.jsp" flush="true"/>
 

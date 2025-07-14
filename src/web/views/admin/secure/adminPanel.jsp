@@ -4,7 +4,7 @@
     <head>
         <title>Admin Panel - RollTheTable</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <link rel="icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-5.3.3-dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/main.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/adminPanel.css">
