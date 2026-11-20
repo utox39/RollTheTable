@@ -14,10 +14,12 @@ public class DatabaseConnectionPool {
 
     static {
         PoolProperties p = new PoolProperties();
-        p.setUrl("jdbc:mysql://localhost:3306/roll_the_table?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+        String host = getEnvOrDefault("DB_HOST", "localhost");
+        String port = getEnvOrDefault("DB_PORT", "3306");
+        p.setUrl("jdbc:mysql://" + host + ":" + port + "/roll_the_table?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
         p.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        p.setUsername("root");
-        p.setPassword("password");
+        p.setUsername(getEnvOrDefault("DB_USER", "root"));
+        p.setPassword(getEnvOrDefault("DB_PASSWORD", "password"));
 
         p.setJmxEnabled(true);
         p.setTestWhileIdle(true);
@@ -41,6 +43,11 @@ public class DatabaseConnectionPool {
     }
 
     DatabaseConnectionPool() {}
+
+    private static String getEnvOrDefault(String name, String defaultValue) {
+        String value = System.getenv(name);
+        return (value == null || value.isEmpty()) ? defaultValue : value;
+    }
 
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
