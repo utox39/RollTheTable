@@ -67,4 +67,42 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>jml</id>
+            <properties>
+                <openjml.executable>openjml</openjml.executable>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>check-jml</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${openjml.executable}</executable>
+                                    <classpathScope>compile</classpathScope>
+                                    <arguments>
+                                        <argument>--check</argument>
+                                        <argument>--class-path</argument>
+                                        <classpath/>
+                                        <argument>--dir</argument>
+                                        <argument>${project.build.sourceDirectory}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
