@@ -137,7 +137,7 @@ public class CartBean implements Serializable {
         for (Map.Entry<ProductBean, Integer>productEntry : this.cart.entrySet()) {
             if (productEntry.getKey().getProductId().equals(product.getProductId())) {
                 if ((productEntry.getValue() - 1) == 0) {
-                    this.cart.remove(product);
+                    this.cart.remove(productEntry.getKey());
                 } else {
                     productEntry.setValue(productEntry.getValue() - 1);
                 }
